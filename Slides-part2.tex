@@ -1,6 +1,163 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\talksection{Design}
+
 \begin{frame}{Structure}
+
+\begin{itemize}
+    \item Pipeline design (stages)
+    \begin{itemize}
+        \item Each stage consists of one or more IR passes
+    \end{itemize}
+    
+    \item Most stages require some analysis
+    \begin{itemize}
+        \item May be run mulitple times as stages invalidate it
+    \end{itemize}
+\end{itemize}
 
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Stages}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Analyses}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\talksection{Strategy}
+
+\begin{frame}{Implementation strategy}
+
+\begin{itemize}
+    \item Create test kernels
+    \begin{itemize}
+        \item Start with very simple kernels (e.g. copy buffer, add two buffers)
+        \item Gradually add more features (e.g. non-sequential memory accesses, vector instructions, etc)
+    \end{itemize}
+    
+    \item Suggested implementation order
+    \begin{itemize}
+        \item Preparation and packetization first (required for simplest kernels)
+        \item Then easier features: builtins, memory addressing, scalarization, instantiation
+        \item More complex features last: control flow, optimizations
+    \end{itemize}
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\talksection{Packetization}
+
+\begin{frame}{Packetization Overview}
+
+\begin{itemize}
+    \item What does it do?
+    \item Requires uniform value analysis
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Uniform Value Analysis}
+
+\begin{itemize}
+    \item What does it do?
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Packetization Process}
+
+\begin{itemize}
+    \item How does it work?
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Packetization Example}
+
+\begin{itemize}
+    \item How does it work?
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Packetization: Phi nodes}
+
+\begin{itemize}
+    \item How to handle this special case
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Memory addressing}
+
+\begin{itemize}
+    \item Uniform address -> scalar loads and stores
+    \item Constant stride =1 -> vector laods and stores
+    \item Constant stride >1 -> interleaved loads and stores
+    \item Other -> gather loads, scatter stores
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\talksection{Scalarization}
+
+\begin{frame}{Scalarization Overview}
+
+\begin{itemize}
+    \item What does it do?
+    \item Requires scalarization analysis
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Scalarization Analysis}
+
+\begin{itemize}
+    \item Looks for vector instructions
+    \begin{itemize}
+        \item Leaves that define vector values, vector stores
+        \item Vector extractions
+        \item Vector -> scalar bitcasts
+    \end{itemize}
+    
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Scalarization Process}
+
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Scalarization Example}
+
+
+\end{frame}

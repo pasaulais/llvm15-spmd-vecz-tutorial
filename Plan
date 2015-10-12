@@ -73,9 +73,13 @@ Part 2 Implementing a basic vectorizer (25 min)
             -> Then easier features: builtins, memory addressing, scalarization, instantiation
             -> More complex features last: control flow, optimizations
     
-    Uniform value analysis
+    
+    
+    Preparation
     
     Packetization
+    
+    Uniform value analysis
     
     Packetization: Phi nodes
     
