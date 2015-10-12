@@ -1,0 +1,107 @@
+* Introduction (2 min)
+    Title
+
+    What it is about?
+        * Vectorizing
+            -> Transform whole functions using LLVM
+            -> "Horizontal" vectorization
+        * SPMD programs
+            -> Data-parallel execution model
+            -> Used with compute frameworks like OpenCL and CUDA
+        * for CPU-like processors, i.e. each core has
+            -> A program counter
+            -> Vector SIMD unit(s)
+
+    Plan
+    
+Part 1 Background (10 min)
+    SPMD execution model
+    
+    Glossary
+        (SIMD) Lane
+        Instance
+        Packet
+        Work-item
+        Uniform
+        Varying
+        Divergent
+    
+    How work-items map to hardware units
+        * Not as clear as with GPUs, especially for VLIW processors
+        
+        * This is decided by the LLVM backend
+        
+        * Uniform instructions only executed once
+    
+    Comparison with other kinds of vectorizers
+        * Loop vectorizer
+        
+        * SLP vectorizer
+        
+        * BB vectorizer
+    
+    What level? IR or MI
+        Advantages and drawbacks of each approach
+        * IR
+        * MI -> mention Marcello's talk
+
+Part 2 Implementing a basic vectorizer (25 min)
+    Structure
+        * Pipeline design (stages)
+            -> Each stage consists of one or more IR passes
+            
+        * Most stages require some analysis
+            -> May be run mulitple times as stages invalidate it
+
+    Stages
+        * Preparation
+        
+        * Control flow conversion
+        
+        * Scalarization        
+        
+        * Packetization and instantiation
+        
+        * Optimizations and cleanup
+    
+    Implementation strategy
+        * Create test kernels
+            -> Start with very simple kernels (e.g. copy buffer, add two buffers)
+            -> Gradually add more features (e.g. non-sequential memory accesses, vector instructions, etc)
+        * Suggested implementation order
+            -> Preparation and packetization first (required for simplest kernels)
+            -> Then easier features: builtins, memory addressing, scalarization, instantiation
+            -> More complex features last: control flow, optimizations
+    
+    Uniform value analysis
+    
+    Packetization
+    
+    Packetization: Phi nodes
+    
+    Memory addressing
+        * Uniform address -> scalar loads and stores
+        * Constant stride =1 -> vector laods and stores
+        * Constant stride >1 -> interleaved loads and stores
+        * Other -> gather loads, scatter stores
+    
+    Instantiation
+    
+    Scalarization
+    
+    Control flow conversion: if
+    
+    Masked memory operations
+    
+    Control flow conversion: loops
+    
+Part 3 Going further (10 min)
+    SIMD width detection
+    
+    Handling builtin function calls
+    
+    Interleaved memory optimizations
+    
+    SoA to AoS conversion
+
+* Conclusion (3 min)
