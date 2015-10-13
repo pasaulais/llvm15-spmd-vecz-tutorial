@@ -55,7 +55,9 @@
     \begin{itemize}
         \item Start with very simple kernels (e.g. copy buffer, add two buffers)
         \item Gradually add more features (e.g. non-sequential memory accesses, vector instructions, etc)
+        \item
     \end{itemize}
+
     
     \item Suggested implementation order
     \begin{itemize}
@@ -77,20 +79,20 @@
     \item Stage that does the actual vectorization
     \begin{itemize}
         \item Needs a vectorization factor $N$ (SIMD width)
-        \item Calling the transformed function is like calling the original function $N$ times
-        \item Mostly straightforward, but usually requires much preparation from previous stages
+        \item Calling the transformed function is like calling the original $N$ times
+        \item Straightforward thanks to preparation from previous stages
     \end{itemize}
     
     \item This is done per-instruction, for the whole function
     \begin{itemize}
-        \item Instructions that defines a value: define $N$ values, one for each instance
-        \item Instruction side effects: perform side effects for each instance
+        \item Instructions that define a value: define $N$ values, one for each instance
+        \item Instructions with side effects: perform side effects for each instance
     \end{itemize}
     
-    \item Only varying instructions need vectorization
+    \item Only varying instructions need packetization
     \begin{itemize}
         \item Uniform instructions can remain scalar, executed once per work-group
-        \item Requires uniform value analysis to know which instructions to vectorize
+        \item Requires \textbf{Uniform Value Analysis} to know which instructions to vectorize
     \end{itemize}
     
 \end{itemize}
@@ -105,13 +107,14 @@
     \item Finds 'root' values
     \begin{itemize}
         \item Varying value that doesn't have any varying operand
-        \item Example: $get_global_id(0)$ has a different value for each isntance
+        \item Example: \texttt{get\_global\_id(0)} has a different value for each isntance
     \end{itemize}
     \item Marks each IR value as 'uniform' or 'varying'
     \begin{itemize}
         \item All values start as 'uniform'
         \item Marking a value as 'varying' causes all users to also be marked 'varying'
         \item Marking is done recursively, starting with roots
+        \item Values are marked before their users, to avoid cycles (phi nodes)
     \end{itemize}
 \end{itemize}
 
@@ -119,13 +122,31 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}{Uniform Value Analysis Example}
+\begin{frame}[fragile]{Uniform Value Analysis Example}
 
-% CL and IR code
-% kernel void add_uniform(global int *dst, global int *src, int alpha) {
-%     int tid = get_global_id(0);
-%     dst[tid] = src[tid] + (alpha + 1);
-% }
+Example that combines uniform and varying values:
+
+\begin{codebox}[commandchars=\\\[\]]
+kernel void add_uniform(global int *\codeemphb[dst], global int *\codeemphb[src], int \codeemphb[alpha]) {
+    int \codeempha[tid] = \codeempha[get_global_id](0);
+    \codeemphb[dst]\idx[\codeempha[tid]] = \codeemphb[src]\idx[\codeempha[tid]] + (\codeemphb[alpha] + \codeemphb[1]);
+}
+\end{codebox}
+
+\begin{codebox}
+define void @add_uniform(i32 addrspace(1)* %dst, i32 addrspace(1)* %src,
+                         i32 %alpha) #0 {
+entry:
+  %tid = call spir_func i32 @_Z13get_global_idj(i32 0) #2
+  %arrayidx = getelementptr inbounds i32, i32 addrspace(1)* %src, i32 %tid
+  %0 = load i32, i32 addrspace(1)* %arrayidx, align 4
+  %add = add nsw i32 %alpha, 1
+  %add1 = add nsw i32 %add, %0
+  %arrayidx2 = getelementptr inbounds i32, i32 addrspace(1)* %dst, i32 %tid
+  store i32 %add1, i32 addrspace(1)* %arrayidx2, align 4
+  ret void
+}
+\end{codebox}
 
 % Mix of uniform and varying values
 \end{frame}
@@ -296,4 +317,3 @@
 \begin{frame}{Merging Loop Live Variables}
 
 \end{frame}
-
