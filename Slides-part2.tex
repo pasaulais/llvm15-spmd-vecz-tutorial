@@ -106,13 +106,13 @@
 \begin{itemize}
     \item Finds 'root' values
     \begin{itemize}
-        \item Varying value that doesn't have any varying operand
+        \item \varying{Varying} value that doesn't have any \varying{varying} operand
         \item Example: \texttt{get\_global\_id(0)} has a different value for each isntance
     \end{itemize}
-    \item Marks each IR value as 'uniform' or 'varying'
+    \item Marks each IR value as \uniform{uniform} or \varying{varying}
     \begin{itemize}
-        \item All values start as 'uniform'
-        \item Marking a value as 'varying' causes all users to also be marked 'varying'
+        \item All values start as \uniform{uniform}
+        \item Marking a value as \varying{varying} causes all users to also be marked \varying{varying}
         \item Marking is done recursively, starting with roots
         \item Values are marked before their users, to avoid cycles (phi nodes)
     \end{itemize}
@@ -124,26 +124,26 @@
 
 \begin{frame}[fragile]{Uniform Value Analysis Example}
 
-Example that combines uniform and varying values:
+Example that combines \uniform{uniform} and \varying{varying} values:
 
 \begin{codebox}[commandchars=\\\[\]]
-kernel void add_uniform(global int *\codeemphb[dst], global int *\codeemphb[src], int \codeemphb[alpha]) {
-    int \codeempha[tid] = \codeempha[get_global_id](0);
-    \codeemphb[dst]\idx[\codeempha[tid]] = \codeemphb[src]\idx[\codeempha[tid]] + (\codeemphb[alpha] + \codeemphb[1]);
+kernel void add_uniform(global int *\uniform[dst], global int *\uniform[src], int \uniform[alpha]) {
+    int \varying[tid] = \varying[get_global_id](0);
+    \uniform[dst]\idx[\varying[tid]] = \uniform[src]\idx[\varying[tid]] + (\uniform[alpha] + \uniform[1]);
 }
 \end{codebox}
 
 \begin{codebox}[commandchars=\\\[\]]
-define void @add_uniform(i32 addrspace(1)* \codeemphb[%dst], i32 addrspace(1)* \codeemphb[%src],
-                         i32 \codeemphb[%alpha]) {
+define void @add_uniform(i32 addrspace(1)* \uniform[%dst], i32 addrspace(1)* \uniform[%src],
+                         i32 \uniform[%alpha]) {
 entry:
-  \codeempha[%tid] = i32 \codeempha[@get_global_id(i32 0)]
-  \codeempha[%arrayidx] = getelementptr inbounds i32 addrspace(1)* \codeemphb[%src], i32 \codeempha[%tid]
-  \codeempha[%tmp] = load i32 addrspace(1)* \codeempha[%arrayidx], align 4
-  \codeemphb[%add] = add nsw i32 \codeemphb[%alpha], \codeemphb[1]
-  \codeempha[%add1] = add nsw i32 \codeemphb[%add], \codeempha[%tmp]
-  \codeempha[%arrayidx2] = getelementptr inbounds i32 addrspace(1)* \codeemphb[%dst], i32 \codeempha[%tid]
-  store i32 \codeempha[%add1], i32 addrspace(1)* \codeempha[%arrayidx2], align 4
+  \varying[%tid] = i32 \varying[@get_global_id(i32 0)]
+  \varying[%arrayidx] = getelementptr inbounds i32 addrspace(1)* \uniform[%src], i32 \varying[%tid]
+  \varying[%tmp] = load i32 addrspace(1)* \varying[%arrayidx], align 4
+  \uniform[%add] = add nsw i32 \uniform[%alpha], \uniform[1]
+  \varying[%add1] = add nsw i32 \uniform[%add], \varying[%tmp]
+  \varying[%arrayidx2] = getelementptr inbounds i32 addrspace(1)* \uniform[%dst], i32 \varying[%tid]
+  store i32 \varying[%add1], i32 addrspace(1)* \varying[%arrayidx2], align 4
   ret void
 }
 \end{codebox}
