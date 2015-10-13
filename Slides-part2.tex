@@ -133,17 +133,17 @@ kernel void add_uniform(global int *\codeemphb[dst], global int *\codeemphb[src]
 }
 \end{codebox}
 
-\begin{codebox}
-define void @add_uniform(i32 addrspace(1)* %dst, i32 addrspace(1)* %src,
-                         i32 %alpha) #0 {
+\begin{codebox}[commandchars=\\\[\]]
+define void @add_uniform(i32 addrspace(1)* \codeemphb[%dst], i32 addrspace(1)* \codeemphb[%src],
+                         i32 \codeemphb[%alpha]) {
 entry:
-  %tid = call spir_func i32 @_Z13get_global_idj(i32 0) #2
-  %arrayidx = getelementptr inbounds i32, i32 addrspace(1)* %src, i32 %tid
-  %0 = load i32, i32 addrspace(1)* %arrayidx, align 4
-  %add = add nsw i32 %alpha, 1
-  %add1 = add nsw i32 %add, %0
-  %arrayidx2 = getelementptr inbounds i32, i32 addrspace(1)* %dst, i32 %tid
-  store i32 %add1, i32 addrspace(1)* %arrayidx2, align 4
+  \codeempha[%tid] = i32 \codeempha[@get_global_id(i32 0)]
+  \codeempha[%arrayidx] = getelementptr inbounds i32 addrspace(1)* \codeemphb[%src], i32 \codeempha[%tid]
+  \codeempha[%tmp] = load i32 addrspace(1)* \codeempha[%arrayidx], align 4
+  \codeemphb[%add] = add nsw i32 \codeemphb[%alpha], \codeemphb[1]
+  \codeempha[%add1] = add nsw i32 \codeemphb[%add], \codeempha[%tmp]
+  \codeempha[%arrayidx2] = getelementptr inbounds i32 addrspace(1)* \codeemphb[%dst], i32 \codeempha[%tid]
+  store i32 \codeempha[%add1], i32 addrspace(1)* \codeempha[%arrayidx2], align 4
   ret void
 }
 \end{codebox}
