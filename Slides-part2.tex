@@ -2,17 +2,29 @@
 
 \talksection{Design}
 
-\begin{frame}{Structure}
+\begin{frame}{Design}
 
 \begin{itemize}
-    \item Pipeline design (stages)
+    \item Pipeline structure
     \begin{itemize}
+        \item Function to vectorize is repeatedly transformed by different stages
         \item Each stage consists of one or more IR passes
+        \item Most stages require some analysis
+        \begin{itemize}
+            \item May be run mulitple times as stages invalidate it
+        \end{itemize}
     \end{itemize}
     
-    \item Most stages require some analysis
+    \item The LLVM pass manager (both new and original) is a good fit here
     \begin{itemize}
-        \item May be run mulitple times as stages invalidate it
+        \item Most passes work at the function level
+        \item Access to the module is sometimes needed
+    \end{itemize}
+    
+    \item The original function can be preserved or not
+    \begin{itemize}
+        \item In-place: vectorize the original function, no need for cloning
+        \item Work on cloned function: allow vectorization to fail
     \end{itemize}
 \end{itemize}
 
@@ -22,11 +34,15 @@
 
 \begin{frame}{Stages}
 
+% Stage diagram with stages: preparation, CFG conversion, scalarization, packetization, optimizations
+
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}{Analyses}
+
+% Two important anlyses: UVA and CFG
 
 \end{frame}
 
@@ -58,8 +74,25 @@
 \begin{frame}{Packetization Overview}
 
 \begin{itemize}
-    \item What does it do?
-    \item Requires uniform value analysis
+    \item Stage that does the actual vectorization
+    \begin{itemize}
+        \item Needs a vectorization factor $N$ (SIMD width)
+        \item Calling the transformed function is like calling the original function $N$ times
+        \item Mostly straightforward, but usually requires much preparation from previous stages
+    \end{itemize}
+    
+    \item This is done per-instruction, for the whole function
+    \begin{itemize}
+        \item Instructions that defines a value: define $N$ values, one for each instance
+        \item Instruction side effects: perform side effects for each instance
+    \end{itemize}
+    
+    \item Only varying instructions need vectorization
+    \begin{itemize}
+        \item Uniform instructions can remain scalar, executed once per work-group
+        \item Requires uniform value analysis to know which instructions to vectorize
+    \end{itemize}
+    
 \end{itemize}
 
 \end{frame}
@@ -69,8 +102,39 @@
 \begin{frame}{Uniform Value Analysis}
 
 \begin{itemize}
-    \item What does it do?
+    \item Finds 'root' values
+    \begin{itemize}
+        \item Varying value that doesn't have any varying operand
+        \item Example: $get_global_id(0)$ has a different value for each isntance
+    \end{itemize}
+    \item Marks each IR value as 'uniform' or 'varying'
+    \begin{itemize}
+        \item All values start as 'uniform'
+        \item Marking a value as 'varying' causes all users to also be marked 'varying'
+        \item Marking is done recursively, starting with roots
+    \end{itemize}
 \end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Uniform Value Analysis Example}
+
+% CL and IR code
+% kernel void add_uniform(global int *dst, global int *src, int alpha) {
+%     int tid = get_global_id(0);
+%     dst[tid] = src[tid] + (alpha + 1);
+% }
+
+% Mix of uniform and varying values
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Uniform Value Analysis Example}
+
+% IR graph to show values, highlight uniform and varying ones
 
 \end{frame}
 
@@ -79,7 +143,10 @@
 \begin{frame}{Packetization Process}
 
 \begin{itemize}
-    \item How does it work?
+    \item Start at leaves
+    \item Packetize operands before instructions
+    \item Broadcast uniform operands
+    \item Cache packetized values to prevent duplication
 \end{itemize}
 
 \end{frame}
@@ -114,6 +181,9 @@
     \item Constant stride >1 -> interleaved loads and stores
     \item Other -> gather loads, scatter stores
 \end{itemize}
+
+% Generate calls to internal builtins
+% Internal builtins can be implemented for each target as supported
 
 \end{frame}
 

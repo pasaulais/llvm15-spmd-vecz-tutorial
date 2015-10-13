@@ -6,7 +6,40 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\begin{frame}{Vectorizing builtin function calls}
+
+% Builtin: the vectorizer has some knowledge of scalar -> vector function mapping
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \begin{frame}{Vectorizing builtin functions}
+
+% By vectorizing the builtin's body
+% This changes the function signature (return value, some arguments)
+% Builtin: the vectorizer has some knowledge of which arguments need packetization
+% Need argument placeholders (cloning required)
+% Packetized arguments are roots (Uniform Value Analysis)
+% Return instructions are leaves (Packetization Stage)
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Vectorizing user functions (no side effects)}
+
+% Similar to builtin functions, but with no knowledge of whether arguments need
+% packetization. Need to analyze this for each call site.
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Vectorizing user functions (with side effects)}
+
+% Need to pass a mask as an extra argument
+% Might be simpler to just inline such functions
 
 \end{frame}
 
