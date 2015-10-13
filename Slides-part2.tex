@@ -129,7 +129,7 @@ Example that combines \uniform{uniform} and \varying{varying} values:
 \begin{codebox}[commandchars=\\\[\]]
 kernel void add_uniform(global int *\uniform[dst], global int *\uniform[src], int \uniform[alpha]) {
     int \varying[tid] = \varying[get_global_id](0);
-    \uniform[dst]\idx[\varying[tid]] = \uniform[src]\idx[\varying[tid]] + (\uniform[alpha] + \uniform[1]);
+    \uniform[dst]\idx[\varying[tid]] = \uniform[src]\idx[\varying[tid]] + (\uniform[alpha] - \uniform[1]);
 }
 \end{codebox}
 
@@ -138,11 +138,11 @@ define void @add_uniform(i32 addrspace(1)* \uniform[%dst], i32 addrspace(1)* \un
                          i32 \uniform[%alpha]) {
 entry:
   \varying[%tid] = i32 \varying[@get_global_id(i32 0)]
-  \varying[%arrayidx] = getelementptr inbounds i32 addrspace(1)* \uniform[%src], i32 \varying[%tid]
+  \varying[%arrayidx] = getelementptr i32 addrspace(1)* \uniform[%src], i32 \varying[%tid]
   \varying[%tmp] = load i32 addrspace(1)* \varying[%arrayidx], align 4
-  \uniform[%add] = add nsw i32 \uniform[%alpha], \uniform[1]
-  \varying[%add1] = add nsw i32 \uniform[%add], \varying[%tmp]
-  \varying[%arrayidx2] = getelementptr inbounds i32 addrspace(1)* \uniform[%dst], i32 \varying[%tid]
+  \uniform[%sub] = sub i32 \uniform[%alpha], \uniform[1]
+  \varying[%add] = add i32 \uniform[%sub], \varying[%tmp]
+  \varying[%arrayidx2] = getelementptr i32 addrspace(1)* \uniform[%dst], i32 \varying[%tid]
   store i32 \varying[%add1], i32 addrspace(1)* \varying[%arrayidx2], align 4
   ret void
 }
@@ -207,20 +207,20 @@ define void @__v4_add_uniform(i32 addrspace(1)* \uniform[%dst],
     i32 addrspace(1)* \uniform[%src], i32 \uniform[%alpha]) {
 entry:
   \varying[%tid] = call i32 \varying[@_Z13get_global_idj(i32 0)]
-  \varying[%arrayidx] = getelementptr inbounds i32 addrspace(1)* \uniform[%src], i32 \varying[%tid]
+  \varying[%arrayidx] = getelementptr i32 addrspace(1)* \uniform[%src], i32 \varying[%tid]
   \varying[%0] = bitcast i32 addrspace(1)* \varying[%arrayidx] to <4 x i32> addrspace(1)*
   \varying[%1] = load <4 x i32> addrspace(1)* \varying[%0], align 4
 
-  \uniform[%add] = add nsw i32 \uniform[%alpha], \uniform[1]
-  \uniform[%broadcasti] = insertelement <4 x i32> undef, i32 \uniform[%add], i32 0
-  \uniform[%broadcast] = shufflevector <4 x i32> \uniform[%broadcast], <4 x i32> \uniform[undef],
+  \uniform[%sub] = sub i32 \uniform[%alpha], \uniform[1]
+  \uniform[%broadcasti] = insertelement <4 x i32> undef, i32 \uniform[%sub], i32 0
+  \uniform[%broadcast_sub] = shufflevector <4 x i32> \uniform[%broadcast], <4 x i32> \uniform[undef],
       <4 x i32> \uniform[zeroinitializer]
 
-  \varying[%add11] = add nsw <4 x i32> \uniform[%broadcast], \varying[%1]
+  \varying[%add] = add nsw <4 x i32> \uniform[%broadcast_sub], \varying[%1]
 
-  \varying[%arrayidx2] = getelementptr inbounds i32 addrspace(1)* \uniform[%dst], i32 \varying[%tid]
+  \varying[%arrayidx2] = getelementptr i32 addrspace(1)* \uniform[%dst], i32 \varying[%tid]
   \varying[%2] = bitcast i32 addrspace(1)* \varying[%arrayidx2] to <4 x i32> addrspace(1)*
-  store <4 x i32> \varying[%add11], <4 x i32> addrspace(1)* \varying[%2], align 4
+  store <4 x i32> \varying[%add], <4 x i32> addrspace(1)* \varying[%2], align 4
   ret void
 }
 \end{codebox}
