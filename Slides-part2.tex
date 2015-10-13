@@ -107,7 +107,7 @@
     \item Finds 'root' values
     \begin{itemize}
         \item \varying{Varying} value that doesn't have any \varying{varying} operand
-        \item Example: \texttt{get\_global\_id(0)} has a different value for each isntance
+        \item Example: \varying{get\_global\_id(0)} has a different value for each isntance
     \end{itemize}
     \item Marks each IR value as \uniform{uniform} or \varying{varying}
     \begin{itemize}
@@ -122,7 +122,7 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}[fragile]{Uniform Value Analysis Example}
+\begin{frame}[fragile]{Uniform Value Analysis}
 
 Example that combines \uniform{uniform} and \varying{varying} values:
 
@@ -148,14 +148,13 @@ entry:
 }
 \end{codebox}
 
-% Mix of uniform and varying values
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}{Uniform Value Analysis Example}
+\begin{frame}{Uniform Value Analysis}
 
-% IR graph to show values, highlight uniform and varying ones
+TBD: IR graph to show values, highlight \uniform{uniform} and \varying{varying} nodes
 
 \end{frame}
 
@@ -164,10 +163,27 @@ entry:
 \begin{frame}{Packetization Process}
 
 \begin{itemize}
-    \item Start at leaves
-    \item Packetize operands before instructions
-    \item Broadcast uniform operands
-    \item Cache packetized values to prevent duplication
+    \item Find leaves
+    \begin{itemize}
+        \item Leaves allow \varying{varying} values to 'escape' from the function, they are:
+        \item Store instructions (\varying{varying} operand)
+        \item Call instructions (\varying{varying} operand, or call has no use)
+        \item Return instructions
+    \end{itemize}
+\end{itemize}
+
+\begin{itemize}
+    \item Recursively packetize operands for each leaf
+    \begin{itemize}
+        \item Broadcast \uniform{uniform} operands (e.g. argument, constants)
+        \item Replace \varying{get\_global\_id(0)} with a vector of IDs
+        \item Once all operands are packetized, create packetized instruction
+        \item Packetized values are cached to prevent duplication
+    \end{itemize}
+\end{itemize}
+
+\begin{itemize}
+    \item Delete original scalar instructions if dead
 \end{itemize}
 
 \end{frame}
