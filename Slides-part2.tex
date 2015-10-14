@@ -1,8 +1,34 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\talksection{Design}
+\talksection{Overview}
 
-\begin{frame}{Design}
+\begin{frame}{SPMD Vectorizer}
+
+\begin{itemize}
+    \item Is used to vectorize a SPMD program's entry point function
+    \item Given a function $F$ and vectorization factor $N$, produces a function $VF_N$
+    \begin{itemize}
+        \item Calling $VF_N$ is like calling $F$, but $N$ times (on consecutive work-items)
+        \item $F$ and $VF_N$ have the same signature
+    \end{itemize}
+    
+    \item The original function can be preserved or not
+    \begin{itemize}
+        \item In-place: vectorize the original function, no need for cloning
+        \item Transform cloned function: allow vectorization to fail
+    \end{itemize}
+    
+    \item Vectorization may be allowed to fail
+    \begin{itemize}
+        \item On failure, the original function can be used 
+    \end{itemize}
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Structure}
 
 \begin{itemize}
     \item Pipeline structure
@@ -19,12 +45,6 @@
     \begin{itemize}
         \item Most passes work at the function level
         \item Access to the module is sometimes needed
-    \end{itemize}
-    
-    \item The original function can be preserved or not
-    \begin{itemize}
-        \item In-place: vectorize the original function, no need for cloning
-        \item Work on cloned function: allow vectorization to fail
     \end{itemize}
 \end{itemize}
 
@@ -55,7 +75,6 @@
     \begin{itemize}
         \item Start with very simple kernels (e.g. copy buffer, add two buffers)
         \item Gradually add more features (e.g. non-sequential memory accesses, vector instructions, etc)
-        \item
     \end{itemize}
 
     
@@ -71,7 +90,7 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\talksection{Stage: Packetization}
+\talksection{Packetization Stage}
 
 \begin{frame}{Packetization Overview}
 
@@ -79,7 +98,7 @@
     \item Stage that does the actual vectorization
     \begin{itemize}
         \item Needs a vectorization factor $N$ (SIMD width)
-        \item Calling the transformed function is like calling the original $N$ times
+        \item Calling $VF_N$ is like calling $F$, but $N$ times
         \item Straightforward thanks to preparation from previous stages
     \end{itemize}
     
@@ -92,7 +111,7 @@
     \item Only varying instructions need packetization
     \begin{itemize}
         \item Uniform instructions can remain scalar, executed once per work-group
-        \item Requires \textbf{Uniform Value Analysis} to know which instructions to vectorize
+        \item Requires \emph{Uniform Value Analysis} to know which instructions to vectorize
     \end{itemize}
     
 \end{itemize}
@@ -267,7 +286,7 @@ entry:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\talksection{Stage: Scalarization}
+\talksection{Scalarization Stage}
 
 \begin{frame}{Scalarization Overview}
 
@@ -310,7 +329,7 @@ entry:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\talksection{Stage: Control Flow Conversion}
+\talksection{Control Flow Conversion Stage}
 
 \begin{frame}{Control Flow Conversion Overview}
 
