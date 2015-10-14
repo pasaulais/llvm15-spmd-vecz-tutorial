@@ -34,11 +34,9 @@
     \item Pipeline structure
     \begin{itemize}
         \item Function to vectorize is repeatedly transformed by different stages
+        \item Stages are independent from each other
         \item Each stage consists of one or more IR passes
         \item Most stages require some analysis
-        \begin{itemize}
-            \item May be run mulitple times as stages invalidate it
-        \end{itemize}
     \end{itemize}
     
     \item The LLVM pass manager (both new and original) is a good fit here
@@ -52,9 +50,9 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}{Stages}
+\begin{frame}[c]{Stages}
 
-% Stage diagram with stages: preparation, CFG conversion, scalarization, packetization, optimizations
+[Stage diagram with stages:\\ preparation, CFG conversion, scalarization, packetization, optimizations]
 
 \end{frame}
 
@@ -62,7 +60,24 @@
 
 \begin{frame}{Analyses}
 
-% Two important anlyses: UVA and CFG
+\begin{itemize}
+    \item Capture information about the IR to vectorize
+    \item May be invalidated after IR transformations
+    \item May depend on other analyses
+\end{itemize}
+
+\begin{itemize}
+    \item Uniform Value Analysis
+    \begin{itemize}
+        \item Marks values as either \uniform{uniform} or \varying{varying}
+    \end{itemize}
+
+    \item Control Flow Analysis
+    \begin{itemize}
+        \item Determines which basic blocks are divergent
+        \item Builds a Control Dependency Graph
+    \end{itemize}
+\end{itemize}
 
 \end{frame}
 
@@ -108,9 +123,9 @@
         \item Instructions with side effects: perform side effects for each instance
     \end{itemize}
     
-    \item Only varying instructions need packetization
+    \item Only \varying{varying} instructions need packetization
     \begin{itemize}
-        \item Uniform instructions can remain scalar, executed once per work-group
+        \item \uniform{Uniform} instructions can remain scalar, executed once per work-group
         \item Requires \emph{Uniform Value Analysis} to know which instructions to vectorize
     \end{itemize}
     
@@ -125,7 +140,7 @@
 \begin{itemize}
     \item Finds 'root' values
     \begin{itemize}
-        \item \varying{Varying} value that doesn't have any \varying{varying} operand
+        \item \varying{Varying} values with no \varying{varying} operand
         \item Example: \varying{get\_global\_id(0)} has a different value for each isntance
     \end{itemize}
     \item Marks each IR value as \uniform{uniform} or \varying{varying}
@@ -170,9 +185,9 @@ entry:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}{Uniform Value Analysis}
+\begin{frame}[c]{Uniform Value Analysis}
 
-TBD: IR graph to show values, highlight \uniform{uniform} and \varying{varying} nodes
+[IR graph to show values, highlight \uniform{uniform} and \varying{varying} nodes]
 
 \end{frame}
 
@@ -193,9 +208,9 @@ TBD: IR graph to show values, highlight \uniform{uniform} and \varying{varying} 
 \begin{itemize}
     \item Recursively packetize leaves and their operands
     \begin{itemize}
-        \item Broadcast \uniform{uniform} operands (e.g. argument, constants)
+        \item Broadcast \uniform{uniform} values (e.g. argument, constants)
         \item Replace \varying{get\_global\_id(0)} with a vector of IDs
-        \item Packetize operands first, then instruction
+        \item Packetize operands first, then instruction (top-down)
         \item Cache packetized values to prevent duplication
     \end{itemize}
 \end{itemize}
@@ -208,11 +223,11 @@ TBD: IR graph to show values, highlight \uniform{uniform} and \varying{varying} 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}{Packetization Example}
+\begin{frame}[c]{Packetization Example}
 
-Packetization example
-TODO: original graph
-TODO: vectorized graph?
+[Packetization example \\
+TODO: original graph \\
+TODO: vectorized graph?]
 
 \end{frame}
 
@@ -258,9 +273,7 @@ entry:
     \item Packetize operands of phi nodes after leaves have been packetized
 \end{itemize}
 
-\begin{itemize}
-    \item TODO: graph
-\end{itemize}  
+[TODO: graph]
 
 \end{frame}
 
