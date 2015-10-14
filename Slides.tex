@@ -15,6 +15,7 @@
 \usepackage[utf8x]{inputenc}
 \usepackage{fancyvrb}
 \usepackage{tcolorbox}
+\usepackage{animate}
 
 % suppress navigation bar
 \beamertemplatenavigationsymbolsempty
@@ -96,7 +97,9 @@
 \newcommand{\uniform}[1]{\codeemphb{#1}}
 \newcommand{\idx}[1]{[#1]}
 
-\newcommand{\penguin}[0]{\includegraphics[width = 1em]{penguin.png}}
+%\newcommand{\penguin}[0]{\includegraphics[width = 1em]{images/penguin.png}}
+
+\newcommand{\penguin}[0]{\animategraphics[loop,autoplay, width = 1em]{12}{images/penguin-}{0}{19}\hspace{0.1em}}
 
 % Create a slide for a part.
 \newcommand{\talkpart}[2]{%
@@ -205,7 +208,7 @@
 \begin{itemize}
     \item Q\&A
     \item ...
-    \item Happy vectorization! \hspace{1em} < \penguin, \penguin, \penguin, \penguin, \penguin, \penguin, \penguin, \penguin \hspace{0.1em} >
+    \item Happy vectorization! \hspace{1em} <\hspace{0.15em}\penguin, \penguin, \penguin, \penguin, \penguin, \penguin, \penguin, \penguin\hspace{0.1em}>
 \end{itemize}
 
 \vspace{5em}
