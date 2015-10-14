@@ -279,21 +279,65 @@ entry:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}{Memory addressing}
+\begin{frame}{Memory Addressing}
 
 \begin{itemize}
-    \item \varying{get\_global\_id(0)} was not packetized to a sequence of IDs. Why?
+    %\item \varying{get\_global\_id(0)} was not packetized to a sequence of IDs. Why?
+    \item Loads and stores are packetized according to the addressing mode
+    \begin{itemize}
+        \item Each operation can access $N$ memory elements. How are they laid out?
+        \item Different layouts result in different packetized operations
+        \item Most common layouts can be described with a single stride
+    \end{itemize}
+    
+    \item Stride is the distance between successive elements
+    \begin{itemize}
+        \item Expressed in number of elements
+        \item "How many elements are skipped in memory to get to the next one"
+        \item One means elements are consecutive
+    \end{itemize}
+    
+    \item Not all kinds of memory operations can be expressed in IR
+    \begin{itemize}
+        \item Generate calls to internal builtins
+        \item Internal builtins can be implemented for each target as supported 
+    \end{itemize}
+    
 \end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Memory Addressing Modes}
 
 \begin{itemize}
-    \item Uniform address -> scalar loads and stores
-    \item Constant stride =1 -> vector laods and stores
-    \item Constant stride >1 -> interleaved loads and stores
-    \item Other -> gather loads, scatter stores
+    \item $Stride = 0$
+    \begin{itemize}
+        \item Offset is \uniform{uniform}
+        \item Generate a regular \emph{scalar} load or store
+    \end{itemize}
+    
+    \item $Stride = 1$
+    \begin{itemize}
+        \item Packetized offset is a sequence like $<0, 1, 2, 3>$
+        \item Generate a regular \emph{vector} load or store
+    \end{itemize}
+    
+    \item $Stride > 1$
+    \begin{itemize}
+        \item Packetized offset is a sequence like $<0, 4, 8, 12>$
+        \item Generate an \emph{interleaved} load or store
+    \end{itemize}
+    
+    \item Variable stride
+    \begin{itemize}
+        \item Packetized offset can be any sequence
+        \item Generate a \emph{gather} load or \emph{scatter} store
+    \end{itemize}
+    
+    \item Handle negative strides by reversing the vector
 \end{itemize}
-
-% Generate calls to internal builtins
-% Internal builtins can be implemented for each target as supported
 
 \end{frame}
 
