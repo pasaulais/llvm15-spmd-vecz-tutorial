@@ -23,8 +23,10 @@
 {
   \usetheme{codeplay}
   \setbeamercovered{transparent}
-  \setbeamertemplate{itemize item}[circle]
-  \setbeamertemplate{itemize subitem}{\tiny\raise1.5pt\hbox{\donotcoloroutermaths$\blacktriangleright$}}
+  %\setbeamertemplate{itemize item}[circle]
+  \setbeamertemplate{itemize item}{\small\raise0.8pt\hbox{$\bullet$}}
+  %\setbeamertemplate{itemize subitem}{\tiny\raise1.5pt\hbox{\donotcoloroutermaths$\blacktriangleright$}}
+  \setbeamertemplate{itemize subitem}{\tiny\raise1.5pt\hbox{$\blacktriangleright$}}
   \setbeamertemplate{section in toc shaded}[default][100]
   \setbeamertemplate{subsection in toc shaded}[default][100]
 
@@ -93,9 +95,6 @@
 \newcommand{\varying}[1]{\codeempha{#1}}
 \newcommand{\uniform}[1]{\codeemphb{#1}}
 \newcommand{\idx}[1]{[#1]}
-
-% FIXME: vfill doesn't work here!
-\newcommand{\pipelinemap}[2]{\vspace{#2} #1}
 
 % Create a slide for a part.
 \newcommand{\talkpart}[2]{%
