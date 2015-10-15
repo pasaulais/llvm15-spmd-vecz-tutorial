@@ -205,94 +205,6 @@ entry:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}{Packetization Process}
-
-\begin{itemize}
-    \item Find leaves
-    \begin{itemize}
-        \item Leaves allow \varying{varying} values to 'escape' from the function, they are:
-        \item Store instructions (\varying{varying} operand)
-        \item Call instructions (\varying{varying} operand, or call has no use)
-        \item Return instructions
-    \end{itemize}
-\end{itemize}
-
-\begin{itemize}
-    \item Recursively packetize leaves and their operands
-    \begin{itemize}
-        \item Broadcast \uniform{uniform} values (e.g. argument, constants)
-        \item Replace \varying{get\_global\_id(0)} with a vector of IDs
-        \item Packetize operands first, then instruction (top-down)
-        \item Cache packetized values to prevent duplication
-    \end{itemize}
-\end{itemize}
-
-\begin{itemize}
-    \item Delete original scalar instructions if dead
-\end{itemize}
-
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{frame}[c]{Packetization Example}
-
-[Packetization example \\
-TODO: original graph \\
-TODO: vectorized graph?]
-
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{frame}[fragile]{Packetization Example}
-
-\begin{codebox}[commandchars=\\\[\]]
-define void @__v4_add_uniform(i32* \uniform[%dst], i32* \uniform[%src], i32 \uniform[%alpha]) {
-entry:
-  \varying[%tid] = call i32 \varying[@get_global_id(i32 0)]
-  \varying[%arrayidx] = getelementptr i32* \uniform[%src], i32 \varying[%tid]
-  \varying[%0] = bitcast i32* \varying[%arrayidx] to <4 x i32>*
-  \varying[%1] = load <4 x i32>* \varying[%0], align 4
-
-  ; Broadcast (alpha - 1) to a vector
-  \uniform[%sub] = sub i32 \uniform[%alpha], \uniform[1]
-  \uniform[%insert] = insertelement <4 x i32> undef, i32 \uniform[%sub], i32 0
-  \uniform[%broadcast_sub] = shufflevector <4 x i32> \uniform[%insert], ...
-
-  \varying[%add] = add nsw <4 x i32> \uniform[%broadcast_sub], \varying[%1]
-
-  \varying[%arrayidx2] = getelementptr i32* \uniform[%dst], i32 \varying[%tid]
-  \varying[%2] = bitcast i32* \varying[%arrayidx2] to <4 x i32>*
-  store <4 x i32> \varying[%add], <4 x i32>* \varying[%2], align 4
-  ret void
-}
-\end{codebox}
-
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{frame}[fragile]{Packetizing Phi nodes}
-
-\begin{itemize}
-    \item Phi nodes can introduce cycles in the use/def graph
-    \begin{itemize}
-        \item Phi operands that reference the same phi
-        \item Example: reduction variables
-    \end{itemize}
-    \item Break the cycle by creating 'empty' phi nodes
-    \item Packetize operands of phi nodes after leaves have been packetized
-\end{itemize}
-
-XXX this should be 1
-
-\center{\includegraphics[scale=0.5]{images/phi-packetization.pdf}}
-
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \begin{frame}{Memory Addressing}
 
 \begin{itemize}
@@ -457,6 +369,94 @@ int \varying[x] = \uniform[src]\idx[\uniform[map]\idx[\varying[tid]]];
         \includegraphics[scale=0.5]{images/arbitrary-access.pdf}
     \end{figure}
 \end{minipage}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Packetization Process}
+
+\begin{itemize}
+    \item Find leaves
+    \begin{itemize}
+        \item Leaves allow \varying{varying} values to 'escape' from the function, they are:
+        \item Store instructions (\varying{varying} operand)
+        \item Call instructions (\varying{varying} operand, or call has no use)
+        \item Return instructions
+    \end{itemize}
+\end{itemize}
+
+\begin{itemize}
+    \item Recursively packetize leaves and their operands
+    \begin{itemize}
+        \item Broadcast \uniform{uniform} values (e.g. argument, constants)
+        \item Replace \varying{get\_global\_id(0)} with a vector of IDs
+        \item Packetize operands first, then instruction (top-down)
+        \item Cache packetized values to prevent duplication
+    \end{itemize}
+\end{itemize}
+
+\begin{itemize}
+    \item Delete original scalar instructions if dead
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[c]{Packetization Example}
+
+[Packetization example \\
+TODO: original graph \\
+TODO: vectorized graph?]
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[fragile]{Packetization Example}
+
+\begin{codebox}[commandchars=\\\[\]]
+define void @__v4_add_uniform(i32* \uniform[%dst], i32* \uniform[%src], i32 \uniform[%alpha]) {
+entry:
+  \varying[%tid] = call i32 \varying[@get_global_id(i32 0)]
+  \varying[%arrayidx] = getelementptr i32* \uniform[%src], i32 \varying[%tid]
+  \varying[%0] = bitcast i32* \varying[%arrayidx] to <4 x i32>*
+  \varying[%1] = load <4 x i32>* \varying[%0], align 4
+
+  ; Broadcast (alpha - 1) to a vector
+  \uniform[%sub] = sub i32 \uniform[%alpha], \uniform[1]
+  \uniform[%insert] = insertelement <4 x i32> undef, i32 \uniform[%sub], i32 0
+  \uniform[%broadcast_sub] = shufflevector <4 x i32> \uniform[%insert], ...
+
+  \varying[%add] = add nsw <4 x i32> \uniform[%broadcast_sub], \varying[%1]
+
+  \varying[%arrayidx2] = getelementptr i32* \uniform[%dst], i32 \varying[%tid]
+  \varying[%2] = bitcast i32* \varying[%arrayidx2] to <4 x i32>*
+  store <4 x i32> \varying[%add], <4 x i32>* \varying[%2], align 4
+  ret void
+}
+\end{codebox}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[fragile]{Packetizing Phi nodes}
+
+\begin{itemize}
+    \item Phi nodes can introduce cycles in the use/def graph
+    \begin{itemize}
+        \item Phi operands that reference the same phi
+        \item Example: reduction variables
+    \end{itemize}
+    \item Break the cycle by creating 'empty' phi nodes
+    \item Packetize operands of phi nodes after leaves have been packetized
+\end{itemize}
+
+XXX this should be 1
+
+\center{\includegraphics[scale=0.5]{images/phi-packetization.pdf}}
 
 \end{frame}
 
