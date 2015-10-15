@@ -96,6 +96,7 @@
 
 \begin{frame}{Implementation strategy}
 
+%% TODO: Skip slide?
 \begin{itemize}
     \item Create test kernels
     \begin{itemize}
@@ -121,7 +122,7 @@
 \begin{frame}{Packetization Overview}
 
 \begin{itemize}
-    \item Stage that does the actual vectorization
+    \item Stage that does the actual vectorization: $<F, N> \rightarrow VF_N$
     \begin{itemize}
         \item Needs a vectorization factor $N$ (SIMD width)
         \item Calling $VF_N$ is like calling $F$, but $N$ times
@@ -322,8 +323,8 @@ int \varying[x] = \uniform[src]\idx[\varying[tid]];
     
 global int \uniform[*src];
 int \varying[tid] = \varying[get_global_id(0)];
-int \varying[x] = \uniform[src]\idx[\varying[tid] * \uniform[2]];
-
+int \varying[even] = \uniform[src]\idx[\varying[tid] * \uniform[2]];
+int \varying[odd] = \uniform[src]\idx[(\varying[tid] * \uniform[2]) + \uniform[1]];
 
 
 
