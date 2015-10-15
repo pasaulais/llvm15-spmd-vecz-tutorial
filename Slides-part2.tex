@@ -66,6 +66,12 @@
     \item May depend on other analyses
 \end{itemize}
 
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Analyses}
+
 \begin{itemize}
     \item Uniform Value Analysis
     \begin{itemize}
@@ -76,6 +82,11 @@
     \begin{itemize}
         \item Determines which basic blocks are divergent
         \item Builds a Control Dependency Graph
+    \end{itemize}
+    
+    \item SIMD Width Analysis
+    \begin{itemize}
+        \item Choose a 'good' width based on register/instruction usage
     \end{itemize}
 \end{itemize}
 
@@ -272,6 +283,8 @@ entry:
     \item Break the cycle by creating 'empty' phi nodes
     \item Packetize operands of phi nodes after leaves have been packetized
 \end{itemize}
+
+XXX this should be 1
 
 \center{\includegraphics[scale=0.5]{images/phi-packetization.pdf}}
 
