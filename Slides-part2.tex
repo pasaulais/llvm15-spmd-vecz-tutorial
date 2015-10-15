@@ -86,7 +86,7 @@
     
     \item SIMD Width Analysis
     \begin{itemize}
-        \item Choose a 'good' width based on register/instruction usage
+        \item Chooses a 'good' width based on register/instruction usage
     \end{itemize}
 \end{itemize}
 
@@ -132,6 +132,7 @@
     \begin{itemize}
         \item Instructions that define a value: define $N$ values, one for each instance
         \item Instructions with side effects: perform side effects for each instance
+        \item New instruction has the same opcode but different types
     \end{itemize}
     
     \item Only \varying{varying} instructions need packetization
@@ -298,10 +299,15 @@ XXX this should be 1
     %\item \varying{get\_global\_id(0)} was not packetized to a sequence of IDs. Why?
     \item Loads and stores are packetized according to the addressing mode
     \begin{itemize}
-        \item Need to evaluate the address for each of the $N$ lanes
-        \item Each operation can access $N$ memory elements. How are they laid out?
-        \item Different layouts result in different packetized operations
-        \item Most common layouts can be described with a single stride
+        \item Each operation can access $N$ memory elements
+        \item Address usually has the form `\uniform{base} + \varying{offset}'
+        \item Need to evaluate the offset for each of the $N$ lanes
+    \end{itemize}
+    
+    \item How are these elements laid out in memory?
+    \begin{itemize}
+        \item The layout affects how operations are packetized
+        \item Most common layouts can be described with a single \emph{stride}
     \end{itemize}
     
     \item Stride is the distance between successive elements
@@ -326,6 +332,7 @@ XXX this should be 1
 
 \begin{frame}[fragile]{Uniform Memory Addressing}
 
+%% TODO: Use 1 as offset, update the diagram
 \begin{itemize}
     \item Constant $Stride = 0$
     \item Packetized offset is \uniform{uniform} (e.g. $<0, 0, 0, 0>$)
