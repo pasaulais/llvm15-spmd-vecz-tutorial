@@ -285,6 +285,7 @@ entry:
     %\item \varying{get\_global\_id(0)} was not packetized to a sequence of IDs. Why?
     \item Loads and stores are packetized according to the addressing mode
     \begin{itemize}
+        \item Need to evaluate the address for each of the $N$ lanes
         \item Each operation can access $N$ memory elements. How are they laid out?
         \item Different layouts result in different packetized operations
         \item Most common layouts can be described with a single stride
@@ -295,13 +296,14 @@ entry:
         \item Expressed in number of elements
         \item "How many elements are skipped in memory to get to the next one"
         \item One means elements are consecutive
+        \item Negative means memory offsets are decreasing
     \end{itemize}
     
-    \item Not all kinds of memory operations can be expressed in IR
-    \begin{itemize}
-        \item Generate calls to internal builtins
-        \item Internal builtins can be implemented for each target as supported 
-    \end{itemize}
+    %\item Not all kinds of memory operations can be expressed in IR
+    %\begin{itemize}
+    %    \item Generate calls to internal builtins
+    %    \item Internal builtins can be implemented for each target as supported 
+    %\end{itemize}
     
 \end{itemize}
 
@@ -309,35 +311,81 @@ entry:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}{Memory Addressing Modes}
+\begin{frame}[fragile]{Uniform Memory Addressing}
 
 \begin{itemize}
-    \item $Stride = 0$
-    \begin{itemize}
-        \item Offset is \uniform{uniform}
-        \item Generate a regular \emph{scalar} load or store
-    \end{itemize}
-    
-    \item $Stride = 1$
-    \begin{itemize}
-        \item Packetized offset is a sequence like $<0, 1, 2, 3>$
-        \item Generate a regular \emph{vector} load or store
-    \end{itemize}
-    
-    \item $Stride > 1$
-    \begin{itemize}
-        \item Packetized offset is a sequence like $<0, 4, 8, 12>$
-        \item Generate an \emph{interleaved} load or store
-    \end{itemize}
-    
-    \item Variable stride
-    \begin{itemize}
-        \item Packetized offset can be any sequence
-        \item Generate a \emph{gather} load or \emph{scatter} store
-    \end{itemize}
-    
-    \item Handle negative strides by reversing the vector
+    \item Constant $Stride = 0$
+    \item Packetized offset is \uniform{uniform} (e.g. $<0, 0, 0, 0>$)
+    \item Transformed to a regular \emph{scalar} load or store
 \end{itemize}
+
+\begin{codebox}[commandchars=\\\[\]]
+global int \uniform[*src];
+int \uniform[x] = \uniform[src]\idx[\uniform[0]];
+\end{codebox}
+
+\center{\includegraphics[scale=0.5]{images/uniform-access.pdf}}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[fragile]{Sequential Memory Addressing}
+
+\begin{itemize}
+    \item Constant $Stride = 1$
+    \item Packetized offset is a sequence like $<0, 1, 2, 3>$
+    \item Transformed to a regular \emph{vector} load or store
+\end{itemize}
+
+\begin{codebox}[commandchars=\\\[\]]
+global int \uniform[*src];
+int \varying[tid] = \varying[get_global_id(0)];
+int \uniform[x] = \uniform[src]\idx[\varying[tid]];
+\end{codebox}
+
+\center{\includegraphics[scale=0.5]{images/sequential-access.pdf}}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[fragile]{Interleaved Memory Addressing}
+
+\begin{itemize}
+    \item Constant $Stride > 1$
+    \item Packetized offset is a sequence like $<0, 2, 4, 6>$
+    \item Transformed to an \emph{interleaved} load or store
+\end{itemize}
+
+\begin{codebox}[commandchars=\\\[\]]
+global int \uniform[*src];
+int \varying[tid] = \varying[get_global_id(0)];
+int \uniform[x] = \uniform[src]\idx[\varying[tid] * \uniform[2]];
+\end{codebox}
+
+\center{\includegraphics[scale=0.5]{images/interleaved-access.pdf}}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[fragile]{Arbitrary Memory Addressing}
+
+\begin{itemize}
+    \item Variable stride
+    \item Packetized offset can be any sequence (e.g. $<0, 3, 7, 3>$)
+    \item Transformed to a \emph{gather} load or \emph{scatter} store
+\end{itemize}
+
+\begin{codebox}[commandchars=\\\[\]]
+global int \uniform[*src]; global int \uniform[*map];
+int \varying[tid] = \varying[get_global_id(0)];
+int \uniform[x] = \uniform[src]\idx[\uniform[map]\idx[\varying[tid]]];
+\end{codebox}
+
+
+\center{\includegraphics[scale=0.5]{images/arbitrary-access.pdf}}
 
 \end{frame}
 
