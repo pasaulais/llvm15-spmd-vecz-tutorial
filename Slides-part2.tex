@@ -319,12 +319,25 @@ entry:
     \item Transformed to a regular \emph{scalar} load or store
 \end{itemize}
 
-\begin{codebox}[commandchars=\\\[\]]
+\begin{minipage}[t]{0.40\linewidth}
+    \vspace{0.1ex}
+    \begin{codebox}[commandchars=\\\[\]]
+
 global int \uniform[*src];
 int \uniform[x] = \uniform[src]\idx[\uniform[0]];
-\end{codebox}
 
-\center{\includegraphics[scale=0.5]{images/uniform-access.pdf}}
+
+
+
+
+
+    \end{codebox}
+\end{minipage}
+\begin{minipage}[t]{0.49\linewidth}
+    \begin{figure}
+        \includegraphics[scale=0.5]{images/uniform-access.pdf}
+    \end{figure}
+\end{minipage}
 
 \end{frame}
 
@@ -338,13 +351,26 @@ int \uniform[x] = \uniform[src]\idx[\uniform[0]];
     \item Transformed to a regular \emph{vector} load or store
 \end{itemize}
 
-\begin{codebox}[commandchars=\\\[\]]
+\begin{minipage}[t]{0.40\linewidth}
+    \vspace{0.1ex}
+    \begin{codebox}[commandchars=\\\[\]]
+
 global int \uniform[*src];
 int \varying[tid] = \varying[get_global_id(0)];
-int \uniform[x] = \uniform[src]\idx[\varying[tid]];
-\end{codebox}
+int \varying[x] = \uniform[src]\idx[\varying[tid]];
 
-\center{\includegraphics[scale=0.5]{images/sequential-access.pdf}}
+
+
+
+
+    \end{codebox}
+\end{minipage}
+\hspace{1em}
+\begin{minipage}[t]{0.49\linewidth}
+    \begin{figure}
+        \includegraphics[scale=0.5]{images/sequential-access.pdf}
+    \end{figure}
+\end{minipage}
 
 \end{frame}
 
@@ -358,13 +384,26 @@ int \uniform[x] = \uniform[src]\idx[\varying[tid]];
     \item Transformed to an \emph{interleaved} load or store
 \end{itemize}
 
-\begin{codebox}[commandchars=\\\[\]]
+\begin{minipage}[t]{0.40\linewidth}
+    \vspace{0.1ex}
+    \begin{codebox}[commandchars=\\\[\]]
+    
 global int \uniform[*src];
 int \varying[tid] = \varying[get_global_id(0)];
-int \uniform[x] = \uniform[src]\idx[\varying[tid] * \uniform[2]];
-\end{codebox}
+int \varying[x] = \uniform[src]\idx[\varying[tid] * \uniform[2]];
 
-\center{\includegraphics[scale=0.5]{images/interleaved-access.pdf}}
+
+
+
+
+    \end{codebox}
+\end{minipage}
+\hspace{1em}
+\begin{minipage}[t]{0.49\linewidth}
+    \begin{figure}
+        \includegraphics[scale=0.5]{images/interleaved-access.pdf}
+    \end{figure}
+\end{minipage}
 
 \end{frame}
 
@@ -378,14 +417,26 @@ int \uniform[x] = \uniform[src]\idx[\varying[tid] * \uniform[2]];
     \item Transformed to a \emph{gather} load or \emph{scatter} store
 \end{itemize}
 
-\begin{codebox}[commandchars=\\\[\]]
-global int \uniform[*src]; global int \uniform[*map];
+\begin{minipage}[t]{0.40\linewidth}
+    \vspace{0.1ex}
+    \begin{codebox}[commandchars=\\\[\]]
+    
+global int \uniform[*src];
+global int \uniform[*map];
 int \varying[tid] = \varying[get_global_id(0)];
-int \uniform[x] = \uniform[src]\idx[\uniform[map]\idx[\varying[tid]]];
-\end{codebox}
+int \varying[x] = \uniform[src]\idx[\uniform[map]\idx[\varying[tid]]];
 
 
-\center{\includegraphics[scale=0.5]{images/arbitrary-access.pdf}}
+
+
+    \end{codebox}
+\end{minipage}
+\hspace{1em}
+\begin{minipage}[t]{0.49\linewidth}
+    \begin{figure}
+        \includegraphics[scale=0.5]{images/arbitrary-access.pdf}
+    \end{figure}
+\end{minipage}
 
 \end{frame}
 
