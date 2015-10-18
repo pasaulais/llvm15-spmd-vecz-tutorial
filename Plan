@@ -17,6 +17,25 @@
 Part 1 Background (10 min)
     SPMD execution model
     
+    SPMD Execution Model
+        Data Parallel
+        Division of work
+        Single program
+    
+    SPMD Model: Division of Work
+        Units of work = work-item
+    
+    SPMD Model: Single program
+        kernel function
+        
+        executed once per work-item
+        
+        as if loop around it
+        
+        i = get_global_id(0)
+        
+        [code]
+    
     Glossary
         (SIMD) Lane
         Instance
