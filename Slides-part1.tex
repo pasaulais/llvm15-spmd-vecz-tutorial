@@ -1,10 +1,176 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}{SPMD execution model}
+\begin{frame}{SPMD Execution Model}
+
+\begin{itemize}
+    \item Data-parallel
+    \begin{itemize}
+        \item Work needs to be divided
+    \end{itemize}
+    
+    \item Single program, scalar with implicit SIMD execution
+    
+    \item Multiple instances running in parallel
+    \begin{itemize}
+        \item Each instance working on different data
+        \item On GPU, SIMD execution in lockstep
+        \item On CPU, sequential execution within a core (naive approach)
+    \end{itemize}
+\end{itemize}
+
+\begin{itemize}
+    \item Simplistic example:
+    \begin{itemize}
+        \item Massive Online Course
+        \item Compute the overall grade of millions of students
+        \item Overall student's grade is the weighted average of several grades
+    \end{itemize}
+\end{itemize}
 
 \end{frame}
-
 
 %% Kernel function has no return value, takes in buffers (arrays)
 %% Vectorization does not change the signature for kernels
 %% Can also vectorize "normal" functions, but this results in signature changes
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Division of Work}
+
+\begin{itemize}
+    \item Work-item:
+    \begin{itemize}
+        \item Unit of work
+        \item One instance of a program
+    \end{itemize}
+    \item Work-items executed in parallel by Execution Units
+    \item Dimensions
+    \begin{itemize}
+        \item 1D (array shape)
+        \item 2D (grid shape)
+        \item ...
+    \end{itemize}
+\end{itemize}
+
+[graph]
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Single Program}
+
+\begin{itemize}
+    \item Kernel function
+    \begin{itemize}
+        \item Entry point for the computation
+    \end{itemize}
+    \item Executed once per work-item
+    \begin{itemize}
+        \item As if there was a loop around it
+        \item Access to the iteration counter using \texttt{get\_global\_id(0)}
+    \end{itemize}
+\end{itemize}
+
+[code]
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Vertical Vectorization}
+
+\begin{itemize}
+    \item Within a single work-item
+    \begin{itemize}
+        \item e.g. loops within a kernel
+        \item In our example, the weighted average computation
+        \end{itemize}
+    \item Using the LLVM Loop Vectorizer
+    \item However, not all kernels contain loops
+\end{itemize}
+
+[graph of work-items with vertical loops]
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Horizontal Vectorization}
+
+\begin{itemize}
+    \item Many executions units each executing one instance of a single program 
+    \begin{itemize}
+        \item Fine on GPU (many EUs)
+        \item Not so much on CPU (very few EUs)
+        \item CPU has to execute many work-items sequentially
+        \end{itemize}
+    
+    \item Across work-items
+    \begin{itemize}
+        \item Compute multiple work-items at the same time
+        \item Take advantage of the execution model
+    \end{itemize}
+\end{itemize}
+
+[graph of work-items with horizontal arrows]
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Glossary}
+
+\begin{itemize}
+    \item Work
+    \begin{itemize}
+        \item Work-item: unit of work to execute in parallel.
+        \item Instance: State of one work-item.
+        \item (SIMD) Lane: Execution of one instance, after vectorization.
+        \end{itemize}
+        
+    \item Data
+    \begin{itemize}
+        \item Packet: Contains several values/instructions, one per SIMD lane. Corresponds to one value/instruction in the original kernel.
+        \item \uniform{Uniform}: Packet where values are identical for all lanes.
+        \item \varying{Varying}: Packet where values are not identical for all lanes.
+        \end{itemize}
+
+    \item Control Flow
+    \begin{itemize}
+        \item \uniform{Uniform}: Branch taken by all lanes.
+        \item \varying{Divergent}: Branch taken by some lanes. Requires special handling (No SIMD branching)
+    \end{itemize}
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Vectorizer Comparison}
+
+\begin{itemize}
+    \item Loop Vectorizer
+    \begin{itemize}
+        \item Can be used for both vertical and horizontal vectorization
+        \item Has to enforce dependencies between loop iterations
+        \item Execution order is not specified, this is not needed
+        \item Nested control-flow?
+    \end{itemize}
+
+    \item SLP Vectorizer
+    \begin{itemize}
+        \item Finds groups of similar scalar instructions (same opcode)
+        \item Vertical vectorization
+        \item Not all kernels contain this kind of code
+    \end{itemize}
+
+    \item SPMD Vectorizer
+    \begin{itemize}
+        \item Only supports horizontal vectorization
+        \item Nested control-flow
+        \item Not limited to a certain 'style' of code
+    \end{itemize}
+\end{itemize}
+
+\end{frame}

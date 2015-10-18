@@ -127,8 +127,8 @@
 
 \begin{document}
 
-\setbeamertemplate{background}
-{\includegraphics[width=\paperwidth,height=\paperheight]{dark_background_title.png}}
+%\setbeamertemplate{background}
+%{\includegraphics[width=\paperwidth,height=\paperheight]{dark_background_title.png}}
 \setbeamertemplate{footline}[default]
 
 \begin{frame}
@@ -149,6 +149,7 @@
 \begin{frame}{What this tutorial is about}
 
 \begin{itemize}
+    \item Introduction to
     \item Vectorizing
     \begin{itemize}
         \item Transform whole functions using LLVM
@@ -176,8 +177,8 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%\talkpart{1}{Background}
-%\include{Slides-part1}
+\talkpart{1}{Background}
+\include{Slides-part1}
 
 \talkpart{2}{Implementing a SPMD Vectorizer}
 \include{Slides-part2}
