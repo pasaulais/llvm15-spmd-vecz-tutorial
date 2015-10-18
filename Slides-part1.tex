@@ -22,8 +22,8 @@
     \item Simplistic example:
     \begin{itemize}
         \item Massive Online Course
-        \item Compute the overall grade of millions of students
-        \item Overall student's grade is the weighted average of several grades
+        \item Compute the overall grade (GPA) of millions of students
+        \item GPA is the weighted average of several grades
     \end{itemize}
 \end{itemize}
 
@@ -43,7 +43,7 @@
         \item Unit of work
         \item One instance of a program
     \end{itemize}
-    \item Work-items executed in parallel by Execution Units
+    \item Work-items executed in parallel by Execution Units (threads)
     \item Dimensions
     \begin{itemize}
         \item 1D (array shape)
@@ -58,7 +58,7 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}{Single Program}
+\begin{frame}[fragile]{Single Program}
 
 \begin{itemize}
     \item Kernel function
@@ -72,7 +72,39 @@
     \end{itemize}
 \end{itemize}
 
-[code]
+\begin{codebox}
+kernel void calc_gpa(global *float result, global *int grades, global *float weights,
+                     int num_grades, int num_students) {
+    int student_id = get_global_id(0);
+    float gpa = 0.0;
+    for (int i = 0; i < num_grades; i++) {
+        int grade = grades[(i * num_students) + student_id];
+        float weight = weights[i];
+        gpa += (grade * weight);
+    }
+    result[student_id] = gpa;
+}
+\end{codebox}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Why Vectorize?}
+
+\begin{itemize}
+    \item Many executions units each executing one instance of a single program 
+    \begin{itemize}
+        \item Works well on GPU (many hardware EUs)
+        \item Not so much on CPU (very few hardware EUs)
+        \item CPU has to execute many work-items sequentially
+    \end{itemize}
+    \item Speed up this sequential computation using SIMD units
+    \begin{itemize}
+        \item Vertical Vectorization
+        \item Horizontal Vectorization
+    \end{itemize}
+\end{itemize}
 
 \end{frame}
 
@@ -99,49 +131,14 @@
 \begin{frame}{Horizontal Vectorization}
 
 \begin{itemize}
-    \item Many executions units each executing one instance of a single program 
-    \begin{itemize}
-        \item Fine on GPU (many EUs)
-        \item Not so much on CPU (very few EUs)
-        \item CPU has to execute many work-items sequentially
-        \end{itemize}
-    
     \item Across work-items
     \begin{itemize}
         \item Compute multiple work-items at the same time
-        \item Take advantage of the execution model
+        \item Take advantage of the execution model (single program, multiple data)
     \end{itemize}
 \end{itemize}
 
 [graph of work-items with horizontal arrows]
-
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{frame}{Glossary}
-
-\begin{itemize}
-    \item Work
-    \begin{itemize}
-        \item Work-item: unit of work to execute in parallel.
-        \item Instance: State of one work-item.
-        \item (SIMD) Lane: Execution of one instance, after vectorization.
-        \end{itemize}
-        
-    \item Data
-    \begin{itemize}
-        \item Packet: Contains several values/instructions, one per SIMD lane. Corresponds to one value/instruction in the original kernel.
-        \item \uniform{Uniform}: Packet where values are identical for all lanes.
-        \item \varying{Varying}: Packet where values are not identical for all lanes.
-        \end{itemize}
-
-    \item Control Flow
-    \begin{itemize}
-        \item \uniform{Uniform}: Branch taken by all lanes.
-        \item \varying{Divergent}: Branch taken by some lanes. Requires special handling (No SIMD branching)
-    \end{itemize}
-\end{itemize}
 
 \end{frame}
 
@@ -170,6 +167,34 @@
         \item Only supports horizontal vectorization
         \item Nested control-flow
         \item Not limited to a certain 'style' of code
+    \end{itemize}
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Glossary}
+
+\begin{itemize}
+    \item Work
+    \begin{itemize}
+        \item Work-item: unit of work to execute in parallel.
+        \item Instance: State of one work-item.
+        \item (SIMD) Lane: Execution of one instance, after vectorization.
+        \end{itemize}
+        
+    \item Data
+    \begin{itemize}
+        \item Packet: Contains several values/instructions, one per SIMD lane. Corresponds to one value/instruction in the original kernel.
+        \item \uniform{Uniform}: Packet where values are identical for all lanes.
+        \item \varying{Varying}: Packet where values are not identical for all lanes.
+        \end{itemize}
+
+    \item Control Flow
+    \begin{itemize}
+        \item \uniform{Uniform}: Branch taken by all lanes.
+        \item \varying{Divergent}: Branch taken by some lanes. Requires special handling (No SIMD branching)
     \end{itemize}
 \end{itemize}
 
