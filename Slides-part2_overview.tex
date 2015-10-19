@@ -88,20 +88,32 @@
     \begin{itemize}
         \item Chooses a 'good' width $N$ based on register/instruction usage
     \end{itemize}
+    
+    \item ...
 \end{itemize}
 
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}{IR vs MI: Advantages and Drawbacks}
+\begin{frame}{Implementation Level: IR or MI?}
 
 \begin{itemize}
     \item IR Level
-
-    \item MI level
     \begin{itemize}
-        \item (mention Marcello's talk)
+        \item (+) Use-def graph and RAUW make for straightforward transformations
+        \item (+) Easy to target multiple platforms
+        \item (?) Generally higher-level (simpler implementation?)
+        \item (-) Platform-specific features more difficult to use
+        \item (-) Predication only for select operations (select, load/stores)
+    \end{itemize}
+
+    \item MachineInstr level
+    \begin{itemize}
+        \item (+) Easy to use platform-specific features (e.g. predication, mask registers)
+        \item (?) Generally lower-level (more powerful?)
+        \item (-) More platform-specific code
+        \item (-) Graph-based transformations not as straightforward
     \end{itemize}
     
 \end{itemize}
@@ -130,4 +142,3 @@
 %\end{itemize}
 %
 %\end{frame}
-

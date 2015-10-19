@@ -58,7 +58,7 @@
 
 % title slide definition
 \title{Creating an SPMD Vectorizer for OpenCL with LLVM}
-\subtitle{LLVM 2015 tutorial}
+\subtitle{LLVM 2015 Tutorial}
 \author{Pierre-André Saulais}
 \institute{Codeplay Software \\ @codeplaysoft}
 
@@ -150,6 +150,9 @@
 
 \begin{itemize}
     \item Introduction to
+    \begin{itemize}
+        \item Create a basic vectorizer
+    \end{itemize}  
     \item Vectorizing
     \begin{itemize}
         \item Transform whole functions using LLVM
@@ -184,7 +187,7 @@
 \include{Slides-part2_overview}
 \include{Slides-part2_packetization}
 \include{Slides-part2_scalarization}
-\include{Slides-part2_control_flow}
+%\include{Slides-part2_control_flow}
 
 %\talkpart{3}{Going further}
 %\include{Slides-part3}
@@ -192,6 +195,20 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section*{Conclusion}
+
+\begin{frame}{References}
+
+\begin{itemize}
+    \item Automatic Packetization [Ralf Karrenberg, Saarland University '09]
+    \item Intel(R) OpenCL Implicit Vectorization Module [Nadav Rotem, LLVM '11]
+    \item Improving Performance of OpenCL on CPUs [Ralf Karrenberg et al., EuroLLVM '12]
+    \item Branching in Data-Parallel Languages using Prediction with LLVM [Marcello Maggioni, EuroLLVM '14]
+    \item Exploring the Design Space of SPMD Divergence Management on Data-Parallel Architectures [Yunsup Lee et al., MICRO '14]
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}{Summary}
 

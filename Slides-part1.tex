@@ -40,13 +40,13 @@
 \begin{frame}{Division of Work}
 
 \begin{itemize}
-    \item Work-item:
+    \item Work-item
     \begin{itemize}
         \item Unit of work
         \item One instance of a program
+        \item Executed in parallel by Execution Units (threads)
     \end{itemize}
-    \item Work-items executed in parallel by Execution Units (threads)
-    \item Dimensions
+    \item Work Dimensions
     \begin{itemize}
         \item 1D (array shape)
         \item 2D (grid shape)
@@ -117,13 +117,13 @@ kernel void calc_gpa(global *float result, global *int grades, global *float wei
 \begin{frame}{Vertical Vectorization}
 
 \begin{itemize}
-    \item Within a single work-item
+    \item Patterns within a single work-item
     \begin{itemize}
         \item e.g. loops within a kernel
         \item In our example, the weighted average computation
         \end{itemize}
-    \item Using the LLVM Loop Vectorizer
-    \item However, not all kernels contain loops
+    \item Using the LLVM Loop Vectorizer or SLP Vectorizer
+    \item However, not all kernels contain vectorizable patterns
 \end{itemize}
 
 \vspace{2ex}
@@ -186,8 +186,8 @@ kernel void calc_gpa(global *float result, global *int grades, global *float wei
     \item Work
     \begin{itemize}
         \item Work-item: unit of work to execute in parallel.
-        \item Instance: State of one work-item.
-        \item (SIMD) Lane: Execution of one instance, after vectorization.
+        \item Instance: Code and state associated with one work-item.
+        \item (SIMD) Lane: Execution of one instance of a vectorized kernel.
         \end{itemize}
         
     \item Data
