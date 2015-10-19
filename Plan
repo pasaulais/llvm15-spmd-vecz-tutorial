@@ -22,7 +22,7 @@ Part 1 Background (8 min, 8 slides)
 
 Part 2 Implementing a basic vectorizer (25 min)
     Overview (? min, 6 slides)
-    Packetization stage (? min, 13 slides)
+    Packetization stage (? min, 19 slides)
     Scalarization stage (? min, 4? slides)
     Control flow stage (? min, 10+? slides)
     
