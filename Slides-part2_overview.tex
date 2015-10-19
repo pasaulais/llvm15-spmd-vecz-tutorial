@@ -1,0 +1,133 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\talksection{Overview}
+
+\begin{frame}{SPMD Vectorizer}
+
+\begin{itemize}
+    \item Is used to vectorize a SPMD program's entry point function
+    \item Given a function $F$ and vectorization factor $N$, produces a function $VF_N$
+    \begin{itemize}
+        \item Calling $VF_N$ is like calling $F$, but $N$ times (on consecutive work-items)
+        \item $F$ and $VF_N$ have the same signature
+    \end{itemize}
+    
+    \item The original function can be preserved or not
+    \begin{itemize}
+        \item In-place: vectorize the original function, no need for cloning
+        \item Transform cloned function: allow vectorization to fail
+    \end{itemize}
+    
+    \item Vectorization may be allowed to fail
+    \begin{itemize}
+        \item On failure, the original function can be used 
+    \end{itemize}
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Structure}
+
+\begin{itemize}
+    \item Pipeline structure
+    \begin{itemize}
+        \item Function to vectorize is repeatedly transformed by different stages
+        \item Stages are independent from each other
+        \item Each stage consists of one or more IR passes
+        \item Most stages require some analysis
+    \end{itemize}
+    
+    \item The LLVM pass manager (both new and original) is a good fit here
+    \begin{itemize}
+        \item Most passes work at the function level
+        \item Access to the module is sometimes needed
+    \end{itemize}
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[c]{Stages}
+
+[Stage diagram with stages:\\ preparation, CFG conversion, scalarization, packetization, optimizations]
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Analyses}
+
+\begin{itemize}
+    \item Capture information about the IR to vectorize
+    \item May be invalidated after IR transformations
+    \item May depend on other analyses
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Analyses}
+
+\begin{itemize}
+    \item Uniform Value Analysis
+    \begin{itemize}
+        \item Marks values as either \uniform{uniform} or \varying{varying}
+    \end{itemize}
+
+    \item Control Flow Analysis
+    \begin{itemize}
+        \item Determines which basic blocks are \varying{divergent}
+        \item Builds a Control Dependency Graph
+    \end{itemize}
+    
+    \item SIMD Width Analysis
+    \begin{itemize}
+        \item Chooses a 'good' width $N$ based on register/instruction usage
+    \end{itemize}
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{IR vs MI: Advantages and Drawbacks}
+
+\begin{itemize}
+    \item IR Level
+
+    \item MI level
+    \begin{itemize}
+        \item (mention Marcello's talk)
+    \end{itemize}
+    
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\begin{frame}{Implementation strategy}
+%
+%% TODO: Skip slide?
+%\begin{itemize}
+%    \item Create test kernels
+%    \begin{itemize}
+%        \item Start with very simple kernels (e.g. copy buffer, add two buffers)
+%        \item Gradually add more features (e.g. non-sequential memory accesses, vector instructions, etc)
+%    \end{itemize}
+%
+%    
+%    \item Suggested implementation order
+%    \begin{itemize}
+%        \item Preparation and packetization first (required for simplest kernels)
+%        \item Then easier features: builtins, memory addressing, scalarization, instantiation
+%        \item More complex features last: control flow, optimizations
+%    \end{itemize}
+%\end{itemize}
+%
+%\end{frame}
+

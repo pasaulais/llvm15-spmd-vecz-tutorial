@@ -14,59 +14,16 @@
 
     Plan
     
-Part * Introduction (? min, 3 slides)
-Part 1 Background (10 min, 8 slides)
-- Execution Model (? min, 3 slides)
-- Vectorization (? min, 5 slides)
+Part * Introduction (3 min, 3 slides)
+Part 1 Background (9 min, 8 slides)
+    Execution Model (? min, 3 slides)
+    Vectorization (? min, 5 slides)
 
 Part 2 Implementing a basic vectorizer (25 min)
-    What level? IR or MI
-        Advantages and drawbacks of each approach
-        * IR
-        * MI -> mention Marcello's talk
-        
-    Structure
-        * Pipeline design (stages)
-            -> Each stage consists of one or more IR passes
-            
-        * Most stages require some analysis
-            -> May be run mulitple times as stages invalidate it
-
-    Stages
-        * Preparation
-        
-        * Control flow conversion
-        
-        * Scalarization        
-        
-        * Packetization and instantiation
-        
-        * Optimizations and cleanup
-    
-    Implementation strategy
-        * Create test kernels
-            -> Start with very simple kernels (e.g. copy buffer, add two buffers)
-            -> Gradually add more features (e.g. non-sequential memory accesses, vector instructions, etc)
-        * Suggested implementation order
-            -> Preparation and packetization first (required for simplest kernels)
-            -> Then easier features: builtins, memory addressing, scalarization, instantiation
-            -> More complex features last: control flow, optimizations
-    
-    
-    
-    Preparation
-    
-    Packetization
-    
-    Uniform value analysis
-    
-    Packetization: Phi nodes
-    
-    Memory addressing
-        * Uniform address -> scalar loads and stores
-        * Constant stride =1 -> vector laods and stores
-        * Constant stride >1 -> interleaved loads and stores
-        * Other -> gather loads, scatter stores
+    Overview (? min, 6 slides)
+    Packetization stage (? min, 13 slides)
+    Scalarization stage (? min, 4? slides)
+    Control flow stage (? min, 10+? slides)
     
     Instantiation
     
@@ -87,4 +44,4 @@ Part 3 Going further (10 min)
     
     SoA to AoS conversion
 
-* Conclusion (3 min)
+Part * Conclusion (3 min)
