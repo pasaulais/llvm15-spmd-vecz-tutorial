@@ -14,8 +14,9 @@
 
     Plan
     
-Part * Introduction (3 min, 3 slides)
-Part 1 Background (9 min, 8 slides)
+Part * Introduction (4 min, 3 slides)
+
+Part 1 Background (8 min, 8 slides)
     Execution Model (? min, 3 slides)
     Vectorization (? min, 5 slides)
 
@@ -25,20 +26,12 @@ Part 2 Implementing a basic vectorizer (25 min)
     Scalarization stage (? min, 4? slides)
     Control flow stage (? min, 10+? slides)
     
-    Instantiation
-    
-    Scalarization
-    
-    Control flow conversion: if
-    
-    Masked memory operations
-    
-    Control flow conversion: loops
-    
 Part 3 Going further (10 min)
     SIMD width detection
     
     Handling builtin function calls
+    
+    Instantiation
     
     Interleaved memory optimizations
     
