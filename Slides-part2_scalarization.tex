@@ -3,19 +3,18 @@
 \begin{frame}[fragile]{Scalarization Overview}
 
 \begin{itemize}
-    \item Eliminate uses of vector operations in the source function
+    \item Eliminates vector operations from the source function
     \item Vector types used likely to be narrower than the native SIMD width
     \item Combining scalarization with packetization
     \begin{itemize}
-        \item Allows leveraging the native SIMD width
+        \item Generate vector instructions with the native SIMD width
         \item Implicitely performs 'Structure-of-Arrays to Array-of-Structures' conversion
     \end{itemize}
-    \item Alternative is instantiating vector instructions $N$ times
-    \item Example: Extract left and right channel samples, scale by $\frac{1}{2}$
+    \item Alternative is instantiating vector instructions (and users) $N$ times
+    \item Example: Extract audio samples  from left and right channels, scale by $\frac{1}{2}$
 \end{itemize}
 
 \begin{codebox}[commandchars=\\\[\]]
-    
 global int2 \uniform[*src], int \uniform[*left], int \uniform[*right];
 int \varying[tid] = \varying[get_global_id(0)];
 int2 \varying[sample] = \uniform[src]\idx[\varying[tid]];
@@ -30,7 +29,7 @@ int2 \varying[sample] = \uniform[src]\idx[\varying[tid]];
 \begin{frame}{Scalarization Process}
 
 \begin{itemize}
-    \item Look for vector instructions
+    \item Look for vector \varying{varying} instructions such as:
     \begin{itemize}
         \item Leaves that define vector values, vector stores
         \item Vector extractions
@@ -41,6 +40,7 @@ int2 \varying[sample] = \uniform[src]\idx[\varying[tid]];
     \begin{itemize}
         \item Operands before instructions
         \item Re-create instructions for each vector element
+        \item Vector lane $\neq$ SIMD instance!
     \end{itemize}
     
 \end{itemize}
@@ -49,23 +49,15 @@ int2 \varying[sample] = \uniform[src]\idx[\varying[tid]];
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}{Scalarization Example}
+\begin{frame}[c]{Scalarization Example: Before}
 
-[ IR Graph Before ]
-
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{frame}{Scalarization Example}
-
-[ IR Graph Closeup ]
+\center{\includegraphics[scale=0.65]{images/scalarization-start.pdf}}
 
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}{Scalarization Example}
+\begin{frame}{Scalarization Example: After}
 
 [ IR Graph After ]
 
@@ -73,7 +65,7 @@ int2 \varying[sample] = \uniform[src]\idx[\varying[tid]];
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}[fragile]{Scalarization Example}
+\begin{frame}[fragile]{Scalarization Example: IR}
 
 Before Scalarization:
 \begin{codebox}
