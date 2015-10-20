@@ -18,8 +18,8 @@
 \usefonttheme{professionalfonts}
 \usepackage{unicode-math}
 \setmathfont{Cambria Math}
-\setmathfont[range={\mathit}]{Cambria Math}
-\setmathfont[range={\mathup}]{Cambria Math}
+%\setmathfont[range={\mathit}]{Cambria Math}
+%\setmathfont[range={\mathup}]{Cambria Math}
 
 % suppress navigation bar
 \beamertemplatenavigationsymbolsempty
@@ -29,9 +29,9 @@
   \usetheme{codeplay}
   \setbeamercovered{transparent}
   %\setbeamertemplate{itemize item}[circle]
-  \setbeamertemplate{itemize item}{\small\raise0.8pt\hbox{$\bullet$}}
+  \setbeamertemplate{itemize item}{\small\raise0.6pt\hbox{$\bullet$}}
   %\setbeamertemplate{itemize subitem}{\tiny\raise1.5pt\hbox{\donotcoloroutermaths$\blacktriangleright$}}
-  \setbeamertemplate{itemize subitem}{\tiny\raise1.5pt\hbox{$\blacktriangleright$}}
+  \setbeamertemplate{itemize subitem}{\small\raise0.1pt\hbox{\textcolor{uipaleorange}{\textendash}}}
   \setbeamertemplate{section in toc shaded}[default][100]
   \setbeamertemplate{subsection in toc shaded}[default][100]
 
@@ -58,7 +58,6 @@
 \definecolor{uipink}{RGB}{255,153,255}
 \definecolor{uipalegreen}{RGB}{153,255,153}
 \definecolor{uiorange}{RGB}{237,175,28}
-\hypersetup{colorlinks,urlcolor=uicyan,linkcolor=uiwhite}
 
 % title slide definition
 \title{Creating an SPMD Vectorizer for OpenCL with LLVM}
@@ -104,8 +103,6 @@
 \newcommand{\pointfor}[1]{\textbf{\codeemphb{+}}\hspace{0.5em}#1}
 \newcommand{\pointunkn}[1]{\textbf{?}\hspace{0.5em}#1}
 \newcommand{\pointagainst}[1]{\textbf{\codeempha{-}}\hspace{0.5em}#1}
-
-%\newcommand{\penguin}[0]{\includegraphics[width = 1em]{images/penguin.png}}
 
 \newcommand{\penguin}[0]{\animategraphics[loop,autoplay, width = 1.5em]{12}{images/penguins/penguin-}{0}{19}\hspace{0.1em}}
 \newcommand{\penguins}[0]{<\hspace{0.15em}\penguin, \penguin, \penguin, \penguin, \penguin, \penguin, \penguin, \penguin\hspace{0.1em}>}
