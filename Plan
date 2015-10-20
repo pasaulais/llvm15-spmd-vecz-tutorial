@@ -31,7 +31,5 @@ TODO
     Add some logos at the start (LLVM, OpenCL, CUDA)
     Remove the GPA example from the first part
     Improve Execution Model slides?
-    Packetization diagrams
-        Align the bottom nodes (store_4, add_4) and redraw some arrows to make it look nicer
     Improve the summary slide
         Move before references?
