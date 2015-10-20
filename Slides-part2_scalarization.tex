@@ -5,12 +5,12 @@
 \begin{itemize}
     \item Eliminates vector operations from the source function
     \item Vector types used likely to be narrower than the native SIMD width
-    \item Combining scalarization with packetization
+    \item To be combined with packetization
     \begin{itemize}
         \item Generate vector instructions with the native SIMD width
-        \item Implicitely performs 'Structure-of-Arrays to Array-of-Structures' conversion
+        %\item Implicitely performs 'Structure-of-Arrays to Array-of-Structures' conversion
     \end{itemize}
-    \item Alternative is instantiating vector instructions (and users) $N$ times
+    %\item Alternative is instantiating vector instructions (and users) $N$ times
     \item Example: Extract audio samples  from left and right channels, scale by $\frac{1}{2}$
 \end{itemize}
 
@@ -26,46 +26,46 @@ int2 \varying[sample] = \uniform[src]\idx[\varying[tid]];
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}{Scalarization Process}
-
-\begin{itemize}
-    \item Look for vector \varying{varying} instructions such as:
-    \begin{itemize}
-        \item Leaves that define vector values, vector stores
-        \item Vector extractions
-        \item Vector -> scalar bitcasts
-    \end{itemize}
-    
-    \item Recursively scalarize until we reach a scalar value
-    \begin{itemize}
-        \item Operands before instructions
-        \item Re-create instructions for each vector element
-        \item Vector lane $\neq$ SIMD instance!
-    \end{itemize}
-    
-\end{itemize}
-
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{frame}[c]{Scalarization Example: Before}
-
-\center{\includegraphics[scale=0.65]{images/scalarization-start.pdf}}
-
-\end{frame}
+%\begin{frame}{Scalarization Process}
+%
+%\begin{itemize}
+%    \item Look for vector \varying{varying} instructions such as:
+%    \begin{itemize}
+%        \item Leaves that define vector values, vector stores
+%        \item Vector extractions
+%        \item Vector -> scalar bitcasts
+%    \end{itemize}
+%    
+%    \item Recursively scalarize until we reach a scalar value
+%    \begin{itemize}
+%        \item Operands before instructions
+%        \item Re-create instructions for each vector element
+%        \item Vector lane $\neq$ SIMD instance!
+%    \end{itemize}
+%    
+%\end{itemize}
+%
+%\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}{Scalarization Example: After}
-
-\center{\includegraphics[scale=0.65]{images/scalarization-end.pdf}}
-
-\end{frame}
+%\begin{frame}[c]{Scalarization Example: Before}
+%
+%\center{\includegraphics[scale=0.65]{images/scalarization-start.pdf}}
+%
+%\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}[fragile]{Scalarization Example: IR}
+%\begin{frame}{Scalarization Example: After}
+%
+%\center{\includegraphics[scale=0.65]{images/scalarization-end.pdf}}
+%
+%\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[fragile]{Scalarization Example}
 
 Before Scalarization:
 \begin{codebox}
