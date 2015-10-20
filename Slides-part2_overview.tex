@@ -31,12 +31,18 @@
 \begin{frame}{Structure}
 
 \begin{itemize}
-    \item Pipeline structure
+    \item Pipeline design
     \begin{itemize}
-        \item Function to vectorize is repeatedly transformed by different stages
+        \item $F$ is repeatedly transformed by different stages
         \item Stages are independent from each other
         \item Each stage consists of one or more IR passes
         \item Most stages require some analysis
+    \end{itemize}
+    \item Analyses
+    \begin{itemize}
+        \item Capture information about the IR to vectorize
+        \item May need updating after a stage (stale information)
+        \item May depend on other analyses
     \end{itemize}
 \end{itemize}
 
@@ -46,19 +52,7 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}{Analyses}
-
-\begin{itemize}
-    \item Capture information about the IR to vectorize
-    \item May be invalidated after IR transformations
-    \item May depend on other analyses
-\end{itemize}
-
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{frame}{Analyses}
+\begin{frame}{Analysis Examples}
 
 \begin{itemize}
     \item Uniform Value Analysis
@@ -89,19 +83,19 @@
 \begin{itemize}
     \item IR Level
     \begin{itemize}
-        \item (+) Use-def graph and RAUW make for straightforward transformations
-        \item (+) Easy to target multiple platforms
-        \item (?) Generally higher-level (simpler implementation?)
-        \item (-) Platform-specific features more difficult to use
-        \item (-) Predication only for select operations (select, load/stores)
+        \item \pointfor{Use-def graph and \texttt{RAUW} make for straightforward transformations}
+        \item \pointfor{Easy to target multiple platforms}
+        \item \pointunkn{Generally higher-level (simpler implementation?)}
+        \item \pointagainst{Platform-specific features more difficult to use}
+        \item \pointagainst{Predication only for select operations (select, load/stores)}
     \end{itemize}
 
     \item MachineInstr level
     \begin{itemize}
-        \item (+) Easy to use platform-specific features (e.g. predication, mask registers)
-        \item (?) Generally lower-level (more powerful?)
-        \item (-) More platform-specific code
-        \item (-) Graph-based transformations not as straightforward
+        \item \pointfor{Easy to use platform-specific features (e.g. predication, mask registers)}
+        \item \pointunkn{Generally lower-level (more powerful?)}
+        \item \pointagainst{More platform-specific code}
+        \item \pointagainst{Graph-based transformations not as straightforward}
     \end{itemize}
     
 \end{itemize}

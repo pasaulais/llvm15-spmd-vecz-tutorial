@@ -21,7 +21,7 @@ Part 1 Background (8 min, 7 slides) goal 6 min
     Vectorization (? min, 4 slides)
 
 Part 2 Implementing a basic vectorizer (25 min) goal 33 min
-    Overview (? min, 5 slides) goal 5 min
+    Overview (? min, 4 slides) goal 5 min
     Packetization stage (? min, 18 slides) goal 15 min
     Scalarization stage (? min, 2 slides) goal 3 min
     Control flow stage (? min, 10+? slides) goal 10 min
