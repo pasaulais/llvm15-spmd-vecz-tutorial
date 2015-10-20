@@ -163,17 +163,17 @@
     \item Vectorizing
     \begin{itemize}
         \item Transform whole functions using LLVM
-        \item "Horizontal" vectorization
+        \item "Horizontal" vectorization (not loop-based)
     \end{itemize}  
     \item SPMD (Single Program, Multiple Data) Kernels
     \begin{itemize}
         \item Data-parallel execution model
         \item Used with compute frameworks like OpenCL and CUDA
     \end{itemize}
-    \item for CPU-like processors, i.e. each core has
+    \item for CPUs, DSPs
     \begin{itemize}
-        \item A program counter
-        \item Vector SIMD unit(s)
+        \item Explicitely programmed vector SIMD unit(s)
+        \item Can execute both scalar and SIMD instructions
     \end{itemize}
 \end{itemize}
 
@@ -207,9 +207,10 @@
 
 \begin{itemize}
     \item Automatic Packetization [Ralf Karrenberg, Saarland University '09]
+    \item Whole-Function Vectorization (Ralf Karrenberg, Sebastian Hack, CGO '11)
     \item Intel(R) OpenCL Implicit Vectorization Module [Nadav Rotem, LLVM '11]
-    \item Improving Performance of OpenCL on CPUs [Ralf Karrenberg et al., EuroLLVM '12]
-    \item Branching in Data-Parallel Languages using Prediction with LLVM [Marcello Maggioni, EuroLLVM '14]
+    %\item Improving Performance of OpenCL on CPUs [Ralf Karrenberg et al., EuroLLVM '12]
+    \item Branching in Data-Parallel Languages using Predication with LLVM [Marcello Maggioni, EuroLLVM '14]
     \item Exploring the Design Space of SPMD Divergence Management on Data-Parallel Architectures [Yunsup Lee et al., MICRO '14]
 \end{itemize}
 
@@ -239,7 +240,7 @@
     \item ...
     \item Happy vectorizing!
     \begin{itemize}
-        \item \penguins
+        \item \penguin $\rightarrow$ \penguins
     \end{itemize}
 \end{itemize}
 
