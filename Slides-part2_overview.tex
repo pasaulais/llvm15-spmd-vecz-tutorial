@@ -2,42 +2,6 @@
 
 \talksection{Overview}
 
-\begin{frame}{SPMD Vectorizer}
-
-\begin{minipage}[t]{0.45\linewidth}
-
-\begin{itemize}
-    \item Is used to vectorize a SPMD program's entry point function
-    \item Given a function $F$ and vectorization factor $N$, produces a function $VF_N$
-    \begin{itemize}
-        \item Calling $VF_N$ is like calling $F$, but $N$ times (on consecutive work-items)
-        \item $F$ and $VF_N$ have the same signature
-    \end{itemize}
-    
-    \item The original function can be preserved (cloned) or not (in-place vectorization)
-    \begin{itemize}
-        \item Working on cloned function allows vectorization to fail gracefully
-    \end{itemize}
-    
-    %\item Vectorization may be allowed to fail
-    %\begin{itemize}
-    %    \item On failure, the original function can be used 
-    %\end{itemize}
-\end{itemize}
-
-\end{minipage}
-\hspace{1em}
-\begin{minipage}[t]{0.48\linewidth}
-
-\vspace{0.1ex}
-\center{\includegraphics[width=\textwidth]{images/F-vs-VFn.pdf}}
-
-\end{minipage}
-
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \begin{frame}{Structure}
 
 \begin{itemize}

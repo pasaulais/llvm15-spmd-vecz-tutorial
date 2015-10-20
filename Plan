@@ -16,17 +16,17 @@
     
 Part * Introduction (4 min, 3 slides) goal 3 min
 
-Part 1 Background (8 min, 7 slides) goal 6 min
+Part 1 Background (8 min, 8 slides) goal 8 min
     Execution Model (? min, 3 slides)
-    Vectorization (? min, 4 slides)
+    Vectorization (? min, 5 slides)
 
-Part 2 Implementing a basic vectorizer (25 min) goal 33 min
-    Overview (? min, 4 slides) goal 5 min
+Part 2 Implementing a basic vectorizer (25 min) goal 32 min
+    Overview (? min, 3 slides) goal 4 min
     Packetization stage (? min, 18 slides) goal 15 min
     Scalarization stage (? min, 2 slides) goal 3 min
     Control flow stage (? min, 10+? slides) goal 10 min
     
-Part 3 Going further (10 min) goal 5 min
+Part 3 Going further (? min) goal 5 min
     SIMD width detection
     
     Handling builtin function calls
@@ -37,4 +37,4 @@ Part 3 Going further (10 min) goal 5 min
     
     SoA to AoS conversion
 
-Part * Conclusion (3 min) goal 3 min
+Part * Conclusion (3 min) goal 2 min
