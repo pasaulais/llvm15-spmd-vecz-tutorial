@@ -150,33 +150,33 @@ kernel void calc_gpa(global *float result, global *int grades, global *float wei
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}{Vectorizer Comparison}
-
-\begin{itemize}
-    \item Loop Vectorizer
-    \begin{itemize}
-        \item Can be used for both vertical and horizontal vectorization
-        \item Has to enforce dependencies between loop iterations
-        \item Execution order is not specified, this is not needed
-        \item Nested control-flow?
-    \end{itemize}
-
-    \item SLP Vectorizer
-    \begin{itemize}
-        \item Finds groups of similar scalar instructions (same opcode)
-        \item Vertical vectorization
-        \item Not all kernels contain this kind of code
-    \end{itemize}
-
-    \item SPMD Vectorizer
-    \begin{itemize}
-        \item Only supports horizontal vectorization
-        \item Nested control-flow
-        \item Not limited to a certain 'style' of code
-    \end{itemize}
-\end{itemize}
-
-\end{frame}
+%\begin{frame}{Vectorizer Comparison}
+%
+%\begin{itemize}
+%    \item Loop Vectorizer
+%    \begin{itemize}
+%        \item Can be used for both vertical and horizontal vectorization
+%        \item Has to enforce dependencies between loop iterations
+%        \item Execution order is not specified, this is not needed
+%        \item Nested control-flow?
+%    \end{itemize}
+%
+%    \item SLP Vectorizer
+%    \begin{itemize}
+%        \item Finds groups of similar scalar instructions (same opcode)
+%        \item Vertical vectorization
+%        \item Not all kernels contain this kind of code
+%    \end{itemize}
+%
+%    \item SPMD Vectorizer
+%    \begin{itemize}
+%        \item Only supports horizontal vectorization
+%        \item Nested control-flow
+%        \item Not limited to a certain 'style' of code
+%    \end{itemize}
+%\end{itemize}
+%
+%\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

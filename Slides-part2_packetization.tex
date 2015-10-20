@@ -336,7 +336,7 @@ int \varying[x] = \uniform[src]\idx[\uniform[map]\idx[\varying[tid]]];
 
 \begin{frame}[c]{Packetization Example}
 
-\center{\includegraphics[scale=0.6]{images/packetization-4.pdf}}
+\center{\includegraphics[scale=0.55]{images/packetization-4.pdf}}
 
 \end{frame}
 
@@ -365,24 +365,5 @@ entry:
   ret void
 }
 \end{codebox}
-
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{frame}[fragile]{Packetizing Phi nodes}
-
-\begin{itemize}
-    \item Phi nodes can introduce cycles in the use/def graph
-    \begin{itemize}
-        \item Phi operands that reference the same phi
-        \item Example: reduction variables
-    \end{itemize}
-    \item Break the cycle by creating 'empty' phi nodes
-    \item Packetize operands of phi nodes after leaves have been packetized
-\end{itemize}
-
-\vspace{2ex}
-\hspace{1em}\includegraphics[scale=0.5]{images/phi-packetization.pdf}
 
 \end{frame}
