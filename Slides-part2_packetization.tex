@@ -5,8 +5,7 @@
 \begin{itemize}
     \item Stage that does the actual vectorization: $<F, N> \rightarrow VF_N$
     \begin{itemize}
-        \item Needs a vectorization factor $N$ (SIMD width)
-        \item Calling $VF_N$ is like calling $F$, but $N$ times
+        \item Calling $VF_N$ is like calling $F$, but $N$ times ($N$: SIMD width)
         \item Straightforward thanks to preparation from previous stages
     \end{itemize}
     
@@ -14,7 +13,7 @@
     \begin{itemize}
         \item Instructions that define a value: define $N$ values, one for each instance
         \item Instructions with side effects: perform side effects for each instance
-        \item New instruction has the same opcode but different types
+        %\item New instruction has the same opcode but different types
     \end{itemize}
     
     \item Only \varying{varying} instructions need packetization
@@ -24,6 +23,8 @@
     \end{itemize}
     
 \end{itemize}
+
+\center{\includegraphics[scale=0.45]{images/stages-packet.pdf}}
 
 \end{frame}
 
