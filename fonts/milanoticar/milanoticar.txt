@@ -1,0 +1,93 @@
+Milanotica Regular
+
+by Vít Èondák 
+2012-2014
+
+http://fonty.condak.cz
+
+En Cz Sk De Fr Pl Gr
+
+[ English License ]
+
+Free for personal or non-commercial use.
+In case you want to use the font for a commercial project please contact me to buy a license.
+
+If you think something in this font doesn't feel right please contact me.
+
+
+[ Èeská licence ]
+
+Zdarma pro osobní a nekomerèní užití.
+V pøípadì, že chcete font použít pro komerèní úèely, je nutné mì kontaktovat a koupit si licenci.
+
+Pokud ve fontu objevíte nìco, co by bylo vhodné opravit nebo doladit, tak mì prosím kontaktujte.
+
+---
+
+History
+
+0.984	2014-02-22
+	* modified: divide semicolon
+
+0.983	2014-02-18
+	+ fraction 1/4 1/2 3/4
+	* tweaked: 125789 paragraph @	
+
+0.982	2014-02-13
+	* spacing: F Gamma
+	* position: :;
+
+0.981	2014-02-12
+	* spacing: APW
+
+0.980	2014-02-11
+	* modified: AS ax Eth
+	+ guilsingle, guillemots, perthousand
+	+ tonos+...
+	* complete Greek alphabet
+	+ kerning: Po, re, ..
+
+0.979	2014-02-10
+	+ incomplete small Greek letters
+	+ macron
+
+0.978	2014-02-10
+	* modified: ()[] dieresis
+	* unified acutes, carons, etc.
+	+ many letters with circumflex
+	+ basic Greek capitol letters
+
+0.977	2014-02-06
+	+ germandbls, Aring, Ecircumflex, Icircumflex
+	* tweaked: dieresis
+
+0.976	2014-01-11
+	+ kerning: 7, 7.
+	+ daggerdbl, dstroke
+	* modifikace: !#*Rp
+
+0.975	2014-01-10
+	* unified stroke thickness to 110
+	+ tilde, Ntilde, ntilde, Dstroke, alfa, omega
+
+0.974	2014-01-08
+	* Regular = Medium + thin(25,25)
+	* fixed intersections etc.
+
+0.973	2013-12-14
+	* modifed shape: 01245789 FS
+	+ kerning: F., P. T., V., W., Y.,
+
+0.972	2013-07-07
+	* modified shape: f
+
+0.97	2012-12-04
+	* various tweaks
+
+0.96	2012-11-26
+	* modifed shape: 0123456789 PV gpqu
+	+ kerning: rd iv va
+
+0.95	2012-11-01
+	* changed position: acutes, carons, etc. )
+	* modified shape: BCEHJLU dijklprs

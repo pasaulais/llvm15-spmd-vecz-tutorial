@@ -1,0 +1,189 @@
+Gunny Manual
+Regular / Medium / Light
+
+by Vít Èondák
+2010-2015
+
+Mail:	gunny(a)post.cz
+Web:	fonty.condak.cz
+FB:	facebook.com/GunnyHandwritingFont
+
+En Cz Sk Pl Fr De Gr
+
+[ English description ]
+
+Font sketched with a thick felt pen.
+
+
+[ Èeský popis ]
+
+Font naèrtnutý tlustým fixem.
+
+
+[ English License ]
+
+Free for personal or non-commercial use.
+In case you want to use the font for a commercial project please contact me to buy a license.
+
+If you think something in this font doesn't feel right please contact me.
+
+
+[ Èeská licence ]
+
+Zdarma pro osobní a nekomerèní užití.
+V pøípadì, že chcete font použít pro komerèní úèely, je nutné mì kontaktovat a koupit si licenci.
+
+Pokud ve fontu objevíte nìco, co by bylo vhodné opravit nebo doladit, tak mì prosím kontaktujte.
+
+
+---
+
+History
+
+0.36	2015-05-05
+	* margins: XYZ
+	* .
+	+ cyrillic: ABVGIMNOPRCTU
+
+0.35	2015-05-02
+	* Medium: merge
+	* Medium - various minor tweaks
+	* Regular - various minor tweaks
+	+ lessequal greaterequal
+
+0.34	2015-04-30
+	* Light: fixed margins
+	* Light: fixed A, Lambda
+	* elipsis
+
+0.33	2015-04-29
+	* Light = thin 30
+	* Light: merge
+	* Light: notequal Lira
+
+0.32	2015-04-26
+	* EFS gry (R) AE 
+	+ eth psi delta Psi
+	* rho Sigma Epsilon theta
+	* kerning: T+... Tcaron+...
+	* fixed margins: y+... j W+..
+
+0.31	2015-04-27
+	* []* EF ouy 
+	* section guillemots second minute
+	+ zeta chi phi Phi
+	* pi epsilon Xi Epsilon Gamma beta
+	+ kerning: Gamma+...
+
+0.30	2015-04-24
+	* Q m
+	* eta theta Omega omega pi Gamma mu
+	* margins: af
+	+ product summa chi beta epsilon lambda
+
+0.29	2015-04-23
+	* p !%°() Euro
+	+ Thorn thorn alpha Pi pi Omega omega
+	+ Hh+caron middot perth integral
+	+ kerning: +ït
+	* tweaked margins
+
+0.28	2015-04-22
+	* QVW p ?%${}
+	+ pound mu tau franc lira
+	+ KkGg+caron Zz-bar
+
+0.27	2015-04-21
+	* 80 ;<>
+	+ Sigma
+
+0.26	2015-04-17
+	* @ BDEFJKLMNOSZ gfkoz lslash germandbls dashes
+	+ (C)
+	* margins: "' quotes
+	* descender +50
+
+0.25	2015-04-16
+	* bfhkz U
+	+ 0-9superior fractions ordmas ordfem
+	+ kappa germandbls AE
+
+0.24	2015-04-15
+	* "#&+*, nosuw
+	+ quotes... +combiningcommabelow
+	+ AaIiOoUu+caron
+	+ eta sigma1 sigma2
+
+0.23	2015-04-14
+	* 679 uv multiply
+	+ Delta gamma upsilon +iotadieresis
+	+ kerning: ïk
+
+0.22	2015-04-13
+	* 56
+
+0.21	2015-04-10
+	* 689 B er &
+	* hand-tuned margins
+	+ Lambda
+
+0.20	2015-04-08
+	* 2 CHKNOTXZ ctx /
+	+ +breve dlt+commaright Ll+slash HTt-bar
+	+ bullet bulletempty currency cent yen
+
+0.19	2015-04-07
+	* S abdjlq ^~ +cedilla
+	+ Greek duplicates (ABEZ...)
+
+0.18	2015-04-03
+	* EFHJLPYZ
+
+0.17	2015-04-01
+	* ! 01234 adio +ogonek +macron
+
+0.16	2014-07-15
+	* 5 GIKLNRU agpy
+	+ OE oe
+
+0.15	2014-07-14
+	* ABCDEFHIJSU dfirt
+
+0.14	2014-07-11
+	* 2 EHJK
+
+0.13	2014-05-12
+	* D
+
+0.12	2014-05-07
+	* 12 P lostuz
+
+0.11	2014-05-01
+	* AC
+
+0.10	2014-04-30
+	* &- 49 :; OR tu hungarumlaut
+
+0.09	2014-04-29
+	* 08 ? BOPTV h \|
+
+0.08	2014-04-27
+	* acute breve caron +combinations
+
+0.06	2014-04-26
+	* 
+
+0.04	2014-04-25
+	* reimported with less vertices
+
+0.03	2010-08-08
+	+ A..N
+
+0.02	2010-08-06
+	+ all small letters
+
+0.00	2010-08-04
+	+ imported most small letters
+
+xx	2010-08-02
+	* paper sketch
