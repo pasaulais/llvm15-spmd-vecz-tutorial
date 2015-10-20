@@ -3,7 +3,7 @@
 \begin{frame}{Packetization Overview}
 
 \begin{itemize}
-    \item Stage that does the actual vectorization: $<F, N> \rightarrow VF_N$
+    \item Stage that does the actual vectorization: $ F \xrightarrow{N} VF_N$
     \begin{itemize}
         \item Calling $VF_N$ is like calling $F$, but $N$ times ($N$: SIMD width)
         \item Straightforward thanks to preparation from previous stages

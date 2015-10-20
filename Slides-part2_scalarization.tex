@@ -64,7 +64,7 @@
 \begin{frame}[fragile]{Scalarization Example}
 
 \begin{itemize}
-    \item Example: Extract audio samples from left and right channels, scale by $\frac{1}{2}$
+    \item Example: Extract audio samples from left and right channels, scale by 2
     \item Scalarizing $n$-element loads and stores introduces a stride of $n$
     \begin{itemize}
         \item Results in interleaved loads and stores after packetization
@@ -83,8 +83,8 @@ int \varying[tid] = \varying[get_global_id(0)];
 int2 \varying[sample] = \uniform[src]\idx[\varying[tid]];
 
 
-\uniform[left]\idx[\varying[tid]] = (\varying[sample.x] >> \uniform[1]);
-\uniform[right]\idx[\varying[tid]] = (\varying[sample.y] >> \uniform[1]);
+\uniform[left]\idx[\varying[tid]] = (\varying[sample.x] << \uniform[1]);
+\uniform[right]\idx[\varying[tid]] = (\varying[sample.y] << \uniform[1]);
 \end{codebox}
 
 \end{minipage}
@@ -101,8 +101,8 @@ global int \uniform[*srcScalar] = ((int *)\uniform[src]);
 int \varying[sampleLeft] = \uniform[srcScalar]\idx[(\varying[tid] * \uniform[2]) + \uniform[0]];
 int \varying[sampleRight] = \uniform[srcScalar]\idx[(\varying[tid] * \uniform[2]) + \uniform[1]];
 
-\uniform[left]\idx[\varying[tid]] = (\varying[sampleLeft] >> \uniform[1]);
-\uniform[right]\idx[\varying[tid]] = (\varying[sampleRight] >> \uniform[1]);
+\uniform[left]\idx[\varying[tid]] = (\varying[sampleLeft] << \uniform[1]);
+\uniform[right]\idx[\varying[tid]] = (\varying[sampleRight] << \uniform[1]);
 \end{codebox}
 %int \varying[sampleLeft] = ((int *)&\uniform[src]\idx[\varying[tid]])\idx[\uniform[0]];
 
