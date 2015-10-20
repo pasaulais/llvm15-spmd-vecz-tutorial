@@ -56,21 +56,17 @@
 
 \begin{itemize}
     \item IR Level
-    \begin{itemize}
-        \item \pointfor{Use-def graph and \texttt{RAUW} make for straightforward transformations}
-        \item \pointfor{Easy to target multiple platforms}
-        \item \pointunkn{Generally higher-level (simpler implementation?)}
-        \item \pointagainst{Platform-specific features more difficult to use}
-        \item \pointagainst{Predication only for select operations (select, load/stores)}
-    \end{itemize}
+        \\ \pointfor{Use-def graph and \texttt{RAUW} make for straightforward transformations}
+        \\ \pointfor{Easy to target multiple platforms}
+        \\ \pointunkn{Generally higher-level (simpler implementation?)}
+        \\ \pointagainst{Platform-specific features more difficult to use}
+        \\ \pointagainst{Predication only for select operations (select, load/stores)}
 
     \item MachineInstr level
-    \begin{itemize}
-        \item \pointfor{Easy to use platform-specific features (e.g. predication, mask registers)}
-        \item \pointunkn{Generally lower-level (more powerful?)}
-        \item \pointagainst{More platform-specific code}
-        \item \pointagainst{Graph-based transformations not as straightforward}
-    \end{itemize}
+        \\ \pointfor{Easy to use platform-specific features (e.g. predication, mask registers)}
+        \\ \pointunkn{Generally lower-level (more powerful?)}
+        \\ \pointagainst{More platform-specific code}
+        \\ \pointagainst{Graph-based transformations not as straightforward}
     
 \end{itemize}
 
