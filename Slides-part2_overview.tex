@@ -55,14 +55,14 @@
 \begin{frame}{Implementation Level: IR or MI?}
 
 \begin{itemize}
-    \item IR Level
-        \\ \pointfor{Use-def graph and \texttt{RAUW} make for straightforward transformations}
+    \item IR
+        \\ \pointfor{Use-def graph and RAUW make for straightforward transformations}
         \\ \pointfor{Easy to target multiple platforms}
         \\ \pointunkn{Generally higher-level (simpler implementation?)}
         \\ \pointagainst{Platform-specific features more difficult to use}
-        \\ \pointagainst{Predication only for select operations (select, load/stores)}
+        \\ \pointagainst{SIMD predication only for a few operations (select, load/stores)}
 
-    \item MachineInstr level
+    \item MachineInstr (i.e. backend level)
         \\ \pointfor{Easy to use platform-specific features (e.g. predication, mask registers)}
         \\ \pointunkn{Generally lower-level (more powerful?)}
         \\ \pointagainst{More platform-specific code}

@@ -229,7 +229,7 @@ kernel void calc_gpa(global *float result, global *int grades, global *float wei
         
     \item Data
     \begin{itemize}
-        \item Packet: Contains several values/instructions, one per SIMD lane. Corresponds to one value/instruction in the original kernel.
+        \item Packet: Contains several values, one per SIMD lane. Maps to one value or instruction in the original kernel. Usually a vector instruction.
         \item \uniform{Uniform}: Packet where values are identical for all lanes.
         \item \varying{Varying}: Packet where values are not identical for all lanes.
         \end{itemize}
@@ -237,7 +237,7 @@ kernel void calc_gpa(global *float result, global *int grades, global *float wei
     \item Control Flow
     \begin{itemize}
         \item \uniform{Uniform}: Branch taken by all lanes.
-        \item \varying{Divergent}: Branch taken by some lanes. Requires special handling (No SIMD branching)
+        \item \varying{Divergent}: Conditional branch taken by only some lanes.
     \end{itemize}
 \end{itemize}
 
