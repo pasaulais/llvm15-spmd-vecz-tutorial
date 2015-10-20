@@ -12,17 +12,21 @@
         \item $F$ and $VF_N$ have the same signature
     \end{itemize}
     
-    \item The original function can be preserved or not
+    \item The original function can be preserved (cloned) or not (in-place)
     \begin{itemize}
-        \item In-place: vectorize the original function, no need for cloning
-        \item Transform cloned function: allow vectorization to fail
+        \item Working on cloned function allows vectorization to fail gracefully
     \end{itemize}
     
-    \item Vectorization may be allowed to fail
-    \begin{itemize}
-        \item On failure, the original function can be used 
-    \end{itemize}
+    %\item Vectorization may be allowed to fail
+    %\begin{itemize}
+    %    \item On failure, the original function can be used 
+    %\end{itemize}
 \end{itemize}
+
+%\vspace{1.6ex}
+%\hspace{1em}
+\vspace{-1.0ex}
+\center{\includegraphics[scale=0.5]{images/F-vs-VFn.pdf}}
 
 \end{frame}
 
