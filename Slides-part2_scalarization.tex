@@ -10,17 +10,11 @@
         \item Generate vector instructions with the native SIMD width
         %\item Implicitely performs 'Structure-of-Arrays to Array-of-Structures' conversion
     \end{itemize}
+    \item On its own, does not change the the behaviour of the code
     %\item Alternative is instantiating vector instructions (and users) $N$ times
-    \item Example: Extract audio samples  from left and right channels, scale by $\frac{1}{2}$
 \end{itemize}
 
-\begin{codebox}[commandchars=\\\[\]]
-global int2 \uniform[*src], int \uniform[*left], int \uniform[*right];
-int \varying[tid] = \varying[get_global_id(0)];
-int2 \varying[sample] = \uniform[src]\idx[\varying[tid]];
-\uniform[left]\idx[\varying[tid]] = (\varying[sample.x] >> \uniform[1]);
-\uniform[right]\idx[\varying[tid]] = (\varying[sample.y] >> \uniform[1]);
-\end{codebox}
+\center{\includegraphics[scale=0.45]{images/stages.pdf}}
 
 \end{frame}
 
@@ -67,53 +61,77 @@ int2 \varying[sample] = \uniform[src]\idx[\varying[tid]];
 
 \begin{frame}[fragile]{Scalarization Example}
 
-Before Scalarization:
-\begin{codebox}
-kernel void extract_lr(global int2 *src, global int *left, global int *right) {
-    int tid = get_global_id(0);
-    int2 sample = src[tid];
-    left[tid] = (sample.x >> 1);
-    right[tid] = (sample.y >> 1);
-}
+\begin{itemize}
+    \item Example: Extract audio samples from left and right channels, scale by $\frac{1}{2}$
+    \item Scalarizing $n$-element loads and stores introduces a stride of $n$
+    \begin{itemize}
+        \item Results in interleaved loads and stores after packetization
+    \end{itemize}
+\end{itemize}
+
+\begin{minipage}[t]{0.45\linewidth}
+
+\vspace{0.1ex}
+Before Scalarization (fragment):
+\begin{codebox}[commandchars=\\\[\]]
+global int2 \uniform[*src], int \uniform[*left], int \uniform[*right];
+int \varying[tid] = \varying[get_global_id(0)];
+
+
+int2 \varying[sample] = \uniform[src]\idx[\varying[tid]];
+
+
+\uniform[left]\idx[\varying[tid]] = (\varying[sample.x] >> \uniform[1]);
+\uniform[right]\idx[\varying[tid]] = (\varying[sample.y] >> \uniform[1]);
 \end{codebox}
 
-After Scalarization:
-\begin{codebox}
-kernel void extract_lr(global int2 *src, global int *left, global int *right) {
-    int tid = get_global_id(0);
-    int sampleLeft = *((int *)&src[tid] + 0);
-    int sampleRight = *((int *)&src[tid] + 1);
-    left[tid] = (sampleLeft >> 1);
-    right[tid] = (sampleRight >> 1);
-}
+\end{minipage}
+\hspace{1em}
+\begin{minipage}[t]{0.49\linewidth}
+
+\vspace{0.1ex}
+After Scalarization (reconstructed):
+\begin{codebox}[commandchars=\\\[\]]
+global int2 \uniform[*src], int \uniform[*left], int \uniform[*right];
+int \varying[tid] = \varying[get_global_id(0)];
+
+global int \uniform[*srcScalar] = ((int *)\uniform[src]);
+int \varying[sampleLeft] = \uniform[srcScalar]\idx[(\varying[tid] * \uniform[2]) + \uniform[0]];
+int \varying[sampleRight] = \uniform[srcScalar]\idx[(\varying[tid] * \uniform[2]) + \uniform[1]];
+
+\uniform[left]\idx[\varying[tid]] = (\varying[sampleLeft] >> \uniform[1]);
+\uniform[right]\idx[\varying[tid]] = (\varying[sampleRight] >> \uniform[1]);
 \end{codebox}
+%int \varying[sampleLeft] = ((int *)&\uniform[src]\idx[\varying[tid]])\idx[\uniform[0]];
+
+\end{minipage}
 
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}[fragile]{Scalarization Example}
-
-After Scalarization:
-\begin{codebox}
-kernel void extract_lr(global int2 *src, global int *left, global int *right) {
-    int tid = get_global_id(0);
-    int sampleLeft = *((int *)&src[tid] + 0);
-    int sampleRight = *((int *)&src[tid] + 1);
-    left[tid] = (sampleLeft >> 1);
-    right[tid] = (sampleRight >> 1);
-}
-\end{codebox}
-
-After Packetization:
-\begin{codebox}
-kernel void extract_lr(global int2 *src, global int *left, global int *right) {
-    int tid = get_global_id(0);
-    int4 samplesLeft  = interleaved_load_int4((int *)&src[tid] + 0, 2);
-    int4 samplesRight = interleaved_load_int4((int *)&src[tid] + 1, 2);
-    ((int4 *)left)[tid / 4] = (samplesLeft >> 1);
-    ((int4 *)right)[tid / 4] = (samplesRight >> 1);
-}
-\end{codebox}
-
-\end{frame}
+%\begin{frame}[fragile]{Scalarization Example}
+%
+%After Scalarization:
+%\begin{codebox}
+%kernel void extract_lr(global int2 *src, global int *left, global int *right) {
+%    int tid = get_global_id(0);
+%    int sampleLeft = *((int *)&src[tid] + 0);
+%    int sampleRight = *((int *)&src[tid] + 1);
+%    left[tid] = (sampleLeft >> 1);
+%    right[tid] = (sampleRight >> 1);
+%}
+%\end{codebox}
+%
+%After Packetization:
+%\begin{codebox}
+%kernel void extract_lr(global int2 *src, global int *left, global int *right) {
+%    int tid = get_global_id(0);
+%    int4 samplesLeft  = interleaved_load_int4((int *)&src[tid] + 0, 2);
+%    int4 samplesRight = interleaved_load_int4((int *)&src[tid] + 1, 2);
+%    ((int4 *)left)[tid / 4] = (samplesLeft >> 1);
+%    ((int4 *)right)[tid / 4] = (samplesRight >> 1);
+%}
+%\end{codebox}
+%
+%\end{frame}
