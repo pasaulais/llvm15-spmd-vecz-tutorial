@@ -156,13 +156,59 @@ kernel void copy_if_even(global int \uniform[*src],
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}{Phi Conversion}
+\begin{frame}{CFG Linearization}
 
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}{CFG Linearization}
+\begin{frame}[fragile]{Phi Conversion}
+
+\begin{itemize}
+    \item A phi node:
+    \begin{itemize}
+        \item Takes incoming blocks $P_0 \cdots P_n$, values $V_0 \cdots V_n$
+        \item Evaluates to $V_i$ if the incoming block was $P_i$
+    \end{itemize}
+    \item Does not work after linearization
+    \begin{itemize}
+        \item Each block $B$ has a single predecessor after linearization
+        %\item Actual incoming block encoded by $m_{P_0 \rightarrow B} \cdots m_{P_n \rightarrow B}$
+        \item Actual incoming block: find $P_i$, so that $m_{P_i \rightarrow B}$ is true
+    \end{itemize}
+    \item Need to convert phi nodes into $n$ select instructions
+    \begin{itemize}
+        \item Using $m_{P_0 \rightarrow B} \cdots m_{P_n \rightarrow B}$ to select $V$ from $V_0 \cdots V_n$
+    \end{itemize}
+\end{itemize}
+
+\hspace{3.0em}\begin{minipage}[t]{0.40\linewidth}
+
+\begin{codebox}[commandchars=\\\[\]]
+A:
+  \varying[%cmp] = ...
+  br i1 \varying[%cmp], label %B, label %C
+B:
+  \varying[%x] = load i32* \varying[%idx]
+  br label %C
+C:
+  \varying[%v] = phi i32 \idx[\varying[%x], %B], \idx[\uniform[-1], %A]
+\end{codebox}
+
+\end{minipage}\hspace{1em}\begin{minipage}[t]{0.40\linewidth}
+
+\begin{codebox}[commandchars=\\\[\]]
+A:
+  \varying[%cmp] = ... // = mAB = mB = mBC
+  br label %B
+B:
+  \varying[%x] = masked_load i32* \varying[%idx], i1 \varying[%cmp]
+  br label %C
+C:
+  \varying[%v] = select i1 \varying[%cmp], i32 \varying[%x], i32 \uniform[-1]
+\end{codebox}
+
+\end{minipage}
 
 \end{frame}
 
