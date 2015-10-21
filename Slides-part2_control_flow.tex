@@ -103,6 +103,7 @@ kernel void copy_if_even(global int \uniform[*src],
 \begin{minipage}[t]{0.50\linewidth}
 
 \begin{itemize}
+    \item Mask: $N$-bit field (1-bit pre-packetization)
     \item Each edge $A \rightarrow B$ has a mask: $m_{A \rightarrow B}$
     \begin{itemize}
         \item Which lanes take the branch to $B$?
