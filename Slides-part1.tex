@@ -224,7 +224,8 @@ kernel void calc_gpa(global *float result, global *int grades, global *float wei
     \begin{itemize}
         \item Work-item: unit of computation to execute in parallel.
         \item Instance: Code and state associated with one work-item.
-        \item (SIMD) Lane: Execution of one instance of a vectorized kernel.
+        \item SIMD Lane: Execution of one instance of a vectorized kernel.
+        \item SIMD Group: Contains all lanes that can be executed in parallel.
         \item SIMD Width: Number of parallel lanes. Vectorization factor ($N$).
     \end{itemize}
         

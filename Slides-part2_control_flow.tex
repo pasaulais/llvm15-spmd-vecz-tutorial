@@ -3,9 +3,25 @@
 \begin{frame}{Control Flow Conversion Overview}
 
 \begin{itemize}
-    \item What does it do?
+    \item Linearizes functions that have \varying{divergent} control flow
+    \begin{itemize}
+        \item All basic blocks are executed
+        \item Program semantics are preserved using predication (masking)
+    \end{itemize}
     \item Why is it needed?
+    \begin{itemize}
+        \item SIMD unit does not support 'vector' (\varying{divergent}) branches
+        \item Single program counter per SIMD group
+    \end{itemize}
+    \item Requires some passes to be run in the 'Prepare' stage
+    \begin{itemize}
+        \item Functions should have a single return block
+        \item Loops should be in 'simple form'
+    \end{itemize}
 \end{itemize}
+
+\vfill
+\hspace{1em}\includegraphics[scale=0.55]{images/stages-control-flow.pdf}
 
 \end{frame}
 
