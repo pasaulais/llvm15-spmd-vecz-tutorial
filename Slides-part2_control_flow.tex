@@ -5,6 +5,7 @@
 \begin{itemize}
     \item Linearizes functions that have \varying{divergent} control flow
     \begin{itemize}
+        \item Conversion from control flow to data flow
         \item All basic blocks are executed
         \item Program semantics are preserved using predication (masking)
     \end{itemize}
@@ -106,6 +107,7 @@ kernel void copy_if_even(global int \uniform[*src],
     \begin{itemize}
         \item Which lanes take the branch to $B$?
         \item $m_{A \rightarrow B} = m_A \cap bcond_{A \rightarrow B}$
+        \item Giiven branch condition $bcond_{A \rightarrow B}$
     \end{itemize}
     \item Each block $B$ has a mask: $m_B$
     \begin{itemize}
@@ -131,11 +133,23 @@ kernel void copy_if_even(global int \uniform[*src],
 
 \begin{frame}{Applying Masks}
 
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{frame}{Masked Memory Operations}
+\begin{itemize}
+    \item Each block $B$ is executed regardless of whether $F$ executes it or not
+    \item Each instruction $I$ that has side-effects need 'guarding'
+    \item Such instructions are predicated using $m_B$
+    \begin{itemize}
+        \item $I$ has side-effects for lane $L$ if $m_B[L]$ is true
+        \item Loads and stores are turned into masked loads and stores
+        \item Calls to functions with side-effects: $m_B$ is passed as an argument
+        \item Floating-point instructions that raise exceptions (e.g. DIV0)
+        \item ...
+    \end{itemize}
+    \item Unsupported masked operations can be expanded
+    \begin{itemize}
+        \item For each $L$, generate: \texttt{if ($m_B[L]$) \{ $V_L=I_L(...)$; \}}
+        \item Need to create many basic blocks
+    \end{itemize}
+\end{itemize}
 
 \end{frame}
 
