@@ -27,7 +27,38 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}{Control Flow Conversion: if}
+\begin{frame}[fragile]{Control Flow Conversion: if}
+
+\begin{minipage}[t]{0.45\linewidth}
+
+\begin{itemize}
+    \item Divergent branch condition: \varying{cond}
+    \item Instruction with side-effects: \texttt{load}
+\end{itemize}
+
+\begin{codebox}[commandchars=\\\[\]]
+kernel void copy_if_even(global int \uniform[*src],
+                         global int \uniform[*dst]) {
+  int \varying[tid] = \varying[get_global_id(0)];
+  int \varying[cond] = (\varying[tid] & \uniform[1]) == \uniform[0];
+  int result;
+  if (\varying[cond]) {
+    \varying[result] = \uniform[src]\idx[\varying[tid]];
+  } else {
+    \uniform[result] = \uniform[-1];
+  }
+  \uniform[dst]\idx[\varying[tid]] = \varying[result];
+}
+\end{codebox}
+
+\end{minipage}
+\hspace{1em}
+\begin{minipage}[t]{0.48\linewidth}
+
+\vspace{0.1ex}
+\center{[CFG of the example]}
+
+\end{minipage}
 
 \end{frame}
 
