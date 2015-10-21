@@ -64,6 +64,39 @@ kernel void copy_if_even(global int \uniform[*src],
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\begin{frame}{Basic Divergence Analysis}
+
+\begin{minipage}[t]{0.45\linewidth}
+
+\begin{itemize}
+    \item Determines which basic blocks need predication (i.e. it is \varying{divergent})
+    \item BB is \varying{divergent} if:
+    \begin{itemize}
+        \item Any predecessor has a branch with \varying{varying} condition
+        \item Any predecessor is \varying{divergent} (naive)
+    \end{itemize}
+    \item Process:
+    \begin{itemize}
+        \item Start with the entry BB
+        \item Mark successors \varying{divergent} or not
+        \item Visit all successors recursively
+        \item Visit each BB only once (cycles)
+    \end{itemize}
+\end{itemize}
+
+\end{minipage}
+\hspace{1em}
+\begin{minipage}[t]{0.48\linewidth}
+
+\vspace{0.1ex}
+\center{[CFG of the example]}
+
+\end{minipage}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \begin{frame}{Mask Generation}
 
 \end{frame}
