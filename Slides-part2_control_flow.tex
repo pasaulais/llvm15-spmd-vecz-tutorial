@@ -29,7 +29,7 @@
 
 \begin{frame}[fragile]{Control Flow Conversion: if}
 
-\begin{minipage}[t]{0.45\linewidth}
+\begin{minipage}[t]{0.50\linewidth}
 
 \begin{itemize}
     \item Divergent branch condition: \varying{cond}
@@ -53,7 +53,7 @@ kernel void copy_if_even(global int \uniform[*src],
 
 \end{minipage}
 \hspace{1em}
-\begin{minipage}[t]{0.48\linewidth}
+\begin{minipage}[t]{0.43\linewidth}
 
 \vspace{0.1ex}
 \center{[CFG of the example]}
@@ -66,7 +66,7 @@ kernel void copy_if_even(global int \uniform[*src],
 
 \begin{frame}{Basic Divergence Analysis}
 
-\begin{minipage}[t]{0.45\linewidth}
+\begin{minipage}[t]{0.50\linewidth}
 
 \begin{itemize}
     \item Determines which basic blocks need predication (i.e. it is \varying{divergent})
@@ -86,7 +86,7 @@ kernel void copy_if_even(global int \uniform[*src],
 
 \end{minipage}
 \hspace{1em}
-\begin{minipage}[t]{0.48\linewidth}
+\begin{minipage}[t]{0.43\linewidth}
 
 \vspace{0.1ex}
 \center{[CFG of the example]}
@@ -98,6 +98,32 @@ kernel void copy_if_even(global int \uniform[*src],
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}{Mask Generation}
+
+\begin{minipage}[t]{0.50\linewidth}
+
+\begin{itemize}
+    \item Each edge $A \rightarrow B$ has a mask: $m_{A \rightarrow B}$
+    \begin{itemize}
+        \item Which lanes take the branch to $B$?
+        \item $m_{A \rightarrow B} = m_A \cap bcond_{A \rightarrow B}$
+    \end{itemize}
+    \item Each block $B$ has a mask: $m_B$
+    \begin{itemize}
+        \item Which lanes execute $B$?
+        \item $m_B = \bigcup\limits_{i=0}^n  m_{P_i \rightarrow B}$
+        \item Given predecessors $P_0$ $\cdots$ $P_n$
+    \end{itemize}
+    \item Start by generating $m_{return}$, which depends on all other masks
+\end{itemize}
+
+\end{minipage}
+\hspace{1em}
+\begin{minipage}[t]{0.43\linewidth}
+
+\vspace{0.1ex}
+\center{[CFG of the example]}
+
+\end{minipage}
 
 \end{frame}
 
