@@ -107,6 +107,9 @@
 \newcommand{\penguin}[0]{\animategraphics[loop,autoplay, width = 1.5em]{12}{images/penguins/penguin-}{0}{19}\hspace{0.1em}}
 \newcommand{\penguins}[0]{<\hspace{0.15em}\penguin, \penguin, \penguin, \penguin, \penguin, \penguin, \penguin, \penguin\hspace{0.1em}>}
 
+\newcommand{\llvmlogo}[1]{\raisebox{-1.3ex}{\includegraphics[scale=#1]{images/LLVM_Logo.pdf}}\hspace{-0.3em}}
+\newcommand{\llvmlogovec}[1]{\llvmlogo{#1}, \llvmlogo{#1}, \llvmlogo{#1}, \llvmlogo{#1}, \llvmlogo{#1}, \llvmlogo{#1}, \llvmlogo{#1}, \llvmlogo{#1}\hspace{0.3em}}
+
 % Create a slide for a part.
 \newcommand{\talkpart}[2]{%
 \section{Part #1: #2}
@@ -153,7 +156,7 @@
 
 \begin{frame}{What this tutorial is about}
 
-%% TODO: Logos of OpenCL, CUDA, LLVM?
+\begin{minipage}[t]{0.70\linewidth}
 
 \begin{itemize}  
     \item Vectorizing
@@ -164,18 +167,26 @@
     \item SPMD (Single Program, Multiple Data) Kernels
     \begin{itemize}
         \item Data-parallel execution model
-        \item Used with compute frameworks like OpenCL and CUDA
+        \item Compute frameworks like OpenCL and CUDA
     \end{itemize}
     \item for CPUs, DSPs,
     \begin{itemize}
-        \item Explicitely programmed vector SIMD unit(s)
-        \item Can execute both scalar and SIMD instructions
+        \item Explicitely programmed SIMD unit(s)
+        \item Can execute both scalar and vector instructions
     \end{itemize}
     \item An introduction
     \begin{itemize}
         \item Create a basic vectorizer
     \end{itemize}
 \end{itemize}
+
+\end{minipage}\hspace{1em}\begin{minipage}[t]{0.25\linewidth}
+\vspace{-3.5ex}
+\center{\includegraphics[scale=0.07]{images/LLVM_Logo.pdf}}
+\vspace{-2.5ex}\center{\includegraphics[scale=0.25]{images/OpenCL_Logo.png}}
+\center{\includegraphics[scale=0.155]{images/CUDA.png}}
+
+\end{minipage}
 
 \end{frame}
 
@@ -203,7 +214,7 @@
 
 \section*{Conclusion}
 
-\begin{frame}{References}
+\begin{frame}{References and Resources}
 
 \begin{itemize}
     \item Automatic Packetization [Ralf Karrenberg, Saarland University '09]
@@ -237,14 +248,20 @@
 
 \begin{itemize}
     \item Q\&A
+    \begin{itemize}
+        \item Happy to answer questions by email too: \codeemphb{pierre-andre@codeplay.com}
+    \end{itemize}
     \item ...
     \item Happy vectorizing!
-    \begin{itemize}
-        \item \penguin $\rightarrow$ \penguins
-    \end{itemize}
+    %\begin{itemize}
+    %    \item \penguin $\rightarrow$ \penguins
+    %\end{itemize}
 \end{itemize}
 
-\vspace{5em}
+%\vspace{2em}
+%\center{\huge<\llvmlogovec{0.040}}
+\center{\huge<\llvmlogovec{0.040}}
+\center{\hspace{2.5em}\huge\llvmlogovec{0.040}>}
 
 \end{frame}
 
