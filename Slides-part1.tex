@@ -5,29 +5,42 @@
 \begin{frame}{SPMD Execution Model}
 
 \begin{itemize}
-    \item Data-parallel
-    \begin{itemize}
-        \item Work needs to be divided
-    \end{itemize}
+    %\item Data-parallel
+    %\begin{itemize}
+    %    \item Work needs to be divided into chunks
+    %\end{itemize}
     
-    \item Single program, scalar with implicit SIMD execution
+    \item Single program
+    \begin{itemize}
+        \item Scalar form, but implicit SIMD execution
+    \end{itemize}
     
     \item Multiple instances running in parallel
     \begin{itemize}
-        \item Each instance working on different data
-        \item On GPU, SIMD execution in lockstep
-        \item On CPU, sequential execution within a core (naive approach)
+        \item Each instance working on a different data chunk
+    \end{itemize}
+    
+    \item On GPU
+    \begin{itemize}
+        \item Divide work between lanes of SIMD units (fine division)
+        \item SIMD execution in lockstep
+    \end{itemize}
+    
+    \item On CPU
+    \begin{itemize}
+        \item Divide work between cores (coarse division)
+        \item Sequential execution within a core (naive approach)
     \end{itemize}
 \end{itemize}
 
-\begin{itemize}
-    \item Simplistic example:
-    \begin{itemize}
-        \item Massive Online Course
-        \item Compute the overall grade (GPA) of millions of students
-        \item GPA is the weighted average of several grades
-    \end{itemize}
-\end{itemize}
+%\begin{itemize}
+%    \item Simplistic example:
+%    \begin{itemize}
+%        \item Massive Online Course
+%        \item Compute the overall grade (GPA) of millions of students
+%        \item GPA is the weighted average of several grades
+%    \end{itemize}
+%\end{itemize}
 
 \end{frame}
 
@@ -70,24 +83,47 @@
     \end{itemize}
     \item Executed once per work-item
     \begin{itemize}
-        \item As if there was a loop around it
-        \item Access to the iteration counter using \texttt{get\_global\_id(0)}
+        \item As if there was a loop around it (but no dependency between iterations)
+        \item Access to the iteration counter using \texttt{\varying{get\_global\_id(0)}}
     \end{itemize}
 \end{itemize}
 
-\begin{codebox}
-kernel void calc_gpa(global *float result, global *int grades, global *float weights,
-                     int num_grades, int num_students) {
-    int student_id = get_global_id(0);
-    float gpa = 0.0;
-    for (int i = 0; i < num_grades; i++) {
-        int grade = grades[(i * num_students) + student_id];
-        float weight = weights[i];
-        gpa += (grade * weight);
-    }
-    result[student_id] = gpa;
+\vspace{1ex}
+\begin{minipage}[t]{0.45\linewidth}
+\begin{codebox}[commandchars=\\\[\]]
+kernel void add_uniform(global int *dst,
+                        global int *src,
+                        int alpha) {
+  int \varying[tid] = \varying[get_global_id(0)];
+  dst\idx[\varying[tid]] = src\idx[\varying[tid]] + (alpha - 1);
 }
 \end{codebox}
+
+\end{minipage}\hspace{1em}\begin{minipage}[t]{0.49\linewidth}
+\begin{codebox}[commandchars=\\\[\]]
+int *dst = ...;
+int *src = ...;
+int alpha = ...;
+for (int \varying[tid] = 0; \varying[tid] < num_items; \varying[tid]++) {
+  dst\idx[\varying[tid]] = src\idx[\varying[tid]] + (alpha - 1);
+}
+\end{codebox}
+
+\end{minipage}
+
+%\begin{codebox}
+%kernel void calc_gpa(global *float result, global *int grades, global *float weights,
+%                     int num_grades, int num_students) {
+%    int student_id = get_global_id(0);
+%    float gpa = 0.0;
+%    for (int i = 0; i < num_grades; i++) {
+%        int grade = grades[(i * num_students) + student_id];
+%        float weight = weights[i];
+%        gpa += (grade * weight);
+%    }
+%    result[student_id] = gpa;
+%}
+%\end{codebox}
 
 \end{frame}
 
@@ -99,8 +135,8 @@ kernel void calc_gpa(global *float result, global *int grades, global *float wei
 \begin{itemize}
     \item Many executions units each executing one instance of a single program 
     \begin{itemize}
-        \item Works well on GPU (many hardware EUs)
-        \item Not so much on CPU (very few hardware EUs)
+        \item Works well on GPU (many hardware threads)
+        \item Not so much on CPU (very few cores)
         \item CPU has to execute many work-items sequentially
     \end{itemize}
     \item Speed up this sequential computation using SIMD units
@@ -120,8 +156,8 @@ kernel void calc_gpa(global *float result, global *int grades, global *float wei
     \item Patterns within a single work-item
     \begin{itemize}
         \item e.g. loops within a kernel
-        \item In our example, the weighted average computation
-        \end{itemize}
+        %\item In our example, the weighted average computation
+    \end{itemize}
     \item Using the LLVM Loop Vectorizer or SLP Vectorizer
     \item However, not all kernels contain vectorizable patterns
 \end{itemize}
@@ -142,6 +178,7 @@ kernel void calc_gpa(global *float result, global *int grades, global *float wei
         \item Take advantage of the execution model (single program, multiple data)
     \end{itemize}
     \item Does not depend on special code patterns like loops
+    \item SPMD Vectorizer
 \end{itemize}
 
 \vspace{2ex}
@@ -156,7 +193,7 @@ kernel void calc_gpa(global *float result, global *int grades, global *float wei
 \begin{minipage}[t]{0.45\linewidth}
 
 \begin{itemize}
-    \item Is used to vectorize a SPMD program's entry point function
+    \item Vectorizes a SPMD program's entry point function
     \item Given a function $F$ and vectorization factor $N$, produces a function $VF_N$
     \begin{itemize}
         \item Calling $VF_N$ is like calling $F$, but $N$ times (on consecutive work-items)
@@ -225,13 +262,15 @@ kernel void calc_gpa(global *float result, global *int grades, global *float wei
         \item Work-item: unit of computation to execute in parallel.
         \item Instance: Code and state associated with one work-item.
         \item SIMD Lane: Execution of one instance of a vectorized kernel.
-        \item SIMD Group: Contains all lanes that can be executed in parallel.
+        \item SIMD Group: Contains all lanes that can be executed in parallel (at the same time).
         \item SIMD Width: Number of parallel lanes. Vectorization factor ($N$).
     \end{itemize}
         
     \item Data
     \begin{itemize}
-        \item Packet: Contains several values, one per SIMD lane. Maps to one value or instruction in the original kernel. Usually a vector instruction.
+        %\item Packet: Contains several values, one per SIMD lane. Maps to one value or instruction in the original kernel. Usually a vector instruction.
+        %\item Packet: Maps a value in the original function to $N$ values, one per SIMD lane.
+        \item Packet: $N$ values that map to $1$ value in the original function. One per SIMD lane.
         \item \uniform{Uniform}: Packet where values are identical for all lanes.
         \item \varying{Varying}: Packet where values are not identical for all lanes.
     \end{itemize}
@@ -239,7 +278,8 @@ kernel void calc_gpa(global *float result, global *int grades, global *float wei
     \item Control Flow
     \begin{itemize}
         \item \uniform{Uniform}: Branch taken by all lanes.
-        \item \varying{Divergent}: Conditional branch taken by only some lanes.
+        %\item \varying{Divergent}: Conditional branch taken by only some lanes.
+        \item \varying{Divergent}: Some lanes take one side of a branch, remaining lanes the other side.
     \end{itemize}
 \end{itemize}
 

@@ -8,7 +8,7 @@
     \item Pipeline design
     \begin{itemize}
         \item $F$ is repeatedly transformed by different stages
-        \item Stages are independent from each other
+        \item Stages are independent of each other
         \item Each stage consists of one or more IR passes
         \item Most stages require some analysis
     \end{itemize}
@@ -34,10 +34,9 @@
         \item Marks values as either \uniform{uniform} or \varying{varying}
     \end{itemize}
 
-    \item Control Flow Analysis
+    \item Divergence Analysis
     \begin{itemize}
         \item Determines which basic blocks are \varying{divergent}
-        \item Builds a Control Dependency Graph
     \end{itemize}
     
     \item SIMD Width Analysis
@@ -56,7 +55,7 @@
 
 \begin{itemize}
     \item IR
-        \\ \pointfor{Use-def graph and RAUW make for straightforward transformations}
+        \\ \pointfor{Use-def graph and RAUW make for straightforward graph transformations}
         \\ \pointfor{Easy to target multiple platforms}
         \\ \pointunkn{Generally higher-level (simpler implementation?)}
         \\ \pointagainst{Platform-specific features more difficult to use}

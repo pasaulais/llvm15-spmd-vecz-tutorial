@@ -104,6 +104,9 @@ kernel void copy_if_even(global int \uniform[*src],
 
 \begin{itemize}
     \item Mask: $N$-bit field (1-bit pre-packetization)
+    \begin{itemize}
+        \item Per-instance, 'active' bit for predication
+    \end{itemize}
     \item Each edge $A \rightarrow B$ has a mask: $m_{A \rightarrow B}$
     \begin{itemize}
         \item Which lanes take the branch to $B$?
@@ -147,16 +150,10 @@ kernel void copy_if_even(global int \uniform[*src],
     \end{itemize}
     \item Unsupported masked operations can be expanded
     \begin{itemize}
-        \item For each $L$, generate: \texttt{if ($m_B[L]$) \{ $V_L=I_L(...)$; \}}
+        \item For each lane $L$, generate: \texttt{if ($m_B[L]$) \{ $V_L=I_L(...)$; \}}
         \item Need to create many basic blocks
     \end{itemize}
 \end{itemize}
-
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{frame}{CFG Linearization}
 
 \end{frame}
 
@@ -209,6 +206,12 @@ C:
 \end{codebox}
 
 \end{minipage}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{CFG Linearization Overivew}
 
 \end{frame}
 
