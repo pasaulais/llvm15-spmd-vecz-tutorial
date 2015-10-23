@@ -177,15 +177,18 @@ kernel void copy_if_even(global int \uniform[*src],
         \item $m_B = \bigcup\limits_{i=0}^n  m_{P_i \rightarrow B}$
         \item Given predecessors $P_0$ $\cdots$ $P_n$
     \end{itemize}
-    \item Start by generating $m_{return}$, which depends on all other masks
+    \item Start by generating return mask $m_D$
+    \begin{itemize}
+        \item Depends on all other masks
+    \end{itemize}
 \end{itemize}
 
 \end{minipage}
 \hspace{1em}
 \begin{minipage}[t]{0.43\linewidth}
 
-\vspace{0.1ex}
-\center{[CFG of the example]}
+\vspace{-2.1ex}
+\center{\includegraphics[scale=0.30]{images/mask-generation.pdf}}
 
 \end{minipage}
 
