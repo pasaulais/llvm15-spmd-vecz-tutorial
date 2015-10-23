@@ -216,13 +216,17 @@ C:
 \begin{minipage}[t]{0.45\linewidth}
 
 \begin{itemize}
-    \item Flattens CFG: all blocks are executed
-    \item Masks and select take care of the data flow
+    \item Flattens CFG
+    \begin{itemize}
+        \item All blocks are executed
+    \end{itemize}
+    \item Masks and select take care of preserving the data flow
     \item Linearization Process
     \begin{itemize}
         \item Order blocks
         \item Rewrite branches
     \end{itemize}
+    \item More on this later
 \end{itemize}
 
 \end{minipage}
