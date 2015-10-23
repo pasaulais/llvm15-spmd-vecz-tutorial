@@ -1,6 +1,6 @@
 \talksection{Control Flow Conversion Stage}
 
-\begin{frame}{Control Flow Conversion Overview}
+\begin{frame}{Control Flow Conversion: Overview}
 
 \begin{itemize}
     \item Linearizes functions that have \varying{divergent} control flow
@@ -57,9 +57,34 @@ kernel void copy_if_even(global int \uniform[*src],
 \begin{minipage}[t]{0.43\linewidth}
 
 \vspace{0.1ex}
-\center{[CFG of the example]}
+
+\center{\includegraphics[scale=0.45]{images/if-cfg.pdf}}
 
 \end{minipage}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Control Flow Conversion: Main Steps}
+
+\begin{itemize}
+    \item Divergence Analysis
+    \item Generate Masks
+    \item Freeze Loop Live Variables
+    \item Apply Masks
+    \begin{itemize}
+        \item Instructions with side-effects
+    \end{itemize}
+    \item Convert Phi Nodes
+    \begin{itemize}
+        \item Preserves data flow
+    \end{itemize}
+    \item CFG Linearization
+    %\begin{itemize}
+    %    \item Flattens the Control Flow Graph
+    %\end{itemize}
+\end{itemize}
 
 \end{frame}
 
@@ -70,12 +95,13 @@ kernel void copy_if_even(global int \uniform[*src],
 \begin{minipage}[t]{0.45\linewidth}
 
 \begin{itemize}
-    \item Linearization flattens the CFG
+    \item Flattens the CFG
     \begin{itemize}
         \item All blocks are executed
+        \item Regardless of branch conditions
     \end{itemize}
-    \item Masks and selects take care of preserving the data flow
-    \item Process
+    %\item Masks and selects take care of preserving the data flow
+    \item Steps
     \begin{itemize}
         \item Order blocks
         \item Rewrite branches
@@ -328,7 +354,7 @@ kernel void while_loop(global int \uniform[*src],
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}{Basic Linearization: Block Ordering}
+\begin{frame}{Basic Linearization: Graph Creation}
 
 \begin{itemize}
     \item Create a CFG-like graph
