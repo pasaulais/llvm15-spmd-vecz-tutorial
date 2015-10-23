@@ -327,7 +327,8 @@ kernel void while_loop(global int \uniform[*src],
     \item Topological sort of the graph
     \begin{itemize}
         \item Result is a list of graph nodes
-        \item Expand loop nodes into sub-lists
+        \item Loop nodes expand to sub-lists
+        \item Can be seen as a tree
     \end{itemize}
     \item Naive approach that linearizes everything
 \end{itemize}
@@ -339,6 +340,44 @@ kernel void while_loop(global int \uniform[*src],
 \vspace{0.1ex}
 
 \center{\includegraphics[scale=0.50]{images/loop-linearization2.pdf}}
+
+\end{minipage}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Basic Linearization: Branch Rewriting}
+
+\begin{minipage}[t]{0.55\linewidth}
+
+\begin{itemize}
+    \item Visit each block in the list
+    \item Rewrite their branch target
+\end{itemize}
+
+\begin{itemize}
+    \item Blocks other than the loop latch:
+    \begin{itemize}
+        \item Always branch to next block in the list
+    \end{itemize}
+    \item Loop latch $L$:
+    \begin{itemize}
+        \item How many active instances in the loop?
+        \item Any instance: branch to header $H$
+        \item No instance: branch to next block
+    \end{itemize}
+\end{itemize}
+
+\end{minipage}
+\hspace{1em}
+\begin{minipage}[t]{0.38\linewidth}
+
+\vspace{0.1ex}
+
+\center{\includegraphics[scale=0.50]{images/loop-linearization3.pdf}}
 
 \end{minipage}
 
