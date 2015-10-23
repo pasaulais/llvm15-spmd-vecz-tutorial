@@ -89,7 +89,7 @@ kernel void copy_if_even(global int \uniform[*src],
 
 \vspace{0.1ex}
 
-\center{\includegraphics[scale=0.45]{images/linearization-overview.pdf}}
+\center{\includegraphics[scale=0.35]{images/linearization-overview.pdf}}
 
 \end{minipage}
 
@@ -321,21 +321,21 @@ kernel void while_loop(global int \uniform[*src],
 
 \begin{frame}{Basic Linearization: Block Ordering}
 
-\begin{minipage}[t]{0.45\linewidth}
+\begin{minipage}[t]{0.50\linewidth}
 
 \begin{itemize}
-    \item Topological sort of the graph
+    \item Bottom-up topological sort of the graph
     \begin{itemize}
-        \item Result is a list of graph nodes
+        \item Result is an ordered list of graph nodes
         \item Loop nodes expand to sub-lists
-        \item Can be seen as a tree
+        \item Topological sort of loop nodes starts at the loop latch
     \end{itemize}
     \item Naive approach that linearizes everything
 \end{itemize}
 
 \end{minipage}
 \hspace{1em}
-\begin{minipage}[t]{0.43\linewidth}
+\begin{minipage}[t]{0.38\linewidth}
 
 \vspace{0.1ex}
 
@@ -354,20 +354,20 @@ kernel void while_loop(global int \uniform[*src],
 \begin{minipage}[t]{0.55\linewidth}
 
 \begin{itemize}
-    \item Visit each block in the list
+    \item Visit each block in the ordered list
     \item Rewrite their branch target
 \end{itemize}
 
 \begin{itemize}
-    \item Blocks other than the loop latch:
+    \item For most blocks:
     \begin{itemize}
-        \item Always branch to next block in the list
+        \item Always branch to the next block in the list
     \end{itemize}
-    \item Loop latch $L$:
+    \item For the loop latch $L$:
     \begin{itemize}
         \item How many active instances in the loop?
-        \item Any instance: branch to header $H$
-        \item No instance: branch to next block
+        \item $\geq 1$: Branch to the loop header $H$
+        \item $0$: Branch to next block
     \end{itemize}
 \end{itemize}
 
