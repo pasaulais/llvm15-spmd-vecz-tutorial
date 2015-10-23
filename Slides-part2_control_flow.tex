@@ -171,7 +171,7 @@ kernel void copy_if_even(global int \uniform[*src],
         \item $m_{A \rightarrow B} = m_A \cap bcond_{A \rightarrow B}$
         \item Giiven branch condition $bcond_{A \rightarrow B}$
     \end{itemize}
-    \item Each block $B$ has a mask: $m_B$
+    \item Each block $B$ has an entry mask: $m_B$
     \begin{itemize}
         \item Which lanes execute $B$?
         \item $m_B = \bigcup\limits_{i=0}^n  m_{P_i \rightarrow B}$
@@ -304,11 +304,12 @@ entry:
 
 \begin{itemize}
     \item More difficult to convert
-    \begin{itemize}
-        \item Need to keep iterating as long as any instance is inside the loop
-        \item Once an instance exits, need to freeze its live variables
-    \end{itemize}
-    %\item More masks to compute
+    %\begin{itemize}
+    %    \item Need to keep iterating as long as any instance is inside the loop
+    %    \item Need to freeze live variables
+    %\end{itemize}
+    \item More masks to compute
+    \item Loop condition may be \varying{varying}
     %\begin{itemize}
     %    \item Exit mask
     %    \item Active mask
@@ -342,13 +343,53 @@ kernel void while_loop(global int \uniform[*src],
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}{Finding Loop Live Variables}
+\begin{frame}{Loop Exit and Active Masks}
+
+\begin{itemize}
+    \item Different instances may iterate a different number of times
+    \begin{itemize}
+        \item Because the loop condition is \varying{varying}
+        \item Keep iterating as long as any instance is inside the loop
+    \end{itemize}
+    \item Loop Exit mask $m_{Exit}$
+    \begin{itemize}
+        \item Keeps track of which instances exited the loop
+        \item Used as entry mask for loop exits
+        \item Used to freeze live variables
+    \end{itemize}
+    \item Loop Active mask $m_{Active}$
+    \begin{itemize}
+        \item $m_{Active} = m_{Header} \cap \overline{m_{Exit}}$
+        \item True: Branch back to the loop header
+        \item False: Exit the loop
+    \end{itemize}
+\end{itemize}
 
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}{Freezing Loop Live Variables}
+
+\begin{itemize}
+    \item Variables that are either:
+    \begin{itemize}
+        \item Used in a subsequent loop iteration (through a phi node)
+        \item Used outside of the loop
+        \item In the example: \varying{val}
+    \end{itemize}
+    \item Once an instance exits, need to freeze live variables
+    \begin{itemize}
+        \item Otherwise will have the wrong value after the loop 
+    \end{itemize}
+    \item Create a select that returns either: 
+    \begin{itemize}
+        \item The value from the previous iteration (instance exited)
+        \item The new value from this iteration (instance still active)
+    \end{itemize}
+    \item The Loop Exit mask selects the right value
+    \item Replace all uses of the new value with the select
+\end{itemize}
 
 \end{frame}
 
@@ -421,6 +462,7 @@ kernel void while_loop(global int \uniform[*src],
         \item How many active instances in the loop?
         \item $\geq 1$: Branch to the loop header $H$
         \item $0$: Branch to next block
+        \item Use the Loop Active mask
     \end{itemize}
 \end{itemize}
 
