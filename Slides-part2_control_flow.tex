@@ -243,7 +243,45 @@ C:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}{Control Flow Conversion: loops}
+\begin{frame}[fragile]{Control Flow Conversion: Loops}
+
+\begin{minipage}[t]{0.45\linewidth}
+
+\begin{itemize}
+    \item More difficult to convert
+    \begin{itemize}
+        \item Need to keep iterating as long as any instance is inside the loop
+        \item Once an instance exits, need to freeze its live variables
+    \end{itemize}
+    %\item More masks to compute
+    %\begin{itemize}
+    %    \item Exit mask
+    %    \item Active mask
+    %\end{itemize}
+\end{itemize}
+
+\begin{codebox}[commandchars=\\\[\]]
+kernel void while_loop(global int \uniform[*src],
+                       global int \uniform[*dst],
+                       int \uniform[step]) {
+  int \varying[tid] = \varying[get_global_id(0)];
+  int \varying[val] = \uniform[src]\idx[\varying[tid]];
+  while (\varying[val] < \uniform[0]) {
+    \varying[val] += \uniform[step];
+  }
+  dst\idx[\varying[tid]] = \varying[val];
+}
+\end{codebox}
+
+\end{minipage}
+\hspace{1em}
+\begin{minipage}[t]{0.43\linewidth}
+
+\vspace{0.1ex}
+
+\center{\includegraphics[scale=0.60]{images/loop-example1.pdf}}
+
+\end{minipage}
 
 \end{frame}
 
@@ -255,6 +293,6 @@ C:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}{Merging Loop Live Variables}
+\begin{frame}{Freezing Loop Live Variables}
 
 \end{frame}
