@@ -65,15 +65,47 @@ kernel void copy_if_even(global int \uniform[*src],
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\begin{frame}{CFG Linearization Overview}
+
+\begin{minipage}[t]{0.45\linewidth}
+
+\begin{itemize}
+    \item Linearization flattens the CFG
+    \begin{itemize}
+        \item All blocks are executed
+    \end{itemize}
+    \item Masks and selects take care of preserving the data flow
+    \item Process
+    \begin{itemize}
+        \item Order blocks
+        \item Rewrite branches
+    \end{itemize}
+    \item More on this later
+\end{itemize}
+
+\end{minipage}
+\hspace{1em}
+\begin{minipage}[t]{0.43\linewidth}
+
+\vspace{0.1ex}
+
+\center{\includegraphics[scale=0.45]{images/linearization-overview.pdf}}
+
+\end{minipage}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \begin{frame}{Basic Divergence Analysis}
 
 \begin{minipage}[t]{0.50\linewidth}
 
 \begin{itemize}
-    \item Determines which basic blocks need predication (i.e. it is \varying{divergent})
+    \item Determines which basic blocks need predication (i.e. are \varying{divergent})
     \item BB is \varying{divergent} if:
     \begin{itemize}
-        \item Any predecessor has a branch with \varying{varying} condition
+        \item Any predecessor has a branch with a \varying{varying} condition
         \item Any predecessor is \varying{divergent} (naive)
     \end{itemize}
     \item Process:
@@ -204,38 +236,6 @@ B:
 C:
   \varying[%v] = select i1 \varying[%cmp], i32 \varying[%x], i32 \uniform[-1]
 \end{codebox}
-
-\end{minipage}
-
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{frame}{CFG Linearization Overivew}
-
-\begin{minipage}[t]{0.45\linewidth}
-
-\begin{itemize}
-    \item Flattens CFG
-    \begin{itemize}
-        \item All blocks are executed
-    \end{itemize}
-    \item Masks and select take care of preserving the data flow
-    \item Linearization Process
-    \begin{itemize}
-        \item Order blocks
-        \item Rewrite branches
-    \end{itemize}
-    \item More on this later
-\end{itemize}
-
-\end{minipage}
-\hspace{1em}
-\begin{minipage}[t]{0.43\linewidth}
-
-\vspace{0.1ex}
-
-\center{\includegraphics[scale=0.45]{images/linearization-overview.pdf}}
 
 \end{minipage}
 
