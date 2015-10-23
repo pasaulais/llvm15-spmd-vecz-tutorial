@@ -345,6 +345,8 @@ kernel void while_loop(global int \uniform[*src],
 
 \begin{frame}{Loop Exit and Active Masks}
 
+\begin{minipage}[t]{0.70\linewidth}
+
 \begin{itemize}
     \item Different instances may iterate a different number of times
     \begin{itemize}
@@ -356,14 +358,25 @@ kernel void while_loop(global int \uniform[*src],
         \item Keeps track of which instances exited the loop
         \item Used as entry mask for loop exits
         \item Used to freeze live variables
+        \item Needs a phi node since this changes over iterations
     \end{itemize}
     \item Loop Active mask $m_{Active}$
     \begin{itemize}
         \item $m_{Active} = m_{Header} \cap \overline{m_{Exit}}$
-        \item True: Branch back to the loop header
-        \item False: Exit the loop
+        \item True: Branch from loop latch $L$ back to loop header $H$
+        \item False: Exit the loop from loop latch $L$
     \end{itemize}
 \end{itemize}
+
+\end{minipage}
+\hspace{1em}
+\begin{minipage}[t]{0.23\linewidth}
+
+\vspace{0.1ex}
+
+\center{\includegraphics[scale=0.60]{images/loop-linear-cfg.pdf}}
+
+\end{minipage}
 
 \end{frame}
 
