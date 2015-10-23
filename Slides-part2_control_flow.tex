@@ -296,3 +296,25 @@ kernel void while_loop(global int \uniform[*src],
 \begin{frame}{Freezing Loop Live Variables}
 
 \end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Basic Linearization: Block Ordering}
+
+\begin{itemize}
+    \item Create CFG-like graph
+    \begin{itemize}
+        \item Where loop's blocks are replaced by a single loop node
+        \item The loop node (\codeemphb{S}) contains a sub-graph
+    \end{itemize}
+    \item Sub-graphs can contain blocks and loops
+    \begin{itemize}
+        \item Loop nests can be handled recursively
+    \end{itemize}
+\end{itemize}
+
+\center{\includegraphics[scale=0.50]{images/loop-linearization1.pdf}}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
