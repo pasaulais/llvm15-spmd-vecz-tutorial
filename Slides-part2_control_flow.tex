@@ -302,18 +302,45 @@ kernel void while_loop(global int \uniform[*src],
 \begin{frame}{Basic Linearization: Block Ordering}
 
 \begin{itemize}
-    \item Create CFG-like graph
+    \item Create a CFG-like graph
     \begin{itemize}
-        \item Where loop's blocks are replaced by a single loop node
+        \item Where a loop's blocks are replaced by a single loop node
         \item The loop node (\codeemphb{S}) contains a sub-graph
     \end{itemize}
     \item Sub-graphs can contain blocks and loops
     \begin{itemize}
-        \item Loop nests can be handled recursively
+        \item Allows recursive processing of loop nests
     \end{itemize}
 \end{itemize}
 
 \center{\includegraphics[scale=0.50]{images/loop-linearization1.pdf}}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Basic Linearization: Block Ordering}
+
+\begin{minipage}[t]{0.45\linewidth}
+
+\begin{itemize}
+    \item Topological sort of the graph
+    \begin{itemize}
+        \item Result is a list of graph nodes
+        \item Expand loop nodes into sub-lists
+    \end{itemize}
+    \item Naive approach that linearizes everything
+\end{itemize}
+
+\end{minipage}
+\hspace{1em}
+\begin{minipage}[t]{0.43\linewidth}
+
+\vspace{0.1ex}
+
+\center{\includegraphics[scale=0.50]{images/loop-linearization2.pdf}}
+
+\end{minipage}
 
 \end{frame}
 
