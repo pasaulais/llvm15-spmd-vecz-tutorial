@@ -243,6 +243,35 @@ C:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\begin{frame}[fragile]{CFG Conversion Result: if}
+
+\begin{codebox}
+define void @__v4_copy_if_eveni(i32* %in, i32* %out) {
+entry:
+  %call = call spir_func i64 @get_global_id(i32 0)
+  %.splatinsert = insertelement <4 x i64> undef, i64 %call, i32 0
+  %.splat = shufflevector <4 x i64> %.splatinsert, <4 x i64> undef, <4 x i32> zeroinitializer
+  %0 = add <4 x i64> %.splat, <i64 0, i64 1, i64 2, i64 3>
+  %and1 = and <4 x i64> %0, <i64 1, i64 1, i64 1, i64 1>
+  %cmp2 = icmp eq <4 x i64> %and1, zeroinitializer
+
+; if.then:
+  %arrayidx = getelementptr inbounds i32* %in, i64 %call
+  %1 = call <4 x i32> @masked_load4(i32* %arrayidx, <4 x i1> %cmp2)
+
+; if.end:
+  %2 = select <4 x i1> %cmp2, <4 x i32> %1, <4 x i32> <i32 -1, i32 -1, i32 -1, i32 -1>
+  %arrayidx1 = getelementptr inbounds i32* %out, i64 %call
+  %3 = bitcast i32* %arrayidx1 to <4 x i32>*
+  store <4 x i32> %2, <4 x i32>* %3, align 4
+  ret void
+}
+\end{codebox}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \begin{frame}[fragile]{Control Flow Conversion: Loops}
 
 \begin{minipage}[t]{0.45\linewidth}
@@ -344,8 +373,6 @@ kernel void while_loop(global int \uniform[*src],
 \end{minipage}
 
 \end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

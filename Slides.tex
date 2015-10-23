@@ -214,6 +214,30 @@
 
 \section*{Conclusion}
 
+\begin{frame}{Conclusion}
+
+\begin{itemize}
+    \item Explained basic concepts
+    \begin{itemize}
+        \item Data-parallel execution model
+        \item Whole-function vectorization
+        \item $N$ instances of every instruction
+        \item \uniform{Uniform} vs \varying{varying} values
+        \item \varying{Divergent} control flow, masking
+    \end{itemize}
+    \item Many things were not covered in this talk
+    \begin{itemize}
+        \item More advanced analyses
+        \item Optimizations
+        \item ...
+    \end{itemize}
+    \item Should be enough to create a functional vectorizer
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \begin{frame}{References and Resources}
 
 \begin{itemize}
@@ -223,21 +247,6 @@
     %\item Improving Performance of OpenCL on CPUs [Ralf Karrenberg et al., EuroLLVM '12]
     \item Branching in Data-Parallel Languages using Predication with LLVM [Marcello Maggioni, EuroLLVM '14]
     \item Exploring the Design Space of SPMD Divergence Management on Data-Parallel Architectures [Yunsup Lee et al., MICRO '14]
-\end{itemize}
-
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{frame}{Summary}
-
-\begin{itemize}
-    \item Should be enough to get started and create a functional vectorizer
-    \item Many things were not covered in this talk:
-    \begin{itemize}
-        \item ...
-    \end{itemize}
-    \item Introduced resources to go further
 \end{itemize}
 
 \end{frame}
