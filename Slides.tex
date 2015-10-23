@@ -60,12 +60,12 @@
 \definecolor{uiorange}{RGB}{237,175,28}
 
 % title slide definition
-\title{Creating an SPMD Vectorizer for OpenCL with LLVM}
+\title{Creating an SPMD Vectorizer for OpenCL\textsuperscript{TM} with LLVM}
 \subtitle{LLVM 2015 Tutorial}
-\author{Pierre-André Saulais}
+\author{Pierre-André Saulais \\ <pierre-andre@codeplay.com>}
 \institute{Codeplay Software \\ @codeplaysoft}
 
-\date{\today}
+\date{October 29, 2015}
 
 % Code box formatting
 \fvset{fontsize=\scriptsize,tabsize=4}
@@ -103,9 +103,6 @@
 \newcommand{\pointfor}[1]{\hspace{1em}\textbf{\codeemphb{{\fontspec{Cambria Math} +}}}\hspace{0.5em}#1}
 \newcommand{\pointunkn}[1]{\hspace{1em}\textbf{?}\hspace{0.5em}#1}
 \newcommand{\pointagainst}[1]{\hspace{1em}\textbf{\codeempha{{\textendash}}}\hspace{0.5em}#1}
-
-\newcommand{\penguin}[0]{\animategraphics[loop,autoplay, width = 1.5em]{12}{images/penguins/penguin-}{0}{19}\hspace{0.1em}}
-\newcommand{\penguins}[0]{<\hspace{0.15em}\penguin, \penguin, \penguin, \penguin, \penguin, \penguin, \penguin, \penguin\hspace{0.1em}>}
 
 \newcommand{\llvmlogo}[1]{\raisebox{-1.3ex}{\includegraphics[scale=#1]{images/LLVM_Logo.pdf}}\hspace{-0.3em}}
 \newcommand{\llvmlogovec}[1]{\llvmlogo{#1}, \llvmlogo{#1}, \llvmlogo{#1}, \llvmlogo{#1}, \llvmlogo{#1}, \llvmlogo{#1}, \llvmlogo{#1}, \llvmlogo{#1}\hspace{0.3em}}
@@ -167,7 +164,7 @@
     \item SPMD (Single Program, Multiple Data) Kernels
     \begin{itemize}
         \item Data-parallel execution model
-        \item Compute frameworks like OpenCL and CUDA
+        \item Compute frameworks like OpenCL\textsuperscript{TM} and CUDA\textsuperscript{TM}
     \end{itemize}
     \item for CPUs, DSPs,
     \begin{itemize}
@@ -243,11 +240,17 @@
 \begin{itemize}
     \item Automatic Packetization [Ralf Karrenberg, Saarland University '09]
     \item Whole-Function Vectorization (Ralf Karrenberg, Sebastian Hack, CGO '11)
-    \item Intel(R) OpenCL Implicit Vectorization Module [Nadav Rotem, LLVM '11]
+    \item Intel\textregistered \, OpenCL\textsuperscript{TM} Implicit Vectorization Module [Nadav Rotem, LLVM '11]
     %\item Improving Performance of OpenCL on CPUs [Ralf Karrenberg et al., EuroLLVM '12]
     \item Branching in Data-Parallel Languages using Predication with LLVM [Marcello Maggioni, EuroLLVM '14]
     \item Exploring the Design Space of SPMD Divergence Management on Data-Parallel Architectures [Yunsup Lee et al., MICRO '14]
 \end{itemize}
+
+\vspace{11ex}
+
+\footnotesize{OpenCL and the OpenCL logo are trademarks of Apple Inc. used by permission by Khronos.}
+
+\vspace{1ex}\footnotesize{CUDA is a trademark and/or registered trademark of NVIDIA Corporation in the U.S. and/or other countries.}
 
 \end{frame}
 
@@ -262,9 +265,6 @@
     \end{itemize}
     \item ...
     \item Happy vectorizing!
-    %\begin{itemize}
-    %    \item \penguin $\rightarrow$ \penguins
-    %\end{itemize}
 \end{itemize}
 
 %\vspace{2em}
