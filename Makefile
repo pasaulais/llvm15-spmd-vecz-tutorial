@@ -30,7 +30,10 @@ IMAGES = images/arbitrary-access.pdf \
     images/vertical-vectorization.pdf \
     images/work-items.pdf
 
-all: $(IMAGES)
+all: Slides.pdf
+
+Slides.pdf: $(IMAGES) Slides.tex
+	xelatex Slides.tex
 
 %.pdf: %.svg
 	inkscape $< --export-pdf=$@
