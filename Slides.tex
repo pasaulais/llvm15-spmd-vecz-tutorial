@@ -10,11 +10,6 @@
 
 \documentclass[t,aspectratio=169]{beamer}
 
-\usepackage{graphicx} % graphics
-\usepackage{fancyvrb}
-\usepackage{tcolorbox}
-\usepackage{animate}
-
 \mode<presentation>
 {
   \usetheme{codeplay}
@@ -33,17 +28,6 @@
 }
 }
 
-% color definitions
-\usepackage{color}
-\definecolor{uiwhite}{RGB}{255, 255, 255}
-\definecolor{uidarkgray}{RGB}{24,24,25}
-\definecolor{uigray}{RGB}{51,51,51}
-\definecolor{uilightgray}{RGB}{123,123,123}
-\definecolor{uicyan}{RGB}{0,255,255}
-\definecolor{uipink}{RGB}{255,153,255}
-\definecolor{uipalegreen}{RGB}{153,255,153}
-\definecolor{uiorange}{RGB}{237,175,28}
-
 % title slide definition
 \title{Creating an SPMD Vectorizer for OpenCL\textsuperscript{TM} with LLVM}
 \subtitle{LLVM 2015 Tutorial}
@@ -52,38 +36,8 @@
 
 \date{October 29, 2015}
 
-% Code box formatting
-\fvset{fontsize=\scriptsize,tabsize=4}
-\tcbset{colback=uigray,colframe=uilightgray,colupper=uiwhite,
-        left=1pt,right=1pt,top=1pt,bottom=1pt,arc=0pt,
-        toprule=1pt,bottomrule=1pt,leftrule=1pt,rightrule=1pt}
-
-\newenvironment{codebox}
- {\VerbatimEnvironment
-  \begin{tcolorbox}%
-  \begin{Verbatim}}
- {\end{Verbatim}\end{tcolorbox}}
-
-% Code caption that comes after the code box.
-\newcommand{\codecaption}[2][-4.4ex]{%
-  \vspace{#1}
-  \hfill\mbox{\footnotesize{\textcolor{uicyan}{#2}}\hspace{0.5em}}
-  \vspace*{2ex}}
-
-\newcommand{\sourcebox}[3][firstline=1]{%
-  \begin{tcolorbox}\VerbatimInput[#1]{#2}\end{tcolorbox}
-  \codecaption{#3}}
-
-\newcommand{\examplebox}[2][firstline=1]{\sourcebox[#1]{examples/#2}{#2}}
-
-\newcommand{\codeempha}[1]{\textcolor{uipink}{#1}}
-\newcommand{\codeemphb}[1]{\textcolor{uicyan}{#1}}
-\newcommand{\codeemphc}[1]{\textcolor{uipalegreen}{#1}}
-\newcommand{\codeemphd}[1]{\textcolor{uiorange}{#1}}
-
 \newcommand{\varying}[1]{\codeempha{#1}}
 \newcommand{\uniform}[1]{\codeemphb{#1}}
-\newcommand{\idx}[1]{[#1]}
 
 \newcommand{\pointfor}[1]{\hspace{1em}\textbf{\codeemphb{{\fontspec{Cambria Math} +}}}\hspace{0.5em}#1}
 \newcommand{\pointunkn}[1]{\hspace{1em}\textbf{?}\hspace{0.5em}#1}
@@ -91,27 +45,6 @@
 
 \newcommand{\llvmlogo}[1]{\raisebox{-1.3ex}{\includegraphics[scale=#1]{images/LLVM_Logo.pdf}}\hspace{-0.3em}}
 \newcommand{\llvmlogovec}[1]{\llvmlogo{#1}, \llvmlogo{#1}, \llvmlogo{#1}, \llvmlogo{#1}, \llvmlogo{#1}, \llvmlogo{#1}, \llvmlogo{#1}, \llvmlogo{#1}\hspace{0.3em}}
-
-% Create a slide for a part.
-\newcommand{\talkpart}[2]{%
-\section{Part #1: #2}
-
-\begin{frame}[c]{Part #1}
-
-\vspace{1cm}
-\centerline{\LARGE{#2}}
-
-\end{frame}}
-
-% Create a slide for a part section.
-\newcommand{\talksection}[1]{%
-\subsection{#1}
-\begin{frame}{\insertsectionhead}
-\vspace{2ex}
-\begin{NoHyper}
-\tableofcontents[sectionstyle=hide,subsectionstyle=show/shaded/hide]
-\end{NoHyper}
-\end{frame}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

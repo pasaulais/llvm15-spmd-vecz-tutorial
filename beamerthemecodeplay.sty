@@ -1,6 +1,11 @@
 % This program can be redistributed and/or modified under the terms
 % of the GNU Public License, version 3.
 
+\usepackage{graphicx}
+\usepackage{fancyvrb}
+\usepackage{tcolorbox}
+\usepackage{color}
+
 \mode<presentation>
 
 \DeclareOptionBeamer{secheader}{\beamer@secheadertrue}
@@ -9,13 +14,15 @@
 \useoutertheme{codeplay}
 
 % color definitions
+\definecolor{uiwhite}{RGB}{255, 255, 255}
+\definecolor{uilightgray}{RGB}{123,123,123}
 \definecolor{uidarkgray}{RGB}{24,24,25}
 \definecolor{uigray}{RGB}{51,51,51}
-\definecolor{uilightgray}{RGB}{123,123,123}
-\definecolor{uicyan}{RGB}{0,0,255}
+\definecolor{uicyan}{RGB}{0,255,255}
 \definecolor{uipalegreen}{RGB}{153,255,153}
 \definecolor{uiorange}{RGB}{237,175,28}
 \definecolor{uipaleorange}{RGB}{255,228,153}
+\definecolor{uipink}{RGB}{255,153,255}
 
 % set the title color
 \setbeamercolor{title}{fg=white}
@@ -41,6 +48,27 @@
 % suppress navigation bar
 \beamertemplatenavigationsymbolsempty
 
+% Create a slide for a part.
+\newcommand{\talkpart}[2]{%
+\section{Part #1: #2}
+
+\begin{frame}[c]{Part #1}
+
+\vspace{1cm}
+\centerline{\LARGE{#2}}
+
+\end{frame}}
+
+% Create a slide for a part section.
+\newcommand{\talksection}[1]{%
+\subsection{#1}
+\begin{frame}{\insertsectionhead}
+\vspace{2ex}
+\begin{NoHyper}
+\tableofcontents[sectionstyle=hide,subsectionstyle=show/shaded/hide]
+\end{NoHyper}
+\end{frame}}
+
 % fonts
 \usefonttheme{professionalfonts}
 \usepackage{unicode-math}
@@ -51,6 +79,37 @@
 \setsansfont{Calibri}
 \setmonofont{Consolas}
 \setbeamerfont{frametitle}{size=\LARGE,series=\bfseries}
+
+% Code box formatting
+\fvset{fontsize=\scriptsize,tabsize=4}
+\tcbset{colback=uigray,colframe=uilightgray,colupper=uiwhite,
+        left=1pt,right=1pt,top=1pt,bottom=1pt,arc=0pt,
+        toprule=1pt,bottomrule=1pt,leftrule=1pt,rightrule=1pt}
+
+\newenvironment{codebox}
+ {\VerbatimEnvironment
+  \begin{tcolorbox}%
+  \begin{Verbatim}}
+ {\end{Verbatim}\end{tcolorbox}}
+
+% Code caption that comes after the code box.
+\newcommand{\codecaption}[2][-4.4ex]{%
+  \vspace{#1}
+  \hfill\mbox{\footnotesize{\textcolor{uicyan}{#2}}\hspace{0.5em}}
+  \vspace*{2ex}}
+
+\newcommand{\sourcebox}[3][firstline=1]{%
+  \begin{tcolorbox}\VerbatimInput[#1]{#2}\end{tcolorbox}
+  \codecaption{#3}}
+
+% Allows using '[]' inside a code box when command chars are enabled.
+\newcommand{\idx}[1]{[#1]}
+
+% Emphasis styles
+\newcommand{\codeempha}[1]{\textcolor{uipink}{#1}}
+\newcommand{\codeemphb}[1]{\textcolor{uicyan}{#1}}
+\newcommand{\codeemphc}[1]{\textcolor{uipalegreen}{#1}}
+\newcommand{\codeemphd}[1]{\textcolor{uiorange}{#1}}
 
 \mode
 <all>
