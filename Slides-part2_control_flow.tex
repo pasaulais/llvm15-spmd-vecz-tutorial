@@ -240,7 +240,7 @@ kernel void copy_if_even(global int \uniform[*src],
     \end{itemize}
 \end{itemize}
 
-\hspace{3.0em}\begin{minipage}[t]{0.40\linewidth}
+\hspace{3.0em}\begin{minipage}[t]{0.38\linewidth}
 
 \begin{codebox}[commandchars=\\\[\]]
 A:
@@ -253,7 +253,7 @@ C:
   \varying[%v] = phi i32 \idx[\varying[%x], %B], \idx[\uniform[-1], %A]
 \end{codebox}
 
-\end{minipage}\hspace{1em}\begin{minipage}[t]{0.40\linewidth}
+\end{minipage}\hspace{1em}\begin{minipage}[t]{0.42\linewidth}
 
 \begin{codebox}[commandchars=\\\[\]]
 A:
@@ -279,7 +279,7 @@ define void @__v4_copy_if_eveni(i32* %in, i32* %out) {
 entry:
   %call = call spir_func i64 @get_global_id(i32 0)
   %.splatinsert = insertelement <4 x i64> undef, i64 %call, i32 0
-  %.splat = shufflevector <4 x i64> %.splatinsert, <4 x i64> undef, <4 x i32> zeroinitializer
+  %.splat = shufflevector <4 x i64> %.splatinsert, <4 x i64> undef, <4 x i32> zeroinit
   %0 = add <4 x i64> %.splat, <i64 0, i64 1, i64 2, i64 3>
   %and1 = and <4 x i64> %0, <i64 1, i64 1, i64 1, i64 1>
   %cmp2 = icmp eq <4 x i64> %and1, zeroinitializer
