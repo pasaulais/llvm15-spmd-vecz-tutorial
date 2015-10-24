@@ -38,3 +38,5 @@ Slides.pdf: $(IMAGES) Slides.tex
 %.pdf: %.svg
 	inkscape $< --export-pdf=$@
 
+clean:
+	rm -f *.aux *.toc *.vrb *.snm
