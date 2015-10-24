@@ -3,6 +3,20 @@
 
 \mode<presentation>
 
+% http://bloerg.net/2012/06/21/customizing-the-frametitle-of-beamer-presentation.html
+
+\makeatletter
+\setbeamertemplate{frametitle}
+{
+    \nointerlineskip
+    \begin{beamercolorbox}[sep=0.3cm,ht=1.7em,wd=\paperwidth]{frametitle}
+        \hspace{0.2\beamer@leftmargin}
+        \strut\insertframetitle\strut
+        \vskip-0.8ex%
+    \end{beamercolorbox}
+}
+\makeatother
+
 % footer styling
 \setbeamercolor{section in footer}{fg=foreground,bg=mediumbg}
 \setbeamercolor{subsection in footer}{fg=foreground,bg=mediumbg}
