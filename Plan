@@ -27,10 +27,7 @@ Part * Conclusion (3 min) goal 2 min
 Chalkboard themed diagrams
     ./replace_svg_colour.sh 00ffff bcdf8a # cyan -> light green
     ./replace_svg_colour.sh ff99ff 94c0cc # pink -> blue
-    ./replace_svg_colour.sh ff00ff 94c0cc # magenta -> blue
-
 
 TODO
     Improve Execution Model diagrams
     Missing comma after 8th dragon
-    Slide 13 tcolorbox
