@@ -13,19 +13,6 @@
 \mode<presentation>
 {
   \usetheme{codeplay}
-  \setbeamercovered{transparent}
-  %\setbeamertemplate{itemize item}[circle]
-  \setbeamertemplate{itemize item}{\small\raise0.6pt\hbox{$\bullet$}}
-  %\setbeamertemplate{itemize subitem}{\tiny\raise1.5pt\hbox{\donotcoloroutermaths$\blacktriangleright$}}
-  \setbeamertemplate{itemize subitem}{\small\raise0.1pt\hbox{\textcolor{uipaleorange}{\textendash}}}
-  \setbeamertemplate{section in toc shaded}[default][100]
-  \setbeamertemplate{subsection in toc shaded}[default][100]
-
-\setbeamertemplate{subsection in toc}{%
-\leavevmode\leftskip=4.00ex%
-  \llap{\raisebox{0.15ex}{\textcolor{structure}{\small$\bullet$}}\kern1ex}%
-  \inserttocsubsection\par%
-}
 }
 
 % title slide definition
@@ -61,9 +48,6 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Set the background for the rest of the slides.
-%\setbeamertemplate{background}
-% {\includegraphics[width=\paperwidth,height=\paperheight]{dark_background.png}}
 \setbeamertemplate{background}{}
 \setbeamertemplate{footline}[codeplaytheme]
 

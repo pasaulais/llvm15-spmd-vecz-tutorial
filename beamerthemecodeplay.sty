@@ -5,6 +5,8 @@
 \usepackage{fancyvrb}
 \usepackage{tcolorbox}
 \usepackage{color}
+\usepackage{unicode-math}
+\usepackage{fontspec}
 
 \mode<presentation>
 
@@ -40,14 +42,6 @@
 \setbeamercolor{section in toc shaded}{fg=uilightgray}
 \setbeamercolor{subsection in toc shaded}{fg=uilightgray}
 
-% frame title styling
-\setbeamertemplate{frametitle}{\vspace{0.4cm} \color{white}  \insertframetitle}
-
-\setbeamersize{text margin left=1em,text margin right=1em}
-
-% suppress navigation bar
-\beamertemplatenavigationsymbolsempty
-
 % Create a slide for a part.
 \newcommand{\talkpart}[2]{%
 \section{Part #1: #2}
@@ -71,11 +65,9 @@
 
 % fonts
 \usefonttheme{professionalfonts}
-\usepackage{unicode-math}
 \setmathfont{Cambria Math}
 %\setmathfont[range={\mathit}]{Cambria Math}
 %\setmathfont[range={\mathup}]{Cambria Math}
-\usepackage{fontspec}
 \setsansfont{Calibri}
 \setmonofont{Consolas}
 \setbeamerfont{frametitle}{size=\LARGE,series=\bfseries}
@@ -110,6 +102,29 @@
 \newcommand{\codeemphb}[1]{\textcolor{uicyan}{#1}}
 \newcommand{\codeemphc}[1]{\textcolor{uipalegreen}{#1}}
 \newcommand{\codeemphd}[1]{\textcolor{uiorange}{#1}}
+
+% Theme settings
+\setbeamercovered{transparent}
+%\setbeamertemplate{itemize item}[circle]
+\setbeamertemplate{itemize item}{\small\raise0.6pt\hbox{$\bullet$}}
+%\setbeamertemplate{itemize subitem}{\tiny\raise1.5pt\hbox{\donotcoloroutermaths$\blacktriangleright$}}
+\setbeamertemplate{itemize subitem}{\small\raise0.1pt\hbox{\textcolor{uipaleorange}{\textendash}}}
+\setbeamertemplate{section in toc shaded}[default][100]
+\setbeamertemplate{subsection in toc shaded}[default][100]
+
+\setbeamertemplate{subsection in toc}{%
+\leavevmode\leftskip=4.00ex%
+  \llap{\raisebox{0.15ex}{\textcolor{structure}{\small$\bullet$}}\kern1ex}%
+  \inserttocsubsection\par%
+}
+
+% frame title styling
+\setbeamertemplate{frametitle}{\vspace{0.4cm} \color{white}  \insertframetitle}
+
+\setbeamersize{text margin left=1em,text margin right=1em}
+
+% suppress navigation bar
+\beamertemplatenavigationsymbolsempty
 
 \mode
 <all>
