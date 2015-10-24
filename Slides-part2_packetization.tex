@@ -31,27 +31,6 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}{Uniform Value Analysis}
-
-\begin{itemize}
-    \item Finds 'root' values
-    \begin{itemize}
-        \item \varying{Varying} values with no \varying{varying} operand
-        \item Example: \varying{get\_global\_id(0)} has a different value for each instance
-    \end{itemize}
-    \item Marks each IR value as \uniform{uniform} or \varying{varying}
-    \begin{itemize}
-        \item All values start as \uniform{uniform}
-        \item Marking a value as \varying{varying} causes all users to also be marked \varying{varying}
-        \item Marking is done recursively, starting with roots
-        \item Values are marked before their users, to avoid cycles (phi nodes)
-    \end{itemize}
-\end{itemize}
-
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \begin{frame}[fragile]{Uniform Value Analysis}
 
 Example that combines \uniform{uniform} and \varying{varying} values:
@@ -76,6 +55,27 @@ entry:
   ret void
 }
 \end{codebox}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{Uniform Value Analysis}
+
+\begin{itemize}
+    \item Finds 'root' values
+    \begin{itemize}
+        \item \varying{Varying} values with no \varying{varying} operand
+        \item Example: \varying{get\_global\_id(0)} has a different value for each instance
+    \end{itemize}
+    \item Marks each IR value as \uniform{uniform} or \varying{varying}
+    \begin{itemize}
+        \item All values start as \uniform{uniform}
+        \item Marking a value as \varying{varying} causes all users to also be marked \varying{varying}
+        \item Marking is done recursively, starting with roots
+        \item Values are marked before their users, to avoid cycles (phi nodes)
+    \end{itemize}
+\end{itemize}
 
 \end{frame}
 
