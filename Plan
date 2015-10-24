@@ -24,11 +24,11 @@ Part 3 Going further (? min) goal 5 min
 Part * Conclusion (3 min) goal 2 min
 
 
-
+Chalkboard themed diagrams
+    ./replace_svg_colour.sh 00ffff bcdf8a # cyan -> light green
+    ./replace_svg_colour.sh ff99ff 94c0cc # pink -> blue
 
 
 TODO
-    Add some logos at the start (LLVM, OpenCL, CUDA)
     Improve Execution Model diagrams
-    Improve the summary slide
-        Move before references?
+    Missing comma after 8th dragon
