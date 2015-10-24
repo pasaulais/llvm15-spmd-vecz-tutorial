@@ -94,14 +94,14 @@
 
 % Theme settings
 \setbeamercovered{transparent}
-\setbeamertemplate{itemize item}{\small\raise0.6pt\hbox{$\bullet$}}
-\setbeamertemplate{itemize subitem}{\small\raise0.1pt\hbox{\textcolor{active1}{\textendash}}}
+\setbeamertemplate{itemize item}{\small\raise0.6pt\hbox{\textcolor{foreground}{\bullet}}}
+\setbeamertemplate{itemize subitem}{\small\raise0.1pt\hbox{\textcolor{foreground}{\textendash}}}
 \setbeamertemplate{section in toc shaded}[default][100]
 \setbeamertemplate{subsection in toc shaded}[default][100]
 
 \setbeamertemplate{subsection in toc}{%
 \leavevmode\leftskip=4.00ex%
-  \llap{\raisebox{0.15ex}{\textcolor{structure}{\small$\bullet$}}\kern1ex}%
+  \llap{\raisebox{0.15ex}{\textcolor{structure}{\small\textcolor{foreground}{\bullet}}}\kern1ex}%
   \inserttocsubsection\par%
 }
 
