@@ -32,5 +32,5 @@ IMAGES="images/arbitrary-access.svg \
 
 for IMAGE in $IMAGES
 do
-    sed -i "s/#$1/#$2/" $IMAGE
+    sed -i "s/#$1/#$2/g" $IMAGE
 done
