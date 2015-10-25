@@ -79,8 +79,8 @@ kernel void extract_lr(global int2 *src, global int *left, global int *right) {
     int tid = get_global_id(0);
     int4 samplesLeft  = interleaved_load_int4((int *)&src[tid] + 0, 2);
     int4 samplesRight = interleaved_load_int4((int *)&src[tid] + 1, 2);
-    ((int4 *)left)[tid / 4] = (samplesLeft >> 1);
-    ((int4 *)right)[tid / 4] = (samplesRight >> 1);
+    vstore4(samplesLeft >> 1, tid, (int *)left);
+    vstore4(samplesRight >> 1, tid, (int *)right);
 }
 \end{codebox}
 
