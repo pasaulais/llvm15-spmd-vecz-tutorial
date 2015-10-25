@@ -272,7 +272,7 @@ for (int \varying[tid] = 0; \varying[tid] < num_items; \varying[tid]++) {
     \begin{itemize}
         %\item Packet: Contains several values, one per SIMD lane. Maps to one value or instruction in the original kernel. Usually a vector instruction.
         %\item Packet: Maps a value in the original function to $N$ values, one per SIMD lane.
-        \item Packet: $N$ values that map to $1$ value in the original function. One per SIMD lane.
+        \item Packet: Maps $1$ value in the original function to $N$ values, one per SIMD lane.
         \item \uniform{Uniform}: Packet where values are identical for all lanes.
         \item \varying{Varying}: Packet where values are not identical for all lanes.
     \end{itemize}

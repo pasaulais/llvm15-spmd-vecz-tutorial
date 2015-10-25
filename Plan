@@ -6,9 +6,9 @@ Part 1 Background (8 min, 8 slides) goal 8 min
 
 Part 2 Implementing a basic vectorizer (25 min) goal 32 min
     Overview (? min, 3 slides) goal 4 min
-    Packetization stage (? min, 18 slides) goal 15 min
-    Scalarization stage (? min, 2 slides) goal 3 min
-    Control flow stage (? min, 10+? slides) goal 10 min
+    Packetization stage (? min, 18 slides) goal 15 min (2nd run 9 min)
+    Scalarization stage (? min, 2 slides) goal 3 min (2nd run 2 min)
+    Control flow stage (? min, 10+? slides) goal 10 min (2nd run 15 min)
     
 Part 3 Going further (? min) goal 5 min
     SIMD width detection
@@ -21,7 +21,7 @@ Part 3 Going further (? min) goal 5 min
     
     SoA to AoS conversion
 
-Part * Conclusion (3 min) goal 2 min
+Part * Conclusion (3 min) goal 2 min (2nd run 2 min)
 
 
 Chalkboard themed diagrams
@@ -29,5 +29,28 @@ Chalkboard themed diagrams
     ./replace_svg_colour.sh ff99ff 94c0cc # pink -> blue
 
 TODO
-
-    
+    Part 3 ideas
+        SIMD width detection
+            Basic process
+                Visit varying nodes
+                Record widest type
+                N = largest vector register / widest type
+            Use register pressure
+                Max usage < 1/p ? Multiply N by p
+            Use a cost model
+        CFG Specialization
+            Duplicate part of the CFG
+                e.g. assuming all lanes enabled
+                Avoids CFG conversion and predication for the specialized part
+                Increases code size
+            Need to generate an extra branch (guard) to specialized code
+                e.g. 'b i1 (all m_{A->B}), %B_{spec}, %B'
+                
+            loop in if example
+        CFG Conversion: Special Case
+            Branch always taken by a single lane
+                'if (tid == 0) { /* write back result */ }' example 
+                Often used with reductions
+            No need for CFG conversion
+                Keep the conditional branch
+            No need for packetization
