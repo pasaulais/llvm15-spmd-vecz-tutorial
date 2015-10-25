@@ -6,6 +6,33 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\begin{frame}{Instantiation}
+
+\begin{itemize}
+    \item Not all instructions can be packetized
+    \begin{itemize}
+        \item External function with side-effcts (e.g. \texttt{printf})
+        \item Atomic builtins
+    \end{itemize}
+    \item Solution: instantiate the instruction for all lanes ($i \in [0;N)$)
+    \begin{itemize}
+        \item Duplicate scalar instructions $N$ times
+        %\item Replace $tid$ with \texttt{$tid + i$} (e.g. calls to \texttt{get\_global\_id}, \texttt{get\_local\_id})
+        \item Replace $tid$ with \texttt{$tid + i$} (e.g. calls to \texttt{get\_global\_id})
+        \item Need to extract packetized operands $N$ times %(using \texttt{extractelement})
+    \end{itemize}
+    \item Happens during the packetization stage
+    \item Can be an alternative to scalarization
+    \begin{itemize}
+        \item Instantiation then becomes a stage of its own
+        \item Analysis determines when to instatiate, when to scalarize
+    \end{itemize}
+\end{itemize}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 \begin{frame}{Vectorizing Builtin Function Calls}
 
 % Builtin: the vectorizer has some knowledge of scalar -> vector function mapping
