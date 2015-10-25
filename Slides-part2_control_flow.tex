@@ -497,3 +497,44 @@ kernel void while_loop(global int \uniform[*src],
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{CFG Conversion: Loop Execution}
+
+\vspace{-1ex}\begin{itemize}
+   %\item Evaluate $cond_{H \rightarrow D}$ ($val_{prev}<0$)
+   %\item Update $m_{exit}$ using $cond_{H \rightarrow D}$ ($val_{prev}<0$)
+    \item Execute the loop header $H$
+    \begin{itemize}
+        \item $m_{exit} \leftarrow m_{exit} \cup (val_{prev} \geq 0)$
+    \end{itemize}
+    \item Execute the loop body $L$
+    \begin{itemize}
+        \item $val_{new} \leftarrow val_{prev}+2$
+    \end{itemize}
+    \item Freeze live value $val$
+    \begin{itemize}
+        \item $m_{active} \leftarrow m_{entry} \cap \neg m_{exit}$
+        \item $val_{frozen} \leftarrow select(m_{active}, val_{new}, val_{prev})$
+    \end{itemize}
+    \item Branch to $H$ if $any(m_{active})$, or exit loop to $D$
+\end{itemize}
+
+\vspace{0.5ex}
+
+\begin{tabular}{|c|c|r|r|r|c|c|c|c|r|r|r|c|r|r|r|}
+\hline 
+Iteration & \multicolumn{4}{c|}{$val_{prev}$} & $m_{entry}$ & $m_{exit}$ & $m_{active}$ & \multicolumn{4}{c|}{$val_{new}$} & \multicolumn{4}{c|}{$val_{frozen}$}\tabularnewline
+\hline 
+0 & 7 & -2 & -3 & -5 & ●●◌● & ●◌◌◌ & ◌●◌● & 9 & 0 & -1 & -3 & 7 & 0 & -3 & -3\tabularnewline
+\hline 
+1 & 7 & 0 & -3 & -3 & ◌●◌● & ●●◌◌ & ◌◌◌● & 9 & 2 & -1 & -1 & 7 & 0 & -3 & -1\tabularnewline
+\hline 
+2 & 7 & 0 & -3 & -1 & ◌◌◌● & ●●◌◌ & ◌◌◌● & 9 & 2 & -1 & 1 & 7 & 0 & -3 & 1\tabularnewline
+\hline 
+3 & 7 & 0 & -3 & 1 & ◌◌◌● & ●●◌● & ◌◌◌◌ & 9 & 2 & -1 & 3 & 7 & 0 & -3 & 1\tabularnewline
+\hline 
+\end{tabular}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
