@@ -28,7 +28,8 @@ IMAGES = images/arbitrary-access.pdf \
     images/uva-example-interm.pdf \
     images/uva-example-start.pdf \
     images/vertical-vectorization.pdf \
-    images/work-items.pdf
+    images/work-items.pdf \
+    images/load-addressing.pdf
 
 all: Slides.pdf
 

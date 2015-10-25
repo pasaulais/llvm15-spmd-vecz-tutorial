@@ -107,11 +107,11 @@ entry:
 
 \begin{frame}{Memory Addressing}
 
-\begin{itemize}
-    %\item \varying{get\_global\_id(0)} was not packetized to a sequence of IDs. Why?
-    \item Loads and stores are packetized according to the addressing mode
+\begin{minipage}[t]{0.60\linewidth}\begin{itemize}
+    % XXX: Graph fragment with load and gep and gid
+    \item Packetization depends on the addressing mode
     \begin{itemize}
-        \item Each operation can access $N$ memory elements
+        \item Each memory operation can access $N$ elements
         \item Address usually has the form `\uniform{base} + \varying{offset}'
         \item Need to evaluate the offset for each of the $N$ lanes
     \end{itemize}
@@ -119,13 +119,13 @@ entry:
     \item How are these elements laid out in memory?
     \begin{itemize}
         \item The layout affects how operations are packetized
-        \item Most common layouts can be described with a single \emph{stride}
+        \item Most layouts can be described with a single \emph{stride}
     \end{itemize}
     
     \item Stride is the distance between successive elements
     \begin{itemize}
         \item Expressed in number of elements
-        \item "How many elements are skipped in memory to get to the next one"
+        %\item "How many elements are skipped to get to the next one"
         \item One means elements are consecutive
         \item Negative means memory offsets are decreasing
     \end{itemize}
@@ -135,8 +135,12 @@ entry:
     %    \item Generate calls to internal builtins
     %    \item Internal builtins can be implemented for each target as supported 
     %\end{itemize}
-    
 \end{itemize}
+
+\end{minipage}\begin{minipage}[t]{0.39\linewidth}
+    \vspace{0.1ex}
+    \center{\includegraphics[scale=0.50]{images/load-addressing.pdf}}
+\end{minipage}
 
 \end{frame}
 
