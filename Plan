@@ -11,15 +11,6 @@ Part 2 Implementing a basic vectorizer (25 min) goal 32 min
     Control flow stage (? min, 10+? slides) goal 10 min (2nd run 15 min)
     
 Part 3 Going further (? min) goal 5 min
-    SIMD width detection
-    
-    Handling builtin function calls
-    
-    Instantiation
-    
-    Interleaved memory optimizations
-    
-    SoA to AoS conversion
 
 Part * Conclusion (3 min) goal 2 min (2nd run 2 min)
 
