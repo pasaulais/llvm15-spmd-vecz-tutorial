@@ -22,45 +22,6 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%\begin{frame}{Scalarization Process}
-%
-%\begin{itemize}
-%    \item Look for vector \varying{varying} instructions such as:
-%    \begin{itemize}
-%        \item Leaves that define vector values, vector stores
-%        \item Vector extractions
-%        \item Vector -> scalar bitcasts
-%    \end{itemize}
-%    
-%    \item Recursively scalarize until we reach a scalar value
-%    \begin{itemize}
-%        \item Operands before instructions
-%        \item Re-create instructions for each vector element
-%        \item Vector lane $\neq$ SIMD instance!
-%    \end{itemize}
-%    
-%\end{itemize}
-%
-%\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%\begin{frame}[c]{Scalarization Example: Before}
-%
-%\center{\includegraphics[scale=0.65]{images/scalarization-start.pdf}}
-%
-%\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%\begin{frame}{Scalarization Example: After}
-%
-%\center{\includegraphics[scale=0.65]{images/scalarization-end.pdf}}
-%
-%\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \begin{frame}[fragile]{Scalarization Example}
 
 \begin{itemize}
@@ -109,31 +70,3 @@ int \varying[sampleRight] = \uniform[srcScalar]\idx[(\varying[tid] * \uniform[2]
 \end{minipage}
 
 \end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%\begin{frame}[fragile]{Scalarization Example}
-%
-%After Scalarization:
-%\begin{codebox}
-%kernel void extract_lr(global int2 *src, global int *left, global int *right) {
-%    int tid = get_global_id(0);
-%    int sampleLeft = *((int *)&src[tid] + 0);
-%    int sampleRight = *((int *)&src[tid] + 1);
-%    left[tid] = (sampleLeft >> 1);
-%    right[tid] = (sampleRight >> 1);
-%}
-%\end{codebox}
-%
-%After Packetization:
-%\begin{codebox}
-%kernel void extract_lr(global int2 *src, global int *left, global int *right) {
-%    int tid = get_global_id(0);
-%    int4 samplesLeft  = interleaved_load_int4((int *)&src[tid] + 0, 2);
-%    int4 samplesRight = interleaved_load_int4((int *)&src[tid] + 1, 2);
-%    ((int4 *)left)[tid / 4] = (samplesLeft >> 1);
-%    ((int4 *)right)[tid / 4] = (samplesRight >> 1);
-%}
-%\end{codebox}
-%
-%\end{frame}
