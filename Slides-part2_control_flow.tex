@@ -498,11 +498,12 @@ kernel void while_loop(global int \uniform[*src],
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}{CFG Conversion: Loop Execution}
+\begin{frame}{Loop Execution Example}
 
-\vspace{-1ex}\begin{itemize}
+\vspace{-1ex}
+\begin{minipage}[t]{0.65\linewidth}
+\begin{itemize}
    %\item Evaluate $cond_{H \rightarrow D}$ ($val_{prev}<0$)
-   %\item Update $m_{exit}$ using $cond_{H \rightarrow D}$ ($val_{prev}<0$)
     \item Execute the loop header $H$
     \begin{itemize}
         \item $m_{exit} \leftarrow m_{exit} \cup (val_{prev} \geq 0)$
@@ -518,6 +519,13 @@ kernel void while_loop(global int \uniform[*src],
     \end{itemize}
     \item Branch to $H$ if $any(m_{active})$, or exit loop to $D$
 \end{itemize}
+\end{minipage}\begin{minipage}[t]{0.32\linewidth}
+
+\vspace{0.1ex}
+
+\center{\includegraphics[scale=0.42]{images/loop-linear-cfg.pdf}}
+
+\end{minipage}
 
 \vspace{0.5ex}
 

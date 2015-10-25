@@ -37,11 +37,13 @@
     \item Divergence Analysis
     \begin{itemize}
         \item Determines which basic blocks are \varying{divergent}
+        \item Depends on UVA
     \end{itemize}
     
     \item SIMD Width Analysis
     \begin{itemize}
         \item Chooses a 'good' width $N$ based on register/instruction usage
+        \item Depends on UVA
     \end{itemize}
     
     \item ...
@@ -68,7 +70,7 @@
         \\ \pointagainst{Graph-based transformations not as straightforward}
     \item Both?
     \begin{itemize}
-        \item Transformations at IR level, generating metadata
+        \item Transformations at IR level, generating CFG-specific metadata
         \item Use metadata in backend to do MI-level predication
     \end{itemize}
 \end{itemize}
