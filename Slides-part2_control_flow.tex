@@ -367,7 +367,6 @@ kernel void while_loop(global int \uniform[*src],
         \item $m_{active} = m_{header} \cap \neg m_{exit}$
         \item True: Branch from loop latch $L$ back to loop header $H$
         \item False: Exit the loop from loop latch $L$
-        \item Also used to freeze loop live variables
     \end{itemize}
 \end{itemize}
 
@@ -402,9 +401,13 @@ kernel void while_loop(global int \uniform[*src],
     \begin{itemize}
         \item The new value from this iteration $x_{new}$ (instance is active)
         \item The value from the previous iteration $x_{prev}$ (instance exited)
-        \item $m_{active}$ selects the right value
+        \item $m_{B}$ selects the right value, where $B$ contains $x$
     \end{itemize}
     \item Replace all uses of $x_{new}$ with $x_{frozen}$
+    \item Replace outside-loop uses of $x_{prev}$ with $x_{frozen}$
+    \begin{itemize}
+        \item This happens in 'while' and 'for' loops
+    \end{itemize}
 \end{itemize}
 
 \end{frame}
@@ -446,13 +449,13 @@ kernel void while_loop(global int \uniform[*src],
 \hline 
 Iteration & \multicolumn{4}{c|}{$x_{prev}$} & $m_{entry}$ & $m_{exit}$ & $m_{active}$ & \multicolumn{4}{c|}{$x_{new}$} & \multicolumn{4}{c|}{$x_{frozen}$}\tabularnewline
 \hline 
-0 & 7 & -2 & -3 & -5 & ●●◌● & ●◌◌◌ & ◌●◌● & 9 & 0 & -1 & -3 & 7 & 0 & -3 & -3\tabularnewline
+0 & 7 & -2 & -3 & -5 & ●●◌● & ●◌◌◌ & ◌●◌● & 9 & 0 & -1 & -3 & \codeemphb{7} & 0 & \codeemphb{-3} & -3\tabularnewline
 \hline 
-1 & 7 & 0 & -3 & -3 & ◌●◌● & ●●◌◌ & ◌◌◌● & 9 & 2 & -1 & -1 & 7 & 0 & -3 & -1\tabularnewline
+1 & 7 & 0 & -3 & -3 & ◌●◌● & ●●◌◌ & ◌◌◌● & 9 & 2 & -1 & -1 & \codeemphb{7} & \codeemphb{0} & \codeemphb{-3} & -1\tabularnewline
 \hline 
-2 & 7 & 0 & -3 & -1 & ◌◌◌● & ●●◌◌ & ◌◌◌● & 9 & 2 & -1 & 1 & 7 & 0 & -3 & 1\tabularnewline
+2 & 7 & 0 & -3 & -1 & ◌◌◌● & ●●◌◌ & ◌◌◌● & 9 & 2 & -1 & 1 & \codeemphb{7} & \codeemphb{0} & \codeemphb{-3} & 1\tabularnewline
 \hline 
-3 & 7 & 0 & -3 & 1 & ◌◌◌● & ●●◌● & ◌◌◌◌ & 9 & 2 & -1 & 3 & 7 & 0 & -3 & 1\tabularnewline
+3 & 7 & 0 & -3 & 1 & ◌◌◌● & ●●◌● & ◌◌◌◌ & 9 & 2 & -1 & 3 & \codeemphb{7} & \codeemphb{0} & \codeemphb{-3} & \codeemphb{1}\tabularnewline
 \hline 
 \end{tabular}
 
