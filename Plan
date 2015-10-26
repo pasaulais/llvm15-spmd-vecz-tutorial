@@ -20,28 +20,4 @@ Chalkboard themed diagrams
     ./replace_svg_colour.sh ff99ff 94c0cc # pink -> blue
 
 TODO
-    Part 3 ideas
-        SIMD width detection
-            Basic process
-                Visit varying nodes
-                Record widest type
-                N = largest vector register / widest type
-            Use register pressure
-                Max usage < 1/p ? Multiply N by p
-            Use a cost model
-        CFG Specialization
-            Duplicate part of the CFG
-                e.g. assuming all lanes enabled
-                Avoids CFG conversion and predication for the specialized part
-                Increases code size
-            Need to generate an extra branch (guard) to specialized code
-                e.g. 'b i1 (all m_{A->B}), %B_{spec}, %B'
-                
-            loop in if example
-        CFG Conversion: Special Case
-            Branch always taken by a single lane
-                'if (tid == 0) { /* write back result */ }' example 
-                Often used with reductions
-            No need for CFG conversion
-                Keep the conditional branch
-            No need for packetization
+

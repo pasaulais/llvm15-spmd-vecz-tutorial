@@ -2,6 +2,24 @@
 
 \begin{frame}{SIMD Width Detection}
 
+\begin{itemize}
+    \item Basic process
+    \begin{itemize}
+        \item Visit \varying{varying} nodes
+        \item Record width $W$ of widest type used
+        \item Given vector register width $V$, $N = \frac{V}{W}$
+    \end{itemize}
+    \item Improve analysis using register pressure information
+    \begin{itemize}
+        \item Max register usage $< \frac{1}{p}$? Multiply $N$ by $p$
+        \item Result in $p$ times the number of native vector operations
+    \end{itemize}
+    \item Use a cost model
+    \begin{itemize}
+        \item Your target may only support some vector operations on specific widths
+    \end{itemize}
+\end{itemize}
+
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -67,6 +85,56 @@
 
 % Need to pass a mask as an extra argument
 % Might be simpler to just inline such functions
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}[fragile]{CFG Specialization}
+
+\begin{itemize}
+    \item Duplicate part of the CFG
+    \begin{itemize}
+        \item With the assumption that all lanes are enabled
+        \item Avoids CFG conversion and predication for the specialized part
+        \item Increases code size
+    \end{itemize}
+    \item Need to generate an extra branch (guard) to specialized code
+    \begin{itemize}
+        \item e.g. \texttt{'b i1 $all(m_{A->B})$, label $\%B_{spec}$, label $\%B$'}
+    \end{itemize}
+\end{itemize}
+
+\begin{codebox}[commandchars=\\\[\]]
+kernel void convolution(global float \uniform[*src], global float \uniform[*dst]) {
+  int \varying[x] = \varying[get_global_id(0)];
+  int \uniform[width] = \uniform[get_global_size(0)];
+  float sum = \uniform[0.0f];
+  if ((\varying[x] >= \uniform[FILTER_SIZE]) && (\varying[x] < (\uniform[width] - \uniform[FILTER_SIZE]))) {
+    /* Loop that computes sum, using an \uniform[uniform] condition */
+  }
+  \uniform[dst]\idx[\varying[x]] = \varying[sum];
+}
+\end{codebox}
+
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}{CFG Conversion: Single Lane}
+
+\begin{itemize}
+    \item Branch always taken by a single lane
+    \begin{itemize}
+        \item e.g. \texttt{'if (tid == 0) \{ /* write back result */ \}'}
+        \item Often used with reductions
+    \end{itemize}
+    \item No need for CFG conversion
+    \begin{itemize}
+        \item Keep the conditional branch
+    \end{itemize}
+    \item No need for packetization
+\end{itemize}
 
 \end{frame}
 
