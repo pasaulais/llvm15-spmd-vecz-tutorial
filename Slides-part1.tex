@@ -91,8 +91,8 @@
 \vspace{1ex}
 \begin{minipage}[t]{0.45\linewidth}
 \begin{codebox}[commandchars=\\\[\]]
-kernel void add_uniform(global int *dst,
-                        global int *src,
+kernel void add_uniform(int *dst,
+                        int *src,
                         int alpha) {
   int \varying[tid] = \varying[get_global_id(0)];
   dst\idx[\varying[tid]] = src\idx[\varying[tid]] + (alpha - 1);
@@ -112,7 +112,7 @@ for (int \varying[tid] = 0; \varying[tid] < num_items; \varying[tid]++) {
 \end{minipage}
 
 %\begin{codebox}
-%kernel void calc_gpa(global *float result, global *int grades, global *float weights,
+%kernel void calc_gpa(*float result, *int grades, *float weights,
 %                     int num_grades, int num_students) {
 %    int student_id = get_global_id(0);
 %    float gpa = 0.0;

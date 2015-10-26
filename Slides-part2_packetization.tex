@@ -36,7 +36,7 @@
 Example that combines \uniform{uniform} and \varying{varying} values:
 
 \begin{codebox}[commandchars=\\\[\]]
-kernel void add_uniform(global int *\uniform[dst], global int *\uniform[src], int \uniform[alpha]) {
+kernel void add_uniform(int *\uniform[dst], int *\uniform[src], int \uniform[alpha]) {
     int \varying[tid] = \varying[get_global_id](0);
     \uniform[dst]\idx[\varying[tid]] = \uniform[src]\idx[\varying[tid]] + (\uniform[alpha] - \uniform[1]);
 }
@@ -158,7 +158,7 @@ entry:
     \vspace{0.1ex}
     \begin{codebox}[commandchars=\\\[\]]
 
-global int \uniform[*src];
+int \uniform[*src];
 int \uniform[x] = \uniform[src]\idx[\uniform[3]];
 
 
@@ -192,7 +192,7 @@ int \uniform[x] = \uniform[src]\idx[\uniform[3]];
     \vspace{0.1ex}
     \begin{codebox}[commandchars=\\\[\]]
 
-global int \uniform[*src];
+int \uniform[*src];
 int \varying[tid] = \varying[get_global_id(0)];
 int \varying[x] = \uniform[src]\idx[\varying[tid] + \uniform[2]];
 
@@ -226,7 +226,7 @@ int \varying[x] = \uniform[src]\idx[\varying[tid] + \uniform[2]];
     \vspace{0.1ex}
     \begin{codebox}[commandchars=\\\[\]]
     
-global int \uniform[*src];
+int \uniform[*src];
 int \varying[tid] = \varying[get_global_id(0)];
 int \varying[even] = \uniform[src]\idx[\varying[tid] * \uniform[2]];
 int \varying[odd] = \uniform[src]\idx[(\varying[tid] * \uniform[2]) + \uniform[1]];
@@ -260,8 +260,8 @@ int \varying[odd] = \uniform[src]\idx[(\varying[tid] * \uniform[2]) + \uniform[1
     \vspace{0.1ex}
     \begin{codebox}[commandchars=\\\[\]]
     
-global int \uniform[*src];
-global int \uniform[*map]; // {5, 3, 7, 3};
+int \uniform[*src];
+int \uniform[*map]; // {5, 3, 7, 3};
 int \varying[tid] = \varying[get_global_id(0)];
 int \varying[x] = \uniform[src]\idx[\uniform[map]\idx[\varying[tid]]];
 

@@ -30,7 +30,7 @@
 
 \begin{frame}[fragile]{Control Flow Conversion: if}
 
-\begin{minipage}[t]{0.50\linewidth}
+\begin{minipage}[t]{0.52\linewidth}
 
 \begin{itemize}
     \item Divergent branch condition: \varying{cond}
@@ -38,8 +38,7 @@
 \end{itemize}
 
 \begin{codebox}[commandchars=\\\[\]]
-kernel void copy_if_even(global int \uniform[*src],
-                         global int \uniform[*dst]) {
+kernel void copy_if_even(int \uniform[*src], int \uniform[*dst]) {
   int \varying[tid] = \varying[get_global_id(0)];
   int \varying[cond] = (\varying[tid] & \uniform[1]) == \uniform[0];
   int result;
@@ -54,7 +53,7 @@ kernel void copy_if_even(global int \uniform[*src],
 
 \end{minipage}
 \hspace{1em}
-\begin{minipage}[t]{0.43\linewidth}
+\begin{minipage}[t]{0.40\linewidth}
 
 \vspace{0.1ex}
 
@@ -320,8 +319,8 @@ entry:
 \end{itemize}
 
 \begin{codebox}[commandchars=\\\[\]]
-kernel void while_loop(global int \uniform[*src],
-                       global int \uniform[*dst],
+kernel void while_loop(int \uniform[*src],
+                       int \uniform[*dst],
                        int \uniform[step]) {
   int \varying[tid] = \varying[get_global_id(0)];
   int \varying[x] = \uniform[src]\idx[\varying[tid]];

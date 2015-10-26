@@ -106,7 +106,7 @@
 \end{itemize}
 
 \begin{codebox}[commandchars=\\\[\]]
-kernel void convolution(global float \uniform[*src], global float \uniform[*dst]) {
+kernel void convolution(float \uniform[*src], float \uniform[*dst]) {
   int \varying[x] = \varying[get_global_id(0)];
   int \uniform[width] = \uniform[get_global_size(0)];
   float sum = \uniform[0.0f];

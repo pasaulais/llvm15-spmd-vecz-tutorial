@@ -37,7 +37,7 @@
 \vspace{0.1ex}
 Before Scalarization (fragment):
 \begin{codebox}[commandchars=\\\[\]]
-global int2 \uniform[*src], int \uniform[*left], int \uniform[*right];
+int2 \uniform[*src], int \uniform[*left], int \uniform[*right];
 int \varying[tid] = \varying[get_global_id(0)];
 
 
@@ -55,10 +55,10 @@ int2 \varying[sample] = \uniform[src]\idx[\varying[tid]];
 \vspace{0.1ex}
 After Scalarization (reconstructed):
 \begin{codebox}[commandchars=\\\[\]]
-global int2 \uniform[*src], int \uniform[*left], int \uniform[*right];
+int2 \uniform[*src], int \uniform[*left], int \uniform[*right];
 int \varying[tid] = \varying[get_global_id(0)];
 
-global int \uniform[*srcScalar] = ((int *)\uniform[src]);
+int \uniform[*srcScalar] = ((int *)\uniform[src]);
 int \varying[sampleLeft] = \uniform[srcScalar]\idx[(\varying[tid] * \uniform[2]) + \uniform[0]];
 int \varying[sampleRight] = \uniform[srcScalar]\idx[(\varying[tid] * \uniform[2]) + \uniform[1]];
 
