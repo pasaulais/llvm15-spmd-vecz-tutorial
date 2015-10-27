@@ -103,16 +103,23 @@ entry:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}{Vectorizing User Functions (No Side-Effects)}
+\begin{frame}{Packetizing User Functions (No Side-Effects)}
 
-% Similar to builtin functions, but with no knowledge of whether arguments need
-% packetization. Need to analyze this for each call site.
+\begin{itemize}
+    \item Vectorizer has no intrinsic knowledge of which arguments are \varying{varying}
+    \begin{itemize}
+        \item Need to analyze this for each call site
+        \item Generate a packetized function for each combination
+    \end{itemize}
+    \item Arguments may also be \uniform{uniform} (e.g. arrays)
+    \item Otherwise similar to packetizing builtins 
+\end{itemize}
 
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}{Vectorizing User Functions (Side-Effects)}
+\begin{frame}{Packetizing User Functions (Side-Effects)}
 
 \begin{itemize}
     \item The vectorized function needs to take an extra mask argument, $m_{entry}$
