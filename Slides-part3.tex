@@ -51,15 +51,32 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}{Vectorizing Builtin Function Calls}
+\begin{frame}{Packetizing Builtin Function Calls}
 
-% Builtin: the vectorizer has some knowledge of scalar -> vector function mapping
+\begin{itemize}
+    \item Requires a 'builtin function database'
+    \begin{itemize}
+        \item Which functions are builtins
+        \item Argument types, unless encoded in the mangled function name (e.g. OpenCL)
+        \item Properties (e.g. returns an \varying{item ID}, has side-effects, pointer return, etc)
+    \end{itemize}
+    \item Map scalar builtin to vector equivalent (e.g. \prototype{tan(float)} to \prototype{tan(float4)})
+    \begin{itemize}
+        \item And the other way around, for scalarization
+        \item Assumes the equivalent builtin is already packetized
+    \end{itemize}
+    \item Simply create call to vector equivalent with packetized operands
+    \item However not all OpenCL builtins have vector equivalents (e.g. \prototype{float dot(float4)})
+    \begin{itemize}
+        \item Can inline these builtins before scalarization
+    \end{itemize}
+\end{itemize}
 
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}{Vectorizing Builtin Functions}
+\begin{frame}{Packetizing Builtin Functions}
 
 % By vectorizing the builtin's body
 % This changes the function signature (return value, some arguments)
