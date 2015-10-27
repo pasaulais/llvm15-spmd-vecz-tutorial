@@ -189,6 +189,21 @@ kernel void convolution(float \uniform[*src], float \uniform[*dst]) {
 
 \begin{frame}{Interleaved Memory Optimizations}
 
+\begin{itemize}
+    \item Scalarizing vector loads and stores results in many interleaved loads and stores
+    \item Most targets do not support this efficiently
+    \begin{itemize}
+        \item Resulting in even more scalar loads, stores, vector extractions and insertions
+    \end{itemize}
+    \item Grouping these instructions often helps
+    \begin{itemize}
+        \item ARM supports \texttt{vld.[2-4]} and \texttt{vst.[2-4]} for some vector types
+        \item Can replace $n$-group with $n$ memory operations and $n \times n$-transposition 
+    \end{itemize}
+    \item To find groups, look for a common base pointer and increasing offsets
+\end{itemize}
+
+
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
