@@ -29,14 +29,19 @@
 \begin{frame}{Analysis Examples}
 
 \begin{itemize}
-    \item Uniform Value Analysis
+    \item Uniform Value Analysis (UVA)
     \begin{itemize}
         \item Marks values as either \uniform{uniform} or \varying{varying}
+        \item \uniform{Uniform}: Packet where values are identical for all lanes
+        \item \varying{Varying}: Packet where values are not identical for all lanes
     \end{itemize}
 
     \item Divergence Analysis
     \begin{itemize}
-        \item Determines which basic blocks are \varying{divergent}
+        \item Determines which branches, which basic blocks are \varying{divergent}
+        %\item \uniform{Uniform}: Branch taken by all lanes.
+        \item \varying{Divergent} branch: Some lanes take one side, remaining lanes the other side
+        \item \varying{Divergent} block: Not all lanes are active when executing the block
         \item Depends on UVA
     \end{itemize}
     

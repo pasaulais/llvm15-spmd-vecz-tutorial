@@ -200,15 +200,16 @@ for (int \varying[tid] = 0; \varying[tid] < num_items; \varying[tid]++) {
         \item $F$ and $VF_N$ have the same signature
     \end{itemize}
     
-    \item The original function can be preserved (cloned) or not (in-place vectorization)
-    \begin{itemize}
-        \item Working on cloned function allows vectorization to fail gracefully
-    \end{itemize}
-    
-    %\item Vectorization may be allowed to fail
+    %\item The original function can be preserved (cloned) or not (in-place vectorization)
     %\begin{itemize}
-    %    \item On failure, the original function can be used 
+    %    \item Working on cloned function allows vectorization to fail gracefully
     %\end{itemize}
+    
+    \item Vectorization may be allowed to fail
+    \begin{itemize}
+        \item Work on cloned function
+        \item Use original function on failure
+    \end{itemize}
 \end{itemize}
 
 \end{minipage}
@@ -258,31 +259,16 @@ for (int \varying[tid] = 0; \varying[tid] < num_items; \varying[tid]++) {
 
 \begin{frame}{Glossary}
 
-\begin{itemize}
-    \item Work
-    \begin{itemize}
-        \item Work-item: unit of computation to execute in parallel.
-        \item Instance: Code and state associated with one work-item.
-        \item SIMD Lane: Execution of one instance of a vectorized kernel.
-        \item SIMD Group: Contains all lanes that can be executed in parallel (at the same time).
-        \item SIMD Width: Number of parallel lanes. Vectorization factor ($N$).
-    \end{itemize}
-        
-    \item Data
-    \begin{itemize}
-        %\item Packet: Contains several values, one per SIMD lane. Maps to one value or instruction in the original kernel. Usually a vector instruction.
-        %\item Packet: Maps a value in the original function to $N$ values, one per SIMD lane.
-        \item Packet: Maps $1$ value in the original function to $N$ values, one per SIMD lane.
-        \item \uniform{Uniform}: Packet where values are identical for all lanes.
-        \item \varying{Varying}: Packet where values are not identical for all lanes.
-    \end{itemize}
+\glossaryword{Work-item}{Unit of computation to execute in parallel}
 
-    \item Control Flow
-    \begin{itemize}
-        \item \uniform{Uniform}: Branch taken by all lanes.
-        %\item \varying{Divergent}: Conditional branch taken by only some lanes.
-        \item \varying{Divergent}: Some lanes take one side of a branch, remaining lanes the other side.
-    \end{itemize}
-\end{itemize}
+\glossaryword{Instance}{State associated with one work-item}
+
+\glossaryword{SIMD Lane}{Execution of one instance of a vectorized kernel}
+
+\glossaryword{SIMD Group}{Contains all lanes that can be executed in parallel (at the same time)}
+
+\glossaryword{SIMD Width}{Number of parallel lanes, equal to vectorization factor ($N$)}
+
+\glossaryword{Packet}{Maps $1$ value in the original function to $N$ values, one per SIMD lane}
 
 \end{frame}
