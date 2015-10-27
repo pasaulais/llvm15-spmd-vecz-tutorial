@@ -76,14 +76,28 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}{Packetizing Builtin Functions}
+\begin{frame}[fragile]{Packetizing Builtin Functions}
 
-% By vectorizing the builtin's body
-% This changes the function signature (return value, some arguments)
-% Builtin: the vectorizer has some knowledge of which arguments need packetization
-% Need argument placeholders (cloning required)
-% Packetized arguments are roots (Uniform Value Analysis)
-% Return instructions are leaves (Packetization Stage)
+\begin{itemize}
+    \item Clone builtin function, updating signature (vector return value, arguments)
+    \item Generate argument placeholders (see example below), replacing all uses
+    \item UVA treats arguments as roots
+    \item \texttt{ret} instructions are leaves
+    \item Packetizing a placeholder replaces \texttt{extractelement} by the argument
+\end{itemize}
+
+IR after cloning, before packetization:
+
+\begin{codebox}[commandchars=\\\[\]]
+define <4 x i32> @__v4__Z7isequalff(<4 x float> \varying[%x], <4 x float> \varying[%y]) {
+entry:
+  \varying[%placeholder_x] = extractelement <4 x float> \varying[%x], i32 0
+  \varying[%placeholder_y] = extractelement <4 x float> \varying[%y], i32 0
+  \varying[%cmp.i] = fcmp oeq float \varying[%placeholder_x], \varying[%placeholder_y]
+  \varying[%conv.i] = zext i1 \varying[%cmp.i] to i32
+  ret i32 \varying[%conv.i]
+}
+\end{codebox}
 
 \end{frame}
 
