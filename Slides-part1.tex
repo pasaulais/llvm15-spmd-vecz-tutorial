@@ -50,28 +50,6 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}{Division of Work}
-
-\begin{itemize}
-    \item Work-item
-    \begin{itemize}
-        \item Unit of work
-        \item One instance of a program
-        \item Executed in parallel by Execution Units (threads)
-    \end{itemize}
-    \item Work Dimensions
-    \begin{itemize}
-        \item 1D (array shape)
-        \item 2D (grid shape)
-        \item ...
-    \end{itemize}
-\end{itemize}
-
-\vspace{4ex}
-\hspace{1em}\includegraphics[scale=0.50]{images/work-items.pdf}
-
-\end{frame}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}[fragile]{Single Program}
@@ -124,6 +102,28 @@ for (int \varying[tid] = 0; \varying[tid] < num_items; \varying[tid]++) {
 %    result[student_id] = gpa;
 %}
 %\end{codebox}
+
+\end{frame}
+
+\begin{frame}{Division of Work}
+
+\begin{itemize}
+    \item Work-item
+    \begin{itemize}
+        \item Unit of work
+        \item One instance of a program
+        \item Executed in parallel by Execution Units (threads)
+    \end{itemize}
+    \item Iteration space
+    \begin{itemize}
+        \item 1D (array shape)
+        \item 2D (grid shape)
+        \item ...
+    \end{itemize}
+\end{itemize}
+
+\vspace{4ex}
+\hspace{1em}\includegraphics[scale=0.50]{images/work-items.pdf}
 
 \end{frame}
 
