@@ -203,11 +203,22 @@ kernel void convolution(float \uniform[*src], float \uniform[*dst]) {
     \item To find groups, look for a common base pointer and increasing offsets
 \end{itemize}
 
-
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}{SoA to AoS Conversion}
+\begin{frame}{AoS to SoA Conversion}
+
+\begin{itemize}
+    \item Scalarizing then packetizing vector loads and stores implicitely performs Array-of-Structures to Structure-of-Arrays conversion
+    \item Common 'load(s)-compute-store(s)' pattern inside kernels
+    \begin{itemize}
+        \item Computation is done per-element, without shuffling elements
+        \item Interleaved loads and stores generated due to scalarization
+        \item Can replace with regular vector loads and stores to avoid the conversion
+    \end{itemize}
+    \item Analysis needed to show that no shuffling or single-lane accesses occur
+    \item Resulting code likely to be much more friendly to most targets
+\end{itemize}
 
 \end{frame}
