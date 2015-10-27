@@ -114,8 +114,17 @@ entry:
 
 \begin{frame}{Vectorizing User Functions (Side-Effects)}
 
-% Need to pass a mask as an extra argument
-% Might be simpler to just inline such functions
+\begin{itemize}
+    \item The vectorized function needs to take an extra mask argument, $m_{entry}$
+    \begin{itemize}
+        \item Determines which lanes are enabled when entering the function
+    \end{itemize}
+    \item When applying masks, pass $m_{B}$ to function calls
+    \begin{itemize}
+        \item Where $B$ is the block where the call instruction is
+    \end{itemize}
+    \item Might be simpler to just inline such calls
+\end{itemize}
 
 \end{frame}
 
