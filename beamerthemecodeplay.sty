@@ -13,8 +13,6 @@
 \DeclareOptionBeamer{secheader}{\beamer@secheadertrue}
 \ProcessOptionsBeamer
 
-%\include{beamerthemecodeplaycolours}
-
 \useoutertheme{codeplay}
 
 % set the title color
@@ -34,10 +32,13 @@
 \setbeamercolor{subsection in toc shaded}{fg=lightbg}
 \setbeamercolor{frametitle}{fg=foreground, bg=mediumbg}
 
-% Create a slide for a part.
+% Create a new part part.
 \newcommand{\talkpart}[2]{%
 \section{Part #1: #2}
+\talkpartslide{#1}{#2}}
 
+% Create a slide for a part.
+\newcommand{\talkpartslide}[2]{%
 \begin{frame}[c]{Part #1}
 
 \vspace{1cm}
