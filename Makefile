@@ -31,13 +31,22 @@ IMAGES = images/arbitrary-access.pdf \
     images/work-items.pdf \
     images/load-addressing.pdf
 
-all: Slides.pdf
+all: Slides-slatebg.pdf Slides-blackbg.pdf
 
-Slides.pdf: $(IMAGES) Slides.tex
+Slides-blackbg.tex: Slides.tex
+	cat $< | grep -v '%\\def \\colourscheme' | perl -pe 's/\\def \\colourscheme \{(.*)\}/\\def \\colourscheme {colours-dark-background}/' > $@
+
+Slides-slatebg.pdf: $(IMAGES) Slides.tex
 	xelatex Slides.tex
+	xelatex Slides.tex
+	cp Slides.pdf Slides-slatebg.pdf
+
+Slides-blackbg.pdf: $(IMAGES) Slides-blackbg.tex
+	xelatex Slides-blackbg.tex
+	xelatex Slides-blackbg.tex
 
 %.pdf: %.svg
 	inkscape $< --export-pdf=$@
 
 clean:
-	rm -f *.aux *.toc *.vrb *.snm
+	rm -f *.aux *.toc *.vrb *.snm Slides-slatebg.pdf Slides-blackbg.pdf
