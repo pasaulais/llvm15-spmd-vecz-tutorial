@@ -55,29 +55,3 @@
 \end{itemize}
 
 \end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\begin{frame}{Implementation Level: IR or MI?}
-
-\begin{itemize}
-    \item IR
-        \\ \pointfor{Use-def graph and RAUW make for straightforward graph transformations}
-        \\ \pointfor{Easy to target multiple platforms}
-        \\ \pointunkn{Generally higher-level (simpler implementation?)}
-        \\ \pointagainst{Platform-specific features more difficult to use}
-        \\ \pointagainst{SIMD predication only for a few operations (select, load/stores)}
-
-    \item MachineInstr (i.e. backend level)
-        \\ \pointfor{Easy to use platform-specific features (e.g. predication, mask registers)}
-        \\ \pointunkn{Generally lower-level (more powerful?)}
-        \\ \pointagainst{More platform-specific code}
-        \\ \pointagainst{Graph-based transformations not as straightforward}
-    \item Both?
-    \begin{itemize}
-        \item Transformations at IR level, generating CFG-specific metadata
-        \item Use metadata in backend to do MI-level predication
-    \end{itemize}
-\end{itemize}
-
-\end{frame}
